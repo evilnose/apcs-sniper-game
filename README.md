@@ -1,5 +1,2 @@
-Ishani Santurkar
-testing
-hello
-Gary
-hello
+Enter your names below from your local workspaces:
+Gary Geng
