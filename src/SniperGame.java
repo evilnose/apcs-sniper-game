@@ -30,6 +30,7 @@ public class SniperGame extends Application {
 		
 		homeScreen.setScene(scene);
 		homeScreen.show();
+		
 	}
 
 }
