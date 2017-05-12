@@ -5,10 +5,14 @@ public abstract class Level extends World {
 	private ArrayList<Hittable> targets;
 	private ArrayList<Hittable> civilians;
 	private int numMaxBullets;
-	
-	public Level() {
+	private int levelNumber;
+	private int remainingBullets;
+	private double windSpeed;
+
+	public Level(int numLevel) {
 		// Use the "super" keyword in subclass constructors to invoke this.
 		super();
+		levelNumber=numLevel;
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 		numMaxBullets = 10; // Default value
@@ -21,9 +25,7 @@ public abstract class Level extends World {
 		}
 	}
 	
-	public void setNumMaxBullets(int n) {
-		numMaxBullets = n;
-	}
+	
 	
 	private boolean isWon() {
 		// TODO
@@ -33,12 +35,45 @@ public abstract class Level extends World {
 	private boolean isLost() {
 		// TODO
 		return false;
+		
 	}
 	
 	
+	protected abstract String getLostMessage();
 	
-	protected abstract String displayLostMessage();
+	protected abstract String getWonMessage();
 	
-	protected abstract String displayWonMessage();
+	public void pause(){
+		
+	}
+	public double getWindSpeed(){
+		return windSpeed;
+	}
+	
+	public void setWindSpeed(double speed){
+		windSpeed=speed;
+	}
+	
+	public int getNumMaxBullets(){
+		return numMaxBullets;
+	}
+	
+	public void setNumMaxBullets(int n) {
+		numMaxBullets = n;
+	}
+	
+	public int getRemainingBullets(){
+		return remainingBullets;
+	}
+	
+	public int getLevelNumber(){
+		return levelNumber;
+	}
+	
+	protected abstract String getDescription();
+	
+	protected abstract String getName();
+	
+	
 
 }
