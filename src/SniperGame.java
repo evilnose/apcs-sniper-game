@@ -12,6 +12,7 @@ public class SniperGame extends Application {
 	
 	public static void main(String args[]) {
 		launch(); // I have failed to move this into its own driver classes. You guys are welcome to try.
+		
 	}
 
 	@Override
