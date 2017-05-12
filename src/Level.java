@@ -26,12 +26,16 @@ public abstract class Level extends World {
 	}
 	
 	private boolean isWon() {
-		return (targets.size() == 0);
+		// TODO
+		return false;
 	}
 	
 	private boolean isLost() {
+		// TODO
 		return false;
 	}
+	
+	
 	
 	protected abstract String displayLostMessage();
 	
