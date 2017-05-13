@@ -7,7 +7,7 @@ public class Tester extends Hittable {
 	public Tester(boolean isTarget) {
 		super(isTarget);
 		setGraphics(img);
-		setHitboxCircle(125, 22, 20);
+		setHitboxCircle(47.5, 20, 20);
 	}
 
 }
