@@ -1,14 +1,16 @@
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Hittable extends Group {
 
 	private boolean isTarget;
 	private ImageView graphics;
-	private Rectangle hitbox;
+	private Node hitbox;
 	
 	private int dx;
 	private int dy;
@@ -28,14 +30,23 @@ public abstract class Hittable extends Group {
 		getChildren().add(graphics);
 	}
 	
-	public void setHitbox(double x, double y, double width, double height) {
+	public void setHitboxRect(double x, double y, double width, double height) {
+		getChildren().remove(hitbox);
 		hitbox = new Rectangle(x, y, width, height);
-		hitbox.setFill(Color.TRANSPARENT);
-		hitbox.setStroke(Color.RED);
+		((Rectangle) hitbox).setFill(Color.TRANSPARENT);
+		((Rectangle) hitbox).setStroke(Color.RED);
 		getChildren().add(hitbox);
 	}
 	
-	public Rectangle getHitbox() {
+	public void setHitboxCircle(double x, double y, double radius) {
+		getChildren().remove(hitbox);
+		hitbox = new Circle(x, y, radius);
+		((Circle) hitbox).setFill(Color.TRANSPARENT);
+		((Circle) hitbox).setStroke(Color.RED);
+		getChildren().add(hitbox);
+	}
+	
+	public Node getHitbox() {
 		return hitbox;
 	}
 	
