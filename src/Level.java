@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
-import javafx.scene.control.Button;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public abstract class Level extends World implements Comparable<Level> {
@@ -19,8 +21,6 @@ public abstract class Level extends World implements Comparable<Level> {
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 		numMaxBullets = 10; // Default value
-		Button btn = new Button("TESTING");
-		this.getChildren().add(btn);
 	}
 	
 	public void load() {
@@ -33,6 +33,10 @@ public abstract class Level extends World implements Comparable<Level> {
 		if (isLost()) {
 			
 		}
+	}
+	
+	public void pause(){
+		
 	}
 	
 	private boolean isWon() {
@@ -53,11 +57,7 @@ public abstract class Level extends World implements Comparable<Level> {
 	protected String getWonMessage() {
 		return "Mission Passed!";
 	}
-	
-	public void pause(){
-		
-	}
-	
+
 	public double getWindSpeed(){
 		return windSpeed;
 	}
@@ -80,6 +80,16 @@ public abstract class Level extends World implements Comparable<Level> {
 	
 	public int getLevelNumber(){
 		return levelNumber;
+	}
+	
+	public void addHittable(Hittable h) {
+		getChildren().add(h);
+		
+		if (h.isTarget()) {
+			targets.add(h);
+		} else {
+			civilians.add(h);
+		}
 	}
 	
 	protected abstract String getDescription();

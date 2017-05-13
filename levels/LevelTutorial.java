@@ -3,6 +3,7 @@ public class LevelTutorial extends Level {
 
 	public LevelTutorial(int numLevel) {
 		super(numLevel);
+		addHittable(new Tester(true));
 	}
 
 	@Override

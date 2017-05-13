@@ -6,8 +6,11 @@ public class Sitter extends Hittable {
 	private double dx;
 	private double dy;
 	
-	public Sitter(boolean isTgt, Image img, int hbXPos, int hbYPos, int hbLength, int hbWidth) {
-		super(isTgt, img, hbXPos, hbYPos, hbLength, hbWidth);
+	public Sitter(boolean isTgt) {
+		super(isTgt);
+		// hardcode this later
+//		this.setGraphics();
+//		this.setHitbox();
 	}
 	
 	
