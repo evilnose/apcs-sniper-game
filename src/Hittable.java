@@ -60,4 +60,18 @@ public abstract class Hittable extends Group {
 			
 	}
 	
+	private void move(int dx, int dy) {
+		graphics.setX(graphics.getX() + dx);
+		graphics.setY(graphics.getY() + dy);
+		hitbox.setLayoutX(hitbox.getLayoutX() + dx);
+		hitbox.setLayoutY(hitbox.getLayoutY() + dy);
+	}
+	
+	public void setPos(int x, int y) {
+		graphics.setX(x);
+		graphics.setY(y);
+		hitbox.setLayoutX(x);
+		hitbox.setLayoutY(y);
+	}
+	
 }
