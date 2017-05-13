@@ -6,13 +6,8 @@ public class Sitter extends Hittable {
 	private double dx;
 	private double dy;
 	
-	public Sitter(boolean isTarget, Image graphics, int hbXPos, int hbYPos, int hbLength, int hbWidth) {
-		super(isTarget, graphics, hbXPos, hbYPos, hbLength, hbWidth);
-	}
-	
-	@Override
-	public void act(long now) {
-		
+	public Sitter(boolean isTgt, Image img, int hbXPos, int hbYPos, int hbLength, int hbWidth) {
+		super(isTgt, img, hbXPos, hbYPos, hbLength, hbWidth);
 	}
 	
 	

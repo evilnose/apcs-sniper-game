@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
-public abstract class Level extends World {
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
+public abstract class Level extends World implements Comparable<Level> {
 	
 	private ArrayList<Hittable> targets;
 	private ArrayList<Hittable> civilians;
@@ -12,10 +15,17 @@ public abstract class Level extends World {
 	public Level(int numLevel) {
 		// Use the "super" keyword in subclass constructors to invoke this.
 		super();
-		levelNumber=numLevel;
+		levelNumber = numLevel;
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 		numMaxBullets = 10; // Default value
+		Button btn = new Button("TESTING");
+		this.getChildren().add(btn);
+	}
+	
+	public void load() {
+		Stage lvlStage = new Stage();
+		
 	}
 	
 	@Override
@@ -24,8 +34,6 @@ public abstract class Level extends World {
 			
 		}
 	}
-	
-	
 	
 	private boolean isWon() {
 		// TODO
@@ -38,20 +46,24 @@ public abstract class Level extends World {
 		
 	}
 	
+	protected String getLostMessage() {
+		return "Mission Failed...";
+	}
 	
-	protected abstract String getLostMessage();
-	
-	protected abstract String getWonMessage();
+	protected String getWonMessage() {
+		return "Mission Passed!";
+	}
 	
 	public void pause(){
 		
 	}
+	
 	public double getWindSpeed(){
 		return windSpeed;
 	}
 	
 	public void setWindSpeed(double speed){
-		windSpeed=speed;
+		windSpeed = speed;
 	}
 	
 	public int getNumMaxBullets(){
@@ -74,6 +86,9 @@ public abstract class Level extends World {
 	
 	protected abstract String getName();
 	
-	
+	@Override
+	public int compareTo(Level other) {
+		return this.getLevelNumber() - other.getLevelNumber();
+	}
 
 }
