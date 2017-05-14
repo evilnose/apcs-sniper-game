@@ -1,3 +1,3 @@
 Ishani Santurkar
 Aditi Bali
-Gary 
+Gary Geng
