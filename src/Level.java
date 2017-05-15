@@ -153,8 +153,8 @@ public abstract class Level extends World implements Comparable<Level> {
 		getChildren().add(s);
 	}
 	
-	protected void setOnAutoCenter(Scope s) {
-		this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	protected void setOnMouseTracking(Scope s) {
+		this.setOnMouseMoved(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {

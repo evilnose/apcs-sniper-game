@@ -8,9 +8,9 @@ public class LevelTutorial extends Level {
 		addHittable(tester);
 		tester.setPos(200, 350);
 		
-		Scope scope = new Scope(100);
+		Scope scope = new Scope(150);
 		addScope(scope);
-		setOnAutoCenter(scope);
+		setOnMouseTracking(scope);
 	}
 
 	@Override
