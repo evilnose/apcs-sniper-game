@@ -6,7 +6,8 @@ public class Sitter extends Hittable {
 	private double dx;
 	private double dy;
 	
-	public Sitter(boolean isTgt) {
+	public Sitter(boolean isTgt) 
+	{
 		super(isTgt);
 		// hardcode this later
 //		this.setGraphics();

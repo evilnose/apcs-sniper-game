@@ -1,3 +1,4 @@
+import javafx.scene.image.Image;
 
 public class LevelTutorial extends Level {
 
@@ -8,9 +9,9 @@ public class LevelTutorial extends Level {
 		addHittable(tester);
 		tester.setPos(200, 350);
 		
-		Scope scope = new Scope(150);
-		addScope(scope);
-		setOnMouseTracking(scope);
+//		Scope scope = new Scope(150);
+//		addScope(scope);
+//		setOnMouseTracking(scope);
 	}
 
 	@Override

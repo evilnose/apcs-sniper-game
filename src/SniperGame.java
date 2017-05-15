@@ -5,8 +5,10 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -61,7 +63,10 @@ public class SniperGame extends Application
 		lvlScreen.setResizable(false);
 		
 		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
-		scene.setCursor(Cursor.CROSSHAIR);
+		
+		Image img = new Image("file:sprites/scope2.gif");
+		//scene.setCursor(Cursor.CROSSHAIR);
+		scene.setCursor(new ImageCursor(img,img.getWidth()/2,img.getHeight()/2));
 		
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
