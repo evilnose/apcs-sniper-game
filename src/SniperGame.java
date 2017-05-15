@@ -13,7 +13,8 @@ import javafx.stage.Stage;
  *	This class handles the UI, namely the main game interface.
  */
 
-public class SniperGame extends Application {
+public class SniperGame extends Application 
+{
 	
 	private ArrayList<Level> levels;
 	public final int LEVEL_WIDTH = 1000;
@@ -22,7 +23,6 @@ public class SniperGame extends Application {
 	
 	public static void main(String args[]) {
 		launch(); // I have failed to move this into its own driver classes. You guys are welcome to try.
-		
 	}
 
 	@Override
@@ -63,6 +63,8 @@ public class SniperGame extends Application {
 		
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
+		
+		currLevel.start();
 	}
 	
 	private class startGameHandler implements EventHandler<ActionEvent> {

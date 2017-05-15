@@ -10,15 +10,13 @@ public class LevelTesting extends Level {
 	}
 
 	@Override
-	protected String getLostMessage() {
+	protected void displayLostMessage() {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	protected String getWonMessage() {
+	protected void displayWinMessage() {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
