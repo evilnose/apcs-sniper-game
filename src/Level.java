@@ -1,13 +1,10 @@
 import java.util.ArrayList;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -76,20 +73,20 @@ public abstract class Level extends World implements Comparable<Level> {
 	{
 		Stage message = new Stage();
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 200,200);
+		Scene scene = new Scene(root, 200, 200);
 		message.setTitle("You Lose!");
 		message.setResizable(false);
 
-		Text t = new Text("Mission "+getLevelNumber()+ "failed");
+		Text t = new Text("Mission "+ getLevelNumber() + "failed");
 
 		HBox hb = new HBox();
 		Button exit = new Button("Exit");
-		Button restart = new Button("Restart");
-		hb.setMargin(exit,new Insets(10,10,10,10));
-		hb.setMargin(restart,new Insets(10,10,10,10));
-		hb.getChildren().addAll(exit,restart);
+		Button restart = new Button("Retry Level");
+		HBox.setMargin(exit,new Insets(10,10,10,10));
+		HBox.setMargin(restart,new Insets(10,10,10,10));
+		hb.getChildren().addAll(exit, restart);
 
-		root.getChildren().addAll(t,hb);
+		root.getChildren().addAll(t, hb);
 
 		message.setScene(scene);
 		message.show();
@@ -105,11 +102,11 @@ public abstract class Level extends World implements Comparable<Level> {
 		message.setTitle("You Win!");
 		message.setResizable(false);
 
-		Text t = new Text("Mission "+getLevelNumber()+ "passed");
+		Text t = new Text("Mission "+ getLevelNumber() + "passed");
 
 		HBox hb = new HBox();
 		Button next = new Button("Next Level");
-		hb.setMargin(next,new Insets(10,10,10,10));
+		HBox.setMargin(next,new Insets(10,10,10,10));
 		hb.getChildren().addAll(next);
 
 		root.getChildren().addAll(t,hb);
@@ -142,7 +139,7 @@ public abstract class Level extends World implements Comparable<Level> {
 		return levelNumber;
 	}
 
-	public void addHittable(Hittable h) {
+	protected void addHittable(Hittable h) {
 		getChildren().add(h);
 
 		if (h.isTarget()) {
@@ -150,6 +147,22 @@ public abstract class Level extends World implements Comparable<Level> {
 		} else {
 			civilians.add(h);
 		}
+	}
+	
+	protected void addScope(Scope s) {
+		getChildren().add(s);
+	}
+	
+	protected void setOnAutoCenter(Scope s) {
+		this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				s.setCenterX(event.getSceneX());
+				s.setCenterY(event.getSceneY());
+			}
+			
+		});
 	}
 
 	protected abstract String getDescription();

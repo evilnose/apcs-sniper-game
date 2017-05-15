@@ -4,6 +4,7 @@ import java.util.Collections;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -17,8 +18,8 @@ public class SniperGame extends Application
 {
 	
 	private ArrayList<Level> levels;
-	public final int LEVEL_WIDTH = 1000;
-	public final int LEVEL_HEIGHT = 600;
+	public static final int LEVEL_WIDTH = 1000;
+	public static final int LEVEL_HEIGHT = 600;
 
 	
 	public static void main(String args[]) {
@@ -60,6 +61,7 @@ public class SniperGame extends Application
 		lvlScreen.setResizable(false);
 		
 		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
+		scene.setCursor(Cursor.CROSSHAIR);
 		
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
