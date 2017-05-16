@@ -3,10 +3,9 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.ImageCursor;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -24,7 +23,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int remainingBullets;
 	private double windSpeed;
 	private AnimationTimer timer;
-	private final Image SCOPE = new Image("file:sprites/resized scope.png", 2000, 1200, false, false);
 	
 	public Level(int numLevel) {
 		// Use the "super" keyword in subclass constructors to invoke this.
@@ -47,7 +45,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			
 		};
-		this.setCursor(new ImageCursor(SCOPE));
+		this.setCursor(Cursor.CROSSHAIR);
 	}
 
 	public void load() {
