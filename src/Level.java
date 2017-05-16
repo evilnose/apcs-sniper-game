@@ -34,7 +34,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		timer = new AnimationTimer() {
 
 			@Override
-			public void handle(long now) {
+			public void handle(long now) 
+			{
+				for(Hittable h : targets)
+					h.act(now);
+				for(Hittable h : civilians)
+					h.act(now);
 				act(now);
 			}
 			

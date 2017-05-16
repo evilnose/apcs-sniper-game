@@ -29,9 +29,9 @@ public class SniperGame extends Application
 	public static final int LEVEL_HEIGHT = 600;
 
 	
-//	public static void main(String args[]) {
-//		launch(); // I have failed to move this into its own driver classes. You guys are welcome to try.
-//	}
+	public static void main(String args[]) {
+		launch(); // I have failed to move this into its own driver classes. You guys are welcome to try.
+	}
 
 	@Override
 	public void start(Stage homeScreen) {
