@@ -16,7 +16,10 @@ public class Tester extends Hittable {
 			@Override
 			public void handle(long now) 
 			{
-				dx = (int)(Math.random()*10)-3;
+				dx = 3;
+				int timeInSeconds = (int)(now*Math.pow(10,-9));
+				if(timeInSeconds%5==0)
+					dx = -dx;
 				obj.move(dx,dy);
 			}
 		};

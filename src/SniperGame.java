@@ -9,6 +9,11 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -64,9 +69,14 @@ public class SniperGame extends Application
 		
 		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
 		
-		Image img = new Image("file:sprites/scope2.gif");
-		//scene.setCursor(Cursor.CROSSHAIR);
-		scene.setCursor(new ImageCursor(img,img.getWidth()/2,img.getHeight()/2));
+		Image background = new Image("file:sprites/background.jpg");
+		BackgroundImage myBI	= new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+		          BackgroundSize.DEFAULT);
+		currLevel.setBackground(new Background(myBI));
+		
+		//Image img = new Image("file:sprites/scope2.gif");
+		scene.setCursor(Cursor.CROSSHAIR);
+		//scene.setCursor(new ImageCursor(img,img.getWidth()/2,img.getHeight()/2));
 		
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
