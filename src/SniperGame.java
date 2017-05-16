@@ -63,10 +63,6 @@ public class SniperGame extends Application
 		
 		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
 		
-		Image img = new Image("file:sprites/scope2.gif");
-		//scene.setCursor(Cursor.CROSSHAIR);
-		scene.setCursor(new ImageCursor(img,img.getWidth()/2,img.getHeight()/2));
-		
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
 		
