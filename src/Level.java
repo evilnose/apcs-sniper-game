@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -189,6 +190,17 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			
 		});
+	}
+	
+	public <A extends Node> java.util.List<A> getObjects(java.lang.Class<A> cls) {
+		ArrayList<A> verifiedList = new ArrayList<A>();
+		for (Node node : getChildren()) {
+			if (cls.isInstance(node))
+				verifiedList.add(cls.cast(node));
+		}
+			
+		return verifiedList;
+		
 	}
 
 	protected abstract String getDescription();

@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -12,6 +17,14 @@ public class Scope extends Circle {
 		this.setStroke(RIM_COLOR);
 		this.setStrokeWidth(RIM_WIDTH);
 		this.setFill(Color.TRANSPARENT);
+		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				getOneShotHittable();
+			}
+			
+		});
 	}
 	
 	public Scope(double centerX, double centerY, int radius)
@@ -20,6 +33,30 @@ public class Scope extends Circle {
 		this.setStroke(RIM_COLOR);
 		this.setStrokeWidth(RIM_WIDTH);
 		this.setFill(Color.TRANSPARENT);
+	}
+	
+	private ArrayList<Hittable> getAllShotHittables() {
+		List<Hittable> list = this.getLevel().getObjects(Hittable.class);
+		ArrayList<Hittable> resultingList = new ArrayList<Hittable>();
+		for (Hittable h : list) {
+			if (h.getHitbox().getBoundsInLocal().contains(getCenterX(), getCenterY()))
+				resultingList.add(h);
+		}
+		return resultingList;
+	}
+	
+	private Hittable getOneShotHittable() {
+		List<Hittable> list = this.getLevel().getObjects(Hittable.class);
+		for (int i = list.size() - 1; i >= 0; i--) {
+			System.out.println(list.get(i).intersects(getCenterX(), getCenterY(), 1, 1)); // TODO delete this DEBUG
+			if (list.get(i).getHitbox().getBoundsInLocal().contains(getCenterX(), getCenterY()))
+				return list.get(i);
+		}
+		return null;
+	}
+	
+	private Level getLevel() {
+		return (Level)getParent();
 	}
 	
 	

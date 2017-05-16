@@ -1,3 +1,4 @@
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -57,7 +58,7 @@ public abstract class Hittable extends Group {
 		return isTarget;
 	}
 
-	private void shot() {
+	protected void shot() {
 		if (isAlive)
 			isAlive = !isAlive;
 
@@ -84,5 +85,7 @@ public abstract class Hittable extends Group {
 		else
 			return true;
 	}
+	
+	
 
 }
