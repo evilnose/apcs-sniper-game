@@ -45,10 +45,20 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			@Override
 			public void handle(long now) 
 			{
-				for(Hittable h : targets)
+				for(int i = 0;i<civilians.size();i++)
+				{
+					Hittable h = civilians.get(i);
 					h.act(now);
-				for(Hittable h : civilians)
+					if(civilians.contains(h)==false)
+						i--;
+				}
+				for(int i = 0;i<targets.size();i++)
+				{
+					Hittable h = targets.get(i);
 					h.act(now);
+					if(targets.contains(h)==false)
+						i--;
+				}
 				act(now);
 			}
 			
@@ -196,6 +206,16 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			targets.add(h);
 		} else {
 			civilians.add(h);
+		}
+	}
+	
+	protected void removeHittable(Hittable h) {
+		getChildren().remove(h);
+
+		if (h.isTarget()) {
+			targets.remove(h);
+		} else {
+			civilians.remove(h);
 		}
 	}
 	

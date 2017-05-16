@@ -17,6 +17,14 @@ public abstract class Hittable extends ImageView {
 
 	protected boolean isAlive;
 	protected boolean isStartled;
+	
+	public Hittable(boolean isTgt) {
+		super();
+		
+		isTarget = isTgt;
+		isAlive = true;
+		isStartled = false;
+	}
 
 	public Hittable(boolean isTgt, Image img) {
 		super(img);
@@ -38,6 +46,10 @@ public abstract class Hittable extends ImageView {
 		hitbox = new Circle(x, y, radius);
 		((Circle) hitbox).setFill(Color.TRANSPARENT);
 		((Circle) hitbox).setStroke(Color.RED);
+	}
+	
+	protected void setGraphics(Image img) {
+		this.setImage(img);
 	}
 
 	public Node getHitbox() {
@@ -68,9 +80,11 @@ public abstract class Hittable extends ImageView {
 		hitbox.setLayoutY(y);
 	}
 
-	protected boolean withinBounds(double d,double e)
+	protected boolean isWithinBounds()
 	{
-		if(d<0||d>SniperGame.LEVEL_WIDTH||e<0||e>SniperGame.LEVEL_HEIGHT)
+		double x = this.getLayoutX();
+		double y = this.getLayoutY();
+		if(x<0||x>SniperGame.LEVEL_WIDTH||y<0||y>SniperGame.LEVEL_HEIGHT)
 			return false;
 		else
 			return true;
