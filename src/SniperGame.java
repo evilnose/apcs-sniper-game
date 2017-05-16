@@ -73,7 +73,7 @@ public class SniperGame extends Application
 		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
 		Image background;
 		if(lvlNum==1){
-			background = new Image("file:sprites/background1.jpeg");
+			background = new Image("file:sprites/background.jpg");
 		}
 		else{
 		background = new Image("file:sprites/background.jpg");

@@ -78,9 +78,11 @@ public abstract class Hittable extends Group {
 		hitbox.setLayoutY(y);
 	}
 
-	protected boolean withinBounds(double d,double e)
+	protected boolean isWithinBounds()
 	{
-		if(d<0||d>SniperGame.LEVEL_WIDTH||e<0||e>SniperGame.LEVEL_HEIGHT)
+		double currX = graphics.getX()+graphics.getFitWidth();
+		double currY = graphics.getY()+graphics.getFitHeight();
+		if(currX<0||currX>SniperGame.LEVEL_WIDTH||currY<0||currY>SniperGame.LEVEL_HEIGHT)
 			return false;
 		else
 			return true;

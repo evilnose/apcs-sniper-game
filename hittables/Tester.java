@@ -1,9 +1,9 @@
-import javafx.animation.AnimationTimer;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 
 public class Tester extends Hittable 
 {
-	
+
 	private final Image img = new Image("file:sprites/stick man.gif");
 
 	public Tester(boolean isTarget)
@@ -21,6 +21,11 @@ public class Tester extends Hittable
 		int random = (int)(Math.random()*35)-1;
 		if(random<0)
 			dx = -dx;
-//		this.move(dx,dy);
+		this.move(dx,dy);
+		if(this.isWithinBounds()==false)
+		{
+			Level lev = (Level) this.getParent();
+			lev.removeHittable(this);
+		}
 	}
 }
