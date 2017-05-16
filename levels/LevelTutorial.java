@@ -1,6 +1,5 @@
-import javafx.scene.image.Image;
-
-public class LevelTutorial extends Level {
+public class LevelTutorial extends Level 
+{
 
 	public LevelTutorial(int numLevel) {
 		super(numLevel);
