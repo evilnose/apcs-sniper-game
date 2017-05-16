@@ -1,13 +1,21 @@
 import java.util.ArrayList;
+
 import java.util.Collections;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Dimension2D;
+import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -23,9 +31,9 @@ public class SniperGame extends Application
 	public static final int LEVEL_HEIGHT = 600;
 
 	
-//	public static void main(String args[]) {
-//		launch(); // I have failed to move this into its own driver classes. You guys are welcome to try.
-//	}
+	public static void main(String args[]) {
+		launch(); // I have failed to move this into its own driver classes. You guys are welcome to try.
+	}
 
 	@Override
 	public void start(Stage homeScreen) {
@@ -63,6 +71,12 @@ public class SniperGame extends Application
 		
 		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
 		
+		Image background = new Image("file:sprites/background.jpg");
+		BackgroundImage myBI	= new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+		          BackgroundSize.DEFAULT);
+		currLevel.setBackground(new Background(myBI));
+		
+		scene.setCursor(Cursor.CROSSHAIR);
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
 		

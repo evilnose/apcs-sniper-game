@@ -9,10 +9,14 @@ public class Sitter extends Hittable {
 	public Sitter(boolean isTgt) 
 	{
 		super(isTgt);
-		// hardcode this later
 //		this.setGraphics();
 //		this.setHitbox();
 	}
-	
-	
+
+	@Override
+	public void act(long now) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

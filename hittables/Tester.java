@@ -1,27 +1,26 @@
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 
-public class Tester extends Hittable {
+public class Tester extends Hittable 
+{
 	
 	private final Image img = new Image("file:sprites/stick man.gif");
 
-	public Tester(boolean isTarget) {
+	public Tester(boolean isTarget)
+	{
 		super(isTarget);
-		dy = 0;
-		Tester obj = this;
 		setGraphics(img);
 		setHitboxCircle(47.5, 20, 20);
-		AnimationTimer timer = new AnimationTimer() 
-		{
-			@Override
-			public void handle(long now) 
-			{
-				dx = (int)(Math.random()*10)-3;
-				obj.move(dx,dy);
-			}
-		};
-		timer.start();
+		dx = 3;
+		dy = 0;
 	}
-	
 
+	@Override
+	public void act(long now) 
+	{ 
+		int random = (int)(Math.random()*35)-1;
+		if(random<0)
+			dx = -dx;
+		this.move(dx,dy);
+	}
 }

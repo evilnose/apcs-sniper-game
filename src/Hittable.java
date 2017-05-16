@@ -25,7 +25,10 @@ public abstract class Hittable extends Group {
 		isStartled = false;
 	}
 
-	public void setGraphics(Image img) {
+	public abstract void act(long now);
+	
+	public void setGraphics(Image img)
+	{
 		graphics = new ImageView(img);
 		getChildren().add(graphics);
 	}
