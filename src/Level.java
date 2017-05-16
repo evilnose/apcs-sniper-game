@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -7,10 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public abstract class Level extends World implements Comparable<Level> {
+public abstract class Level extends Pane implements Comparable<Level> {
 
 	private ArrayList<Hittable> targets;
 	private ArrayList<Hittable> civilians;
@@ -19,7 +21,8 @@ public abstract class Level extends World implements Comparable<Level> {
 	private int levelNumber;
 	private int remainingBullets;
 	private double windSpeed;
-
+	private AnimationTimer timer;
+	
 	public Level(int numLevel) {
 		// Use the "super" keyword in subclass constructors to invoke this.
 		super();
@@ -28,6 +31,14 @@ public abstract class Level extends World implements Comparable<Level> {
 		civilians = new ArrayList<Hittable>();
 		numCivilians = civilians.size();
 		numMaxBullets = 10; // Default value
+		timer = new AnimationTimer() {
+
+			@Override
+			public void handle(long now) {
+				act(now);
+			}
+			
+		};
 	}
 
 	public void load() {
@@ -35,7 +46,6 @@ public abstract class Level extends World implements Comparable<Level> {
 
 	}
 
-	@Override
 	public void act(long now) {
 		if(isWon())
 		{
@@ -51,6 +61,15 @@ public abstract class Level extends World implements Comparable<Level> {
 	public void pause()
 	{
 		this.stop();
+		// TODO maybe add s'more later
+	}
+	
+	public void start() {
+		timer.start();
+	}
+	
+	public void stop() {
+		timer.stop();
 	}
 
 	private boolean isWon() 
