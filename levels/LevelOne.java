@@ -1,7 +1,8 @@
+import javafx.scene.image.Image;
 
-public class Level1 extends Level {
+public class LevelOne extends Level {
 
-	public Level1(int numLevel) {
+	public LevelOne(int numLevel) {
 		super(numLevel);
 		Tester tester1 = new Tester(false);
 		addHittable(tester1);
@@ -18,6 +19,8 @@ public class Level1 extends Level {
 		Scope scope = new Scope(150);
 		addScope(scope);
 		setOnMouseTracking(scope);
+		
+		this.setDefaultBackgroundImage(new Image("file:sprites/old buildings.jpeg"));
 	}
 
 	@Override

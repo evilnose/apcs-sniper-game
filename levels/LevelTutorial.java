@@ -1,3 +1,4 @@
+import javafx.scene.image.Image;
 
 public class LevelTutorial extends Level 
 {
@@ -12,6 +13,9 @@ public class LevelTutorial extends Level
 		Scope scope = new Scope(150);
 		addScope(scope);
 		setOnMouseTracking(scope);
+		
+		this.setDefaultBackgroundImage(new Image("file:sprites/skyscrapers.jpg"));
+		
 	}
 
 	@Override

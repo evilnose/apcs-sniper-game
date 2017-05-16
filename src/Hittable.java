@@ -7,10 +7,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-public abstract class Hittable extends Group {
+public abstract class Hittable extends ImageView {
 
 	protected boolean isTarget;
-	protected ImageView graphics;
 	protected Shape hitbox;
 
 	protected int dx;
@@ -19,35 +18,26 @@ public abstract class Hittable extends Group {
 	protected boolean isAlive;
 	protected boolean isStartled;
 
-	public Hittable(boolean isTgt) {
+	public Hittable(boolean isTgt, Image img) {
+		super(img);
+		
 		isTarget = isTgt;
-
 		isAlive = true;
 		isStartled = false;
 	}
 
 	public abstract void act(long now);
-	
-	public void setGraphics(Image img)
-	{
-		graphics = new ImageView(img);
-		getChildren().add(graphics);
-	}
 
 	public void setHitboxRect(double x, double y, double width, double height) {
-		getChildren().remove(hitbox);
 		hitbox = new Rectangle(x, y, width, height);
 		((Rectangle) hitbox).setFill(Color.TRANSPARENT);
 		((Rectangle) hitbox).setStroke(Color.RED);
-		getChildren().add(hitbox);
 	}
 
 	public void setHitboxCircle(double x, double y, double radius) {
-		getChildren().remove(hitbox);
 		hitbox = new Circle(x, y, radius);
 		((Circle) hitbox).setFill(Color.TRANSPARENT);
 		((Circle) hitbox).setStroke(Color.RED);
-		getChildren().add(hitbox);
 	}
 
 	public Node getHitbox() {
@@ -65,15 +55,15 @@ public abstract class Hittable extends Group {
 	}
 
 	protected void move(int dx, int dy) {
-		graphics.setX(graphics.getX() + dx);
-		graphics.setY(graphics.getY() + dy);
+		this.setX(this.getX() + dx);
+		this.setY(this.getY() + dy);
 		hitbox.setLayoutX(hitbox.getLayoutX() + dx);
 		hitbox.setLayoutY(hitbox.getLayoutY() + dy);
 	}
 
 	public void setPos(int x, int y) {
-		graphics.setX(x);
-		graphics.setY(y);
+		this.setX(x);
+		this.setY(y);
 		hitbox.setLayoutX(x);
 		hitbox.setLayoutY(y);
 	}

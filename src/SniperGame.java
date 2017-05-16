@@ -59,7 +59,7 @@ public class SniperGame extends Application
 		levels = new ArrayList<Level>();
 		// Note: there cannot be two levels with the same level numbers
 		levels.add(new LevelTutorial(0));
-		levels.add(new Level1(1));
+		levels.add(new LevelOne(1));
 		
 		Collections.sort(levels);
 	}
@@ -71,21 +71,11 @@ public class SniperGame extends Application
 		lvlScreen.setResizable(false);
 		
 		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
-		Image background;
-		if(lvlNum==1){
-			background = new Image("file:sprites/background1.jpeg");
-		}
-		else{
-		background = new Image("file:sprites/background.jpg");
-		}
-		BackgroundImage myBI	= new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-		          BackgroundSize.DEFAULT);
-		currLevel.setBackground(new Background(myBI));
-		
 		scene.setCursor(Cursor.CROSSHAIR);
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
 		
+		currLevel.activateDefaultBackground();
 		currLevel.start();
 	}
 	
@@ -94,8 +84,8 @@ public class SniperGame extends Application
 		@Override
 		public void handle(ActionEvent event) {
 			if (levels.size() != 0) {
-				//startLevel(0);
-				startLevel(1);
+				startLevel(0);
+//				startLevel(1);
 			} else {
 				System.out.println("ERROR: no level loaded.");
 			}
