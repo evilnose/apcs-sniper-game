@@ -22,5 +22,25 @@ public class Scope extends Circle {
 		this.setFill(Color.TRANSPARENT);
 	}
 	
+/*	public double getCenterX(){
+		
+	}
+	
+	public double getCenterY(){
+		
+	}*/
+	
+	public void move(int Dx, int Dy){
+		this.setCenterX(this.getCenterX()+Dx);
+		this.setCenterY(this.getCenterY()+Dy);
+	}
+	
+	public void displayRecoil(int Dx,int Dy){
+		
+	}
+	public void displayReload(){
+		
+	}
+	
 	
 }
