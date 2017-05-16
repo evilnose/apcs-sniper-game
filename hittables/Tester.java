@@ -11,15 +11,15 @@ public class Tester extends Hittable
 		super(isTarget);
 		setGraphics(img);
 		setHitboxCircle(47.5, 20, 20);
-		dx = 3;
+		dx = 2;
 		dy = 0;
 	}
 
 	@Override
 	public void act(long now) 
-	{
-		int timeInSeconds = (int)(now*Math.pow(10,-9));
-		if(timeInSeconds%5==0)
+	{ 
+		int random = (int)(Math.random()*35)-1;
+		if(random<0)
 			dx = -dx;
 		this.move(dx,dy);
 	}
