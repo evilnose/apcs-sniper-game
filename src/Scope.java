@@ -48,7 +48,8 @@ public class Scope extends Circle {
 	private Hittable getOneShotHittable() {
 		List<Hittable> list = this.getLevel().getObjects(Hittable.class);
 		for (int i = list.size() - 1; i >= 0; i--) {
-			System.out.println(list.get(i).intersects(getCenterX(), getCenterY(), 1, 1)); // TODO delete this DEBUG
+//			System.out.println(list.get(i).intersects(getCenterX(), getCenterY(), 1, 1)); // TODO delete this DEBUG
+			System.out.println(list.get(i).getHitbox().getBoundsInParent().intersects(getCenterX(), getCenterY(), 1, 1));
 			if (list.get(i).getHitbox().getBoundsInLocal().contains(getCenterX(), getCenterY()))
 				return list.get(i);
 		}

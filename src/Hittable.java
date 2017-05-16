@@ -1,4 +1,3 @@
-import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -6,12 +5,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public abstract class Hittable extends Group {
 
 	protected boolean isTarget;
 	protected ImageView graphics;
-	protected Node hitbox;
+	protected Shape hitbox;
 
 	protected int dx;
 	protected int dy;
