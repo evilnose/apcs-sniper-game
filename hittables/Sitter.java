@@ -18,9 +18,9 @@ public class Sitter extends Hittable {
 		this.setHitboxCircle(200, 40, 17);
 	}
 	
-	public void shot()
-	{
+	public void shot() {
 		super.shot();
+		
 		Level lvl = (Level)getParent();
 		lvl.removeHittable(this);
 	}
