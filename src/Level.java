@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -8,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -63,7 +65,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			
 		};
-		this.setCursor(Cursor.CROSSHAIR);
+		this.setCursor(Cursor.NONE);
 	}
 
 	public void load() {
@@ -200,7 +202,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 
 	protected void addHittable(Hittable h) {
-		getChildren().add(h);
+		getChildren().addAll(h, h.getHitbox());
 
 		if (h.isTarget()) {
 			targets.add(h);
@@ -210,7 +212,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 	
 	protected void removeHittable(Hittable h) {
-		getChildren().remove(h);
+		getChildren().removeAll(h, h.getHitbox());
 
 		if (h.isTarget()) {
 			targets.remove(h);
@@ -224,15 +226,53 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 	
 	protected void setOnMouseTracking(Scope s) {
-		this.setOnMouseMoved(new EventHandler<MouseEvent>() {
-
+		this.setOnMousePressed(new EventHandler<MouseEvent>() {
+			
 			@Override
 			public void handle(MouseEvent event) {
-				s.setCenterX(event.getSceneX());
-				s.setCenterY(event.getSceneY());
+				if (event.getButton() == MouseButton.PRIMARY) {
+					shoot(event.getX(), event.getY());
+				}	
 			}
 			
 		});
+		
+		this.setOnMouseMoved(new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle(MouseEvent event) {
+				s.moveTo(event.getX(), event.getY());
+			}
+			
+		});
+	}
+	
+	protected void shoot(double x, double y) {
+		Hittable victim = getOneShotHittable(x, y);
+		if (victim != null)
+			victim.shot();
+		List<Hittable> list = this.getObjects(Hittable.class);
+		for (Hittable h : list)
+			h.startle();
+	}
+	
+	private Hittable getOneShotHittable(double x, double y) {
+		List<Hittable> list = this.getObjects(Hittable.class);
+		for (int i = list.size() - 1; i >= 0; i--) {
+			if (list.get(i).getHitbox().contains(x, y))
+				return list.get(i);
+		}
+		return null;
+	}
+	
+	private ArrayList<Hittable> getAllShotHittables(double x, double y) {
+		List<Hittable> list = this.getObjects(Hittable.class);
+		ArrayList<Hittable> resultingList = new ArrayList<Hittable>();
+		for (Hittable h : list) {
+			if (h.getHitbox().contains(x, y));
+				resultingList.add(h);
+		}
+		return resultingList;
 	}
 	
 	public <A extends Node> java.util.List<A> getObjects(java.lang.Class<A> cls) {
@@ -244,10 +284,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			
 		return verifiedList;
 		
-	}
-	
-	public void add(Hittable h) {
-		this.getChildren().addAll(h, h.getHitbox());
 	}
 
 	protected abstract String getDescription();

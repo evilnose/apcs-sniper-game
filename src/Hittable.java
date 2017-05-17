@@ -1,5 +1,3 @@
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -35,49 +33,56 @@ public abstract class Hittable extends ImageView {
 	}
 
 	public abstract void act(long now);
-
-	public void setHitboxRect(double x, double y, double width, double height) {
+	
+	protected void setHitboxRect(double x, double y, double width, double height) {
 		hitbox = new Rectangle(x, y, width, height);
-		((Rectangle) hitbox).setFill(Color.TRANSPARENT);
-		((Rectangle) hitbox).setStroke(Color.RED);
-	}
-
-	public void setHitboxCircle(double x, double y, double radius) {
-		hitbox = new Circle(x, y, radius);
-		((Circle) hitbox).setFill(Color.TRANSPARENT);
-		((Circle) hitbox).setStroke(Color.RED);
+		hitbox.setFill(Color.TRANSPARENT);
+		hitbox.setStroke(Color.RED);
 	}
 	
-	protected void setGraphics(Image img) {
-		this.setImage(img);
+	protected void setHitboxCircle(double x, double y, double radius) {
+		hitbox = new Circle(x, y, radius);
+		hitbox.setFill(Color.TRANSPARENT);
+		hitbox.setStroke(Color.RED);
 	}
 
-	public Node getHitbox() {
+	public Shape getHitbox() {
 		return hitbox;
 	}
 
 	public boolean isTarget() {
 		return isTarget;
 	}
-
-	protected void shot() {
-		if (isAlive)
-			isAlive = !isAlive;
-
+	
+	public void startle() {
+		if (!isStartled && isAlive)
+			isStartled = true;
 	}
 
-	protected void move(int dx, int dy) {
+	public void shot() {
+		if (isAlive)
+			isAlive = !isAlive;
+	}
+
+	protected void move(double dx, double dy) {
 		this.setX(this.getX() + dx);
 		this.setY(this.getY() + dy);
-		hitbox.setLayoutX(hitbox.getLayoutX() + dx);
-		hitbox.setLayoutY(hitbox.getLayoutY() + dy);
+		if (Circle.class.isInstance(hitbox)) {
+			Circle circle = Circle.class.cast(hitbox);
+			circle.setCenterX(circle.getCenterX() + dx);
+			circle.setCenterY(circle.getCenterY() + dy);
+		} else if (Rectangle.class.isInstance(hitbox)) {
+			Rectangle rect = Rectangle.class.cast(hitbox);
+			rect.setX(rect.getX() + dx);
+			rect.setY(rect.getY() + dy);
+		}
+		
 	}
 
 	public void setPos(int x, int y) {
-		this.setX(x);
-		this.setY(y);
-		hitbox.setLayoutX(x);
-		hitbox.setLayoutY(y);
+		double dx = x - getX();
+		double dy = y - getY();
+		move(dx, dy);
 	}
 
 	protected boolean isWithinBounds()
@@ -89,7 +94,5 @@ public abstract class Hittable extends ImageView {
 		else
 			return true;
 	}
-	
-	
 
 }

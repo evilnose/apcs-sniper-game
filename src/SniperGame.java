@@ -1,21 +1,11 @@
 import java.util.ArrayList;
 
-import java.util.Collections;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Dimension2D;
 import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -61,7 +51,6 @@ public class SniperGame extends Application
 		levels.add(new LevelTutorial(0));
 		levels.add(new LevelOne(1));
 		
-		Collections.sort(levels);
 	}
 	
 	private void startLevel(int lvlNum) {
@@ -71,7 +60,6 @@ public class SniperGame extends Application
 		lvlScreen.setResizable(false);
 		
 		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
-		scene.setCursor(Cursor.CROSSHAIR);
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
 		

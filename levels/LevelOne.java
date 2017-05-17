@@ -16,7 +16,7 @@ public class LevelOne extends Level {
 		addHittable(tester3);
 		tester3.setPos(550, 350);
 		
-		Scope scope = new Scope(150);
+		Scope scope = new Scope();
 		addScope(scope);
 		setOnMouseTracking(scope);
 		

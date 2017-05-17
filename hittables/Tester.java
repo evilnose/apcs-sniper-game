@@ -8,7 +8,7 @@ public class Tester extends Hittable
 	public Tester(boolean isTarget)
 	{
 		super(isTarget);
-		setGraphics(img);
+		setImage(img);
 		setHitboxCircle(47.5, 20, 20);
 		dx = 3;
 		dy = 0;
@@ -26,5 +26,13 @@ public class Tester extends Hittable
 			Level lev = (Level) this.getParent();
 			lev.removeHittable(this);
 		}
+	}
+	
+	@Override
+	public void shot() {
+		super.shot();
+		
+		Level lvl = (Level)getParent();
+		lvl.removeHittable(this);
 	}
 }
