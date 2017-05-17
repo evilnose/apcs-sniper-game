@@ -74,8 +74,8 @@ public class SniperGame extends Application
 		public void handle(ActionEvent event) {
 			if (levels.size() != 0) {
 		//		startLevel(0);
-				startLevel(1);
-		//		startLevel(2);
+		//		startLevel(1);
+				startLevel(2);
 			} else {
 				System.out.println("ERROR: no level loaded.");
 			}
