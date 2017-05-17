@@ -33,6 +33,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private double windSpeed;
 	private AnimationTimer timer;
 	private Image defaultBackground;
+	private Scope hitbox;
 	
 	public Level(int numLevel) {
 		// Use the "super" keyword in subclass constructors to invoke this.
@@ -65,6 +66,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			
 		};
+		Scope scope = new Scope();
+		addScope(scope);
+		setOnMouseTracking(scope);
+		
+		
 		this.setCursor(Cursor.NONE);
 	}
 
@@ -225,7 +231,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		getChildren().add(s);
 	}
 	
-	protected void setOnMouseTracking(Scope s) {
+	protected void setOnMouseTracking(Scope s) 
+	{
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			
 			@Override

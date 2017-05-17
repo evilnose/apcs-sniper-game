@@ -56,11 +56,15 @@ public abstract class Hittable extends ImageView {
 	
 	public void startle() {
 		if (!isStartled && isAlive)
+		{
 			isStartled = true;
+			dx++;
+			dx = -dx;
+		}
 	}
 
 	public void shot() {
-		if (isAlive)
+		if(isAlive)
 			isAlive = !isAlive;
 	}
 

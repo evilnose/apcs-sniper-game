@@ -10,10 +10,6 @@ public class LevelTutorial extends Level
 		this.addHittable(tester);
 		tester.setPos(200, 350);
 		
-		Scope scope = new Scope();
-		this.addScope(scope);
-		setOnMouseTracking(scope);
-		
 		this.setDefaultBackgroundImage(new Image("file:sprites/skyscrapers.jpg"));
 		
 	}

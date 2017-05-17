@@ -1,6 +1,7 @@
 import javafx.scene.image.Image;
 
-public class LevelTwo extends Level {
+public class LevelTwo extends Level 
+{
 
 	public LevelTwo(int numLevel) {
 		super(numLevel);
@@ -21,10 +22,6 @@ public class LevelTwo extends Level {
 		Sitter sitter1 = new Sitter(false);
 		addHittable(sitter1);
 		sitter1.setPos(550,100);
-		
-		Scope scope = new Scope();
-		addScope(scope);
-		setOnMouseTracking(scope);
 		
 		this.setDefaultBackgroundImage(new Image("file:sprites/cafe.jpg"));
 	}
