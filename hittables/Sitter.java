@@ -13,7 +13,7 @@ public class Sitter extends Hittable {
 		super(isTarget);
 		setImage(img);
 		
-		dx = 3;
+		dx = 0;
 		dy = 0;
 		this.setHitboxCircle(200, 40, 17);
 	}
