@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -22,7 +21,7 @@ public class SniperGame extends Application
 
 	
 	public static void main(String args[]) {
-		launch(); // I have failed to move this into its own driver classes. You guys are welcome to try.
+		launch(); 
 	}
 
 	@Override
@@ -33,7 +32,7 @@ public class SniperGame extends Application
 		homeScreen.setResizable(false);
 		
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 400, 250); // The Golden Ratio
+		Scene scene = new Scene(root, 400, 250);
 		
 		Button startGameButton = new Button();
 		startGameButton.setPrefSize(50, 50);

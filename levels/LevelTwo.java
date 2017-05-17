@@ -5,7 +5,6 @@ public class LevelTwo extends Level
 
 	public LevelTwo(int numLevel) {
 		super(numLevel);
-		
 		Tester tester1 = new Tester(false);
 		addHittable(tester1);
 		tester1.setPos(200, 350);
