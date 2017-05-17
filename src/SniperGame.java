@@ -3,10 +3,20 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 /*
@@ -32,14 +42,24 @@ public class SniperGame extends Application
 		homeScreen.setTitle("Sniper Game Alpha"); // TODO This Name is tentative. Need a cooler one.
 		homeScreen.setResizable(false);
 		
+		
+		
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 400, 250); // The Golden Ratio
+		Scene scene = new Scene(root, 800, 500); // The Golden Ratio
+		
+		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/start_background.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		root.setBackground(new Background(myBI));
+		
 		
 		Button startGameButton = new Button();
-		startGameButton.setPrefSize(50, 50);
 		startGameButton.setText("Start");
+		startGameButton.setFont(new Font("Monospaced Bold",30));
+		startGameButton.setStyle("-fx-background-color: transparent;");
 		startGameButton.setOnAction(new startGameHandler());
-		root.setCenter(startGameButton);
+		
+		root.setMargin(startGameButton,new Insets(100,250,50,50));
+		root.setRight(startGameButton);
 		
 		homeScreen.setScene(scene);
 		homeScreen.show();
@@ -73,8 +93,8 @@ public class SniperGame extends Application
 		@Override
 		public void handle(ActionEvent event) {
 			if (levels.size() != 0) {
-		//		startLevel(0);
-		//		startLevel(1);
+	//		startLevel(0);
+///				startLevel(1);
 				startLevel(2);
 			} else {
 				System.out.println("ERROR: no level loaded.");

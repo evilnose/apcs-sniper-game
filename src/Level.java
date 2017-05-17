@@ -1,15 +1,17 @@
-import java.awt.Event;
 import java.util.ArrayList;
-import java.util.List;
-
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -20,7 +22,11 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 public abstract class Level extends Pane implements Comparable<Level> {
@@ -34,11 +40,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private double windSpeed;
 	private AnimationTimer timer;
 	private Image defaultBackground;
-	private Scope hitbox;
+	protected Scope scope;
 	private Level thisLevel;
 	private MyEventHandler evHan;
+	private Cursor MY_CURSOR = Cursor.DEFAULT;
 
-	public Level(int numLevel) {
+	public Level(int numLevel) 
+	{
 		// Use the "super" keyword in subclass constructors to invoke this.
 		super();
 		thisLevel = this;
@@ -77,9 +85,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		};
 
-		hitbox = new Scope();
-		addScope(hitbox);
-
+		scope = new Scope();
+		addScope(scope);
 		this.setCursor(Cursor.NONE);
 	}
 
@@ -89,12 +96,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		if(isWon())
 		{
 			thisLevel.stop();
+			thisLevel.setCursor(MY_CURSOR);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayWinMessage();
 			return;
 		}
 		if (isLost()) {
 			thisLevel.stop();
+			thisLevel.setCursor(MY_CURSOR);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayLostMessage();
 			return;
@@ -130,6 +139,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 
 	public void start() {
+		thisLevel.getScene().setOnKeyPressed(new ZoomHandler());
 		numCivilians = civilians.size();
 		timer.start();
 	}
@@ -158,11 +168,15 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	{
 		Stage message = new Stage();
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 200, 200);
+		Scene scene = new Scene(root, 600, 650);
 		message.setTitle("You Lose!");
 		message.setResizable(false);
 
-		Text t = new Text("Mission "+ getLevelNumber() + " failed");
+		Text t = new Text("MISSION\n       "+ getLevelNumber() + " \nFAILED");
+		t.setFill(Color.WHITE);
+		t.setFont(Font.font("Monospaced Bold", FontWeight.BOLD, 35));
+
+		ImageView img = new ImageView(new Image("file:sprites/lose.gif"));
 
 		HBox hb = new HBox();
 		Button exit = new Button("Exit");
@@ -171,35 +185,47 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		HBox.setMargin(restart,new Insets(10,10,10,10));
 		hb.getChildren().addAll(exit, restart);
 
-
-		root.setCenter(t);
+		root.setLeft(img);
+		root.setRight(t);
 		root.setBottom(hb);
 
-		message.setScene(scene);
-		message.show();
+		root.setStyle("-fx-background-color: #24ff21;");
 
+		message.setScene(scene);
+		HBox.setMargin(exit, new Insets(0,0,exit.getScene().getHeight() / 5,(exit.getScene().getWidth() - exit.getPrefWidth()) / 2));
+		HBox.setMargin(restart, new Insets(0,0,restart.getScene().getHeight() / 5,(restart.getScene().getWidth() - restart.getPrefWidth()) / 2));
+		message.setAlwaysOnTop(true);
+		message.show();
 	}
 
 	protected void displayWinMessage() 
 	{
-
 		Stage message = new Stage();
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 200,200);
+		Scene scene = new Scene(root, 650, 270);
 		message.setTitle("You Win!");
 		message.setResizable(false);
 
-		Text t = new Text("Mission "+ getLevelNumber() + " passed");
+		Text t = new Text("MISSION\n       "+ getLevelNumber() + " \nPASSED");
+		t.setFill(Color.WHITE);
+		t.setFont(Font.font("Monospaced Bold", FontWeight.BOLD, 35));
+
+		ImageView img = new ImageView(new Image("file:sprites/win.gif"));
 
 		HBox hb = new HBox();
 		Button next = new Button("Next Level");
-		HBox.setMargin(next,new Insets(10,10,10,10));
+		next.setPrefSize(125, 30);
 		hb.getChildren().addAll(next);
 
-		root.setCenter(t);
+		root.setLeft(img);
+		root.setRight(t);
 		root.setBottom(hb);
 
+		root.setStyle("-fx-background-color: #24ff21;");
+
 		message.setScene(scene);
+		HBox.setMargin(next, new Insets(0,0,next.getScene().getHeight() / 5,(next.getScene().getWidth() - next.getPrefWidth()) / 2));
+		message.setAlwaysOnTop(true);
 		message.show();
 	}
 
@@ -281,16 +307,43 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					if(remainingBullets>0)
-						hitbox.shoot();
-					remainingBullets--;
+					if (remainingBullets > 0) {
+						scope.shoot();
+						remainingBullets--;
+					} else {
+						// TODO alert player: out of bullets
+					}
 				}	
 			}
 			else if(event.getEventType()==MouseEvent.MOUSE_MOVED)
 			{
-				hitbox.moveTo(event.getX(), event.getY());
+				scope.moveTo(event.getX(), event.getY());
 			}
 		}
 
+	}
+
+
+	private class ZoomHandler implements EventHandler<KeyEvent> 
+	{
+
+		@Override
+		public void handle(KeyEvent event) 
+		{
+			if(event.getText().equals("Z")||event.getText().equals("z"))
+			{
+				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
+				double currY = scope.getY()+Scope.SCOPE_HEIGHT/2;
+				Scale scale = new Scale(2,2);
+				scale.setPivotX(currX);
+				scale.setPivotY(currY);
+				thisLevel.getTransforms().add(scale);
+				thisLevel.getChildren().remove(scope);
+				scope = new Scope();
+				scope.setX(currX);
+				scope.setX(currY);
+				addScope(scope);
+			}
+		}
 	}
 }
