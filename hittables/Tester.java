@@ -10,7 +10,7 @@ public class Tester extends Hittable
 		super(isTarget);
 		setImage(img);
 		setHitboxCircle(47.5, 20, 20);
-		dx = 3;
+		dx = 1;
 		dy = 0;
 	}
 
@@ -18,7 +18,7 @@ public class Tester extends Hittable
 	public void act(long now) 
 	{ 
 		int random = (int)(Math.random()*35)-1;
-		if(random<0)
+		if(random < 0)
 			dx = -dx;
 		this.move(dx,dy);
 		if(this.isWithinBounds()==false)

@@ -11,6 +11,7 @@ public class LevelTutorial extends Level
 		tester.setPos(200, 350);
 		
 		this.setDefaultBackgroundImage(new Image("file:sprites/skyscrapers.jpg"));
+		displayLostMessage();
 		
 	}
 

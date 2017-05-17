@@ -1,10 +1,9 @@
-import java.awt.Event;
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -20,6 +19,9 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -37,6 +39,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Scope hitbox;
 	private Level thisLevel;
 	private MyEventHandler evHan;
+	private Cursor MY_CURSOR = Cursor.DEFAULT;
 
 	public Level(int numLevel) {
 		// Use the "super" keyword in subclass constructors to invoke this.
@@ -89,12 +92,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		if(isWon())
 		{
 			thisLevel.stop();
+			thisLevel.setCursor(MY_CURSOR);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayWinMessage();
 			return;
 		}
 		if (isLost()) {
 			thisLevel.stop();
+			thisLevel.setCursor(MY_CURSOR);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayLostMessage();
 			return;
@@ -158,11 +163,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	{
 		Stage message = new Stage();
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 200, 200);
+		Scene scene = new Scene(root, 225, 150);
 		message.setTitle("You Lose!");
 		message.setResizable(false);
 
 		Text t = new Text("Mission "+ getLevelNumber() + " failed");
+		t.setFill(Color.WHITE);
+		t.setFont(Font.font("System Regular", FontWeight.BOLD, 15));
 
 		HBox hb = new HBox();
 		Button exit = new Button("Exit");
@@ -185,21 +192,27 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		Stage message = new Stage();
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 200,200);
+		Scene scene = new Scene(root, 225, 100);
 		message.setTitle("You Win!");
 		message.setResizable(false);
 
 		Text t = new Text("Mission "+ getLevelNumber() + " passed");
+		t.setFill(Color.WHITE);
+		t.setFont(Font.font("System Regular", FontWeight.BOLD, 15));
 
 		HBox hb = new HBox();
 		Button next = new Button("Next Level");
-		HBox.setMargin(next,new Insets(10,10,10,10));
+		next.setPrefSize(75, 30);
 		hb.getChildren().addAll(next);
 
 		root.setCenter(t);
 		root.setBottom(hb);
 
+		root.setStyle("-fx-background-color: #24ff21;");
+		
 		message.setScene(scene);
+		HBox.setMargin(next, new Insets(0,0,next.getScene().getHeight() / 5,(next.getScene().getWidth() - next.getPrefWidth()) / 2));
+		message.setAlwaysOnTop(true);
 		message.show();
 	}
 
@@ -281,9 +294,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					if(remainingBullets>0)
+					if (remainingBullets > 0) {
 						hitbox.shoot();
-					remainingBullets--;
+						remainingBullets--;
+					} else {
+						// TODO alert player: out of bullets
+					}
 				}	
 			}
 			else if(event.getEventType()==MouseEvent.MOUSE_MOVED)
