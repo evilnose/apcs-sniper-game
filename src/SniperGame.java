@@ -49,7 +49,7 @@ public class SniperGame extends Application
 		levels = new ArrayList<Level>();
 		// Note: there cannot be two levels with the same level numbers
 		levels.add(new LevelTutorial(0));
-		levels.add(new LevelOne(1));
+		levels.add(new Level1(0));
 		
 	}
 	
@@ -72,8 +72,8 @@ public class SniperGame extends Application
 		@Override
 		public void handle(ActionEvent event) {
 			if (levels.size() != 0) {
-				startLevel(0);
-//				startLevel(1);
+//				startLevel(0);
+				startLevel(1);
 			} else {
 				System.out.println("ERROR: no level loaded.");
 			}

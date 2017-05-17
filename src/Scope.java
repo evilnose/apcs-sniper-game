@@ -4,6 +4,7 @@ import java.util.List;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class Scope extends ImageView {
 	// Use Circle method getCenterX() and getCenterY() to get coordinates of crosshair.
@@ -13,12 +14,23 @@ public class Scope extends ImageView {
 	public static final double SCOPE_WIDTH = SCOPE.getWidth();
 	public static final double SCOPE_HEIGHT = SCOPE.getHeight();
 	
-	public Scope() {
+	public Scope() 
+	{
 		super(SCOPE);
 	}
 	
+	public double x()
+	{
+		return this.getX();
+	}
+	
+	public double y()
+	{
+		return this.getY();
+	}
+	
 	public void shoot() {
-		Hittable victim = getOneShotHittable(this.getX() + SCOPE.getWidth() / 2, this.getY() + SCOPE.getHeight() / 2);
+		Hittable victim = getOneShotHittable(this.getX() + SCOPE.getWidth()/2, this.getY() + SCOPE.getHeight()/2);
 		if (victim != null)
 			victim.shot();
 		List<Hittable> list = this.getLevel().getObjects(Hittable.class);

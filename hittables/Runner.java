@@ -1,16 +1,16 @@
 
 import javafx.scene.image.Image;
 
-public class Tester extends Hittable 
+public class Runner extends Hittable 
 {
 	private Image img = new Image("file:sprites/stick man.gif");
 
-	public Tester(boolean isTarget)
+	public Runner(boolean isTarget)
 	{
 		super(isTarget);
 		setImage(img);
 		setHitboxCircle(47.5, 20, 20);
-		dx = 3;
+		dx = 2;
 		dy = 0;
 	}
 
@@ -31,7 +31,6 @@ public class Tester extends Hittable
 	@Override
 	public void shot() {
 		super.shot();
-		
 		Level lvl = (Level)getParent();
 		lvl.removeHittable(this);
 	}
