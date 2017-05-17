@@ -1,13 +1,12 @@
 import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -39,7 +38,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private double windSpeed;
 	private AnimationTimer timer;
 	private Image defaultBackground;
-	private Scope scope;
+	protected Scope scope;
 	private Level thisLevel;
 	private MyEventHandler evHan;
 	private final Cursor LEVEL_SCREEN_CURSOR = Cursor.DEFAULT;
@@ -90,7 +89,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		
 		scope = new Scope();
 		addScope(scope);
-
 		this.setCursor(SCOPE_CURSOR);
 	}
 
@@ -179,6 +177,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		t.setFill(Color.WHITE);
 		t.setFont(Font.font(LEVEL_FAILED_FONT, FontWeight.BOLD, 15));
 
+		ImageView img = new ImageView(new Image("file:sprites/lose.gif"));
+
 		HBox hb = new HBox();
 		Button exit = new Button("Exit");
 		Button restart = new Button("Retry Level");
@@ -188,14 +188,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		root.setLeft(img);
 		root.setRight(t);
+
 		root.setBottom(hb);
 
 		root.setStyle("-fx-background-color: #24ff21;");
-		
-		root.setStyle("-fx-background-color: #ff0c00;");
 
 		message.setScene(scene);
-		HBox.setMargin(exit, new Insets(0,0,exit.getScene().getHeight() / 5,(exit.getScene().getWidth() - exit.getPrefWidth()) / 4));
+		HBox.setMargin(exit, new Insets(0,0,exit.getScene().getHeight() / 5,(exit.getScene().getWidth() - exit.getPrefWidth()) / 2));
+		HBox.setMargin(restart, new Insets(0,0,restart.getScene().getHeight() / 5,(restart.getScene().getWidth() - restart.getPrefWidth()) / 2));
 		message.setAlwaysOnTop(true);
 		message.show();
 	}
@@ -210,7 +210,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		Text t = new Text("MISSION\n       "+ getLevelNumber() + " \nPASSED");
 		t.setFill(Color.WHITE);
-		t.setFont(Font.font(LEVEL_PASSED_FONT, FontWeight.BOLD, 15));
+		t.setFont(Font.font("Monospaced Bold", FontWeight.BOLD, 35));
+
+		ImageView img = new ImageView(new Image("file:sprites/win.gif"));
 
 		HBox hb = new HBox();
 		Button next = new Button("Next Level");

@@ -23,5 +23,4 @@ public class LevelTutorial extends Level
 	protected String getName() {
 		return "Tutorial";
 	}
-	
 }
