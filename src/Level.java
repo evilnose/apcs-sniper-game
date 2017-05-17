@@ -1,3 +1,4 @@
+import java.awt.Event;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +35,24 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private AnimationTimer timer;
 	private Image defaultBackground;
 	private Scope hitbox;
-	
+	private Level thisLevel;
+	private MyEventHandler evHan;
+
 	public Level(int numLevel) {
 		// Use the "super" keyword in subclass constructors to invoke this.
 		super();
+		thisLevel = this;
+		evHan = new MyEventHandler();
+		thisLevel.setOnMousePressed(evHan);
+		thisLevel.setOnMouseMoved(evHan);
+
 		levelNumber = numLevel;
+
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
-		numCivilians = civilians.size();
+
 		numMaxBullets = 10; // Default value
+		remainingBullets = numMaxBullets;
 		timer = new AnimationTimer() {
 
 			@Override
@@ -64,14 +74,31 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				}
 				act(now);
 			}
-			
+
 		};
-		Scope scope = new Scope();
-		addScope(scope);
-		setOnMouseTracking(scope);
-		
-		
+
+		hitbox = new Scope();
+		addScope(hitbox);
+
 		this.setCursor(Cursor.NONE);
+	}
+
+
+	private void act(long now) 
+	{
+		if(isWon())
+		{
+			thisLevel.stop();
+			thisLevel.setOnMouseMoved(null);
+			thisLevel.displayWinMessage();
+			return;
+		}
+		if (isLost()) {
+			thisLevel.stop();
+			thisLevel.setOnMouseMoved(null);
+			thisLevel.displayLostMessage();
+			return;
+		}
 	}
 
 	public void load() {
@@ -79,30 +106,19 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	}
 
-	public void act(long now) {
-		if(isWon())
-		{
-			this.stop();
-			this.displayWinMessage();
-		}
-		if (isLost()) {
-			this.stop();
-			this.displayLostMessage();
-		}
-	}
-	
+
 	public void activateCustomBackground(Image background) {
 		BackgroundImage myBI = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-		          BackgroundSize.DEFAULT);
+				BackgroundSize.DEFAULT);
 		this.setBackground(new Background(myBI));
 	}
-	
+
 	public void activateDefaultBackground() {
 		BackgroundImage myBI = new BackgroundImage(defaultBackground, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-		          BackgroundSize.DEFAULT);
+				BackgroundSize.DEFAULT);
 		this.setBackground(new Background(myBI));
 	}
-	
+
 	protected void setDefaultBackgroundImage(Image img) {
 		defaultBackground = img;
 	}
@@ -112,18 +128,19 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		this.stop();
 		// TODO maybe add s'more later
 	}
-	
+
 	public void start() {
+		numCivilians = civilians.size();
 		timer.start();
 	}
-	
+
 	public void stop() {
 		timer.stop();
 	}
 
 	private boolean isWon() 
 	{
-		if(targets!=null&&targets.size()!=0&&remainingBullets>0)
+		if(numCivilians==civilians.size()&&targets!=null&&targets.size()==0&&remainingBullets>0)
 			return true;
 		else
 			return false;
@@ -145,7 +162,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		message.setTitle("You Lose!");
 		message.setResizable(false);
 
-		Text t = new Text("Mission "+ getLevelNumber() + "failed");
+		Text t = new Text("Mission "+ getLevelNumber() + " failed");
 
 		HBox hb = new HBox();
 		Button exit = new Button("Exit");
@@ -154,7 +171,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		HBox.setMargin(restart,new Insets(10,10,10,10));
 		hb.getChildren().addAll(exit, restart);
 
-		root.getChildren().addAll(t, hb);
+
+		root.setCenter(t);
+		root.setBottom(hb);
 
 		message.setScene(scene);
 		message.show();
@@ -170,14 +189,15 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		message.setTitle("You Win!");
 		message.setResizable(false);
 
-		Text t = new Text("Mission "+ getLevelNumber() + "passed");
+		Text t = new Text("Mission "+ getLevelNumber() + " passed");
 
 		HBox hb = new HBox();
 		Button next = new Button("Next Level");
 		HBox.setMargin(next,new Insets(10,10,10,10));
 		hb.getChildren().addAll(next);
 
-		root.getChildren().addAll(t,hb);
+		root.setCenter(t);
+		root.setBottom(hb);
 
 		message.setScene(scene);
 		message.show();
@@ -216,7 +236,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			civilians.add(h);
 		}
 	}
-	
+
 	protected void removeHittable(Hittable h) {
 		getChildren().removeAll(h, h.getHitbox());
 
@@ -226,32 +246,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			civilians.remove(h);
 		}
 	}
-	
+
 	protected void addScope(Scope s) {
 		getChildren().add(s);
-	}
-	
-	protected void setOnMouseTracking(Scope s) 
-	{
-		this.setOnMousePressed(new EventHandler<MouseEvent>() {
-			
-			@Override
-			public void handle(MouseEvent event) {
-				if (event.getButton() == MouseButton.PRIMARY) {
-					s.shoot();
-				}	
-			}
-			
-		});
-		
-		this.setOnMouseMoved(new EventHandler<MouseEvent>() {
-			
-			@Override
-			public void handle(MouseEvent event) {
-				s.moveTo(event.getX(), event.getY());
-			}
-			
-		});
 	}
 
 	public <A extends Node> java.util.List<A> getObjects(java.lang.Class<A> cls) {
@@ -260,9 +257,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			if (cls.isInstance(node))
 				verifiedList.add(cls.cast(node));
 		}
-			
+
 		return verifiedList;
-		
+
 	}
 
 	protected abstract String getDescription();
@@ -274,5 +271,26 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		return this.getLevelNumber() - other.getLevelNumber();
 	}
 
+	public class MyEventHandler implements EventHandler<MouseEvent>
+	{
 
+		@Override
+		public void handle(MouseEvent event)
+		{
+			if(event.getEventType()==MouseEvent.MOUSE_PRESSED)
+			{
+				if (event.getButton() == MouseButton.PRIMARY) 
+				{
+					if(remainingBullets>0)
+						hitbox.shoot();
+					remainingBullets--;
+				}	
+			}
+			else if(event.getEventType()==MouseEvent.MOUSE_MOVED)
+			{
+				hitbox.moveTo(event.getX(), event.getY());
+			}
+		}
+
+	}
 }
