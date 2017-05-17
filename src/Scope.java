@@ -10,7 +10,7 @@ public class Scope extends ImageView {
 	// Use Circle method getCenterX() and getCenterY() to get coordinates of crosshair.
 	private Color RIM_COLOR = Color.RED;
 	private int RIM_WIDTH = 2;
-	private static final Image SCOPE = new Image("file:sprites/red scope.png");
+	private static final Image SCOPE = new Image("file:sprites/redscope_framed.png");
 	public static final double SCOPE_WIDTH = SCOPE.getWidth();
 	public static final double SCOPE_HEIGHT = SCOPE.getHeight();
 	
