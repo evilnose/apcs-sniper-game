@@ -13,7 +13,8 @@ public class LevelTwo extends Level {
 		addHittable(tester2);
 		tester2.setPos(450, 350);
 		
-		Tester tester3=new Tester(false);
+		Tester tester3=new Tester(false); // we can add more tester or runners here because they should be
+		                                 //     distracting from the target that are sitting
 		addHittable(tester3);
 		tester3.setPos(550, 350);
 		
