@@ -231,7 +231,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.getButton() == MouseButton.PRIMARY) {
-					shoot(event.getX(), event.getY());
+					s.shoot();
 				}	
 			}
 			
@@ -246,35 +246,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			
 		});
 	}
-	
-	protected void shoot(double x, double y) {
-		Hittable victim = getOneShotHittable(x, y);
-		if (victim != null)
-			victim.shot();
-		List<Hittable> list = this.getObjects(Hittable.class);
-		for (Hittable h : list)
-			h.startle();
-	}
-	
-	private Hittable getOneShotHittable(double x, double y) {
-		List<Hittable> list = this.getObjects(Hittable.class);
-		for (int i = list.size() - 1; i >= 0; i--) {
-			if (list.get(i).getHitbox().contains(x, y))
-				return list.get(i);
-		}
-		return null;
-	}
-	
-	private ArrayList<Hittable> getAllShotHittables(double x, double y) {
-		List<Hittable> list = this.getObjects(Hittable.class);
-		ArrayList<Hittable> resultingList = new ArrayList<Hittable>();
-		for (Hittable h : list) {
-			if (h.getHitbox().contains(x, y));
-				resultingList.add(h);
-		}
-		return resultingList;
-	}
-	
+
 	public <A extends Node> java.util.List<A> getObjects(java.lang.Class<A> cls) {
 		ArrayList<A> verifiedList = new ArrayList<A>();
 		for (Node node : getChildren()) {

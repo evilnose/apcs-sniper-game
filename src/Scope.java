@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -10,38 +13,45 @@ public class Scope extends ImageView {
 	public static final double SCOPE_WIDTH = SCOPE.getWidth();
 	public static final double SCOPE_HEIGHT = SCOPE.getHeight();
 	
-//	public Scope(int radius)
-//	{
-//		super(SniperGame.LEVEL_WIDTH / 2, SniperGame.LEVEL_HEIGHT / 2, radius);
-//		this.setStroke(RIM_COLOR);
-//		this.setStrokeWidth(RIM_WIDTH);
-//		this.setFill(Color.TRANSPARENT);
-////		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-////
-////			@Override
-////			public void handle(MouseEvent event) {
-////				getOneShotHitbox();
-////			}
-////			
-////		});
-//	}
-//	
-//	public Scope(double centerX, double centerY, int radius)
-//	{
-//		super(centerX, centerY, radius);
-//		this.setStroke(RIM_COLOR);
-//		this.setStrokeWidth(RIM_WIDTH);
-//		this.setFill(Color.TRANSPARENT);
-//	}
-	
 	public Scope() {
 		super(SCOPE);
 	}
-
+	
+	public void shoot() {
+		Hittable victim = getOneShotHittable(this.getX() + SCOPE.getWidth() / 2, this.getY() + SCOPE.getHeight() / 2);
+		if (victim != null)
+			victim.shot();
+		List<Hittable> list = this.getLevel().getObjects(Hittable.class);
+		for (Hittable h : list)
+			h.startle();
+	}
+	
+	private Hittable getOneShotHittable(double x, double y) {
+		List<Hittable> list = this.getLevel().getObjects(Hittable.class);
+		for (int i = list.size() - 1; i >= 0; i--) {
+			if (list.get(i).getHitbox().contains(x, y))
+				return list.get(i);
+		}
+		return null;
+	}
+	
+	private ArrayList<Hittable> getAllShotHittables(double x, double y) {
+		List<Hittable> list = this.getLevel().getObjects(Hittable.class);
+		ArrayList<Hittable> resultingList = new ArrayList<Hittable>();
+		for (Hittable h : list) {
+			if (h.getHitbox().contains(x, y));
+				resultingList.add(h);
+		}
+		return resultingList;
+	}
 	
 	public void moveTo(double x, double y){
 		this.setX(x - SCOPE.getWidth() / 2);
 		this.setY(y - SCOPE.getHeight() / 2);
+	}
+	
+	private Level getLevel() {
+		return (Level)getParent();
 	}
 	
 	public void displayRecoil(int Dx,int Dy){
