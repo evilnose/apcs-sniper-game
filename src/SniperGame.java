@@ -1,21 +1,11 @@
 import java.util.ArrayList;
 
-import java.util.Collections;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Dimension2D;
 import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -59,9 +49,8 @@ public class SniperGame extends Application
 		levels = new ArrayList<Level>();
 		// Note: there cannot be two levels with the same level numbers
 		levels.add(new LevelTutorial(0));
-		levels.add(new Level1(1));
+		levels.add(new LevelOne(1));
 		
-		Collections.sort(levels);
 	}
 	
 	private void startLevel(int lvlNum) {
@@ -71,21 +60,10 @@ public class SniperGame extends Application
 		lvlScreen.setResizable(false);
 		
 		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
-		Image background;
-		if(lvlNum==1){
-			background = new Image("file:sprites/background.jpg");
-		}
-		else{
-		background = new Image("file:sprites/background.jpg");
-		}
-		BackgroundImage myBI	= new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-		          BackgroundSize.DEFAULT);
-		currLevel.setBackground(new Background(myBI));
-		
-		scene.setCursor(Cursor.CROSSHAIR);
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
 		
+		currLevel.activateDefaultBackground();
 		currLevel.start();
 	}
 	
@@ -94,8 +72,8 @@ public class SniperGame extends Application
 		@Override
 		public void handle(ActionEvent event) {
 			if (levels.size() != 0) {
-				//startLevel(0);
-				startLevel(1);
+				startLevel(0);
+//				startLevel(1);
 			} else {
 				System.out.println("ERROR: no level loaded.");
 			}

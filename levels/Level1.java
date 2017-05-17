@@ -1,4 +1,3 @@
-
 public class Level1 extends Level
 {
 
@@ -16,7 +15,7 @@ public class Level1 extends Level
 			t.setPos(xPos, yPos);
 			
 		}
-		Scope scope = new Scope(150);
+		Scope scope = new Scope();
 		addScope(scope);
 		setOnMouseTracking(scope);
 	}

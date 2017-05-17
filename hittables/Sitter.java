@@ -8,7 +8,7 @@ public class Sitter extends Hittable {
 	
 	public Sitter(boolean isTgt) 
 	{
-		super(isTgt);
+		super(isTgt, new Image("file:sprites/sitter")); // TODO: Sitter not included yet
 //		this.setGraphics();
 //		this.setHitbox();
 	}

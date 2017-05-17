@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -7,7 +8,14 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -24,6 +32,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int remainingBullets;
 	private double windSpeed;
 	private AnimationTimer timer;
+	private Image defaultBackground;
 	
 	public Level(int numLevel) {
 		// Use the "super" keyword in subclass constructors to invoke this.
@@ -56,7 +65,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			
 		};
-		this.setCursor(Cursor.CROSSHAIR);
+		this.setCursor(Cursor.NONE);
 	}
 
 	public void load() {
@@ -74,6 +83,22 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			this.stop();
 			this.displayLostMessage();
 		}
+	}
+	
+	public void activateCustomBackground(Image background) {
+		BackgroundImage myBI = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+		          BackgroundSize.DEFAULT);
+		this.setBackground(new Background(myBI));
+	}
+	
+	public void activateDefaultBackground() {
+		BackgroundImage myBI = new BackgroundImage(defaultBackground, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+		          BackgroundSize.DEFAULT);
+		this.setBackground(new Background(myBI));
+	}
+	
+	protected void setDefaultBackgroundImage(Image img) {
+		defaultBackground = img;
 	}
 
 	public void pause()
@@ -177,7 +202,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 
 	protected void addHittable(Hittable h) {
-		getChildren().add(h);
+		getChildren().addAll(h, h.getHitbox());
 
 		if (h.isTarget()) {
 			targets.add(h);
@@ -187,7 +212,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 	
 	protected void removeHittable(Hittable h) {
-		getChildren().remove(h);
+		getChildren().removeAll(h, h.getHitbox());
 
 		if (h.isTarget()) {
 			targets.remove(h);
@@ -201,17 +226,27 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 	
 	protected void setOnMouseTracking(Scope s) {
-		this.setOnMouseMoved(new EventHandler<MouseEvent>() {
-
+		this.setOnMousePressed(new EventHandler<MouseEvent>() {
+			
 			@Override
 			public void handle(MouseEvent event) {
-				s.setCenterX(event.getSceneX());
-				s.setCenterY(event.getSceneY());
+				if (event.getButton() == MouseButton.PRIMARY) {
+					s.shoot();
+				}	
+			}
+			
+		});
+		
+		this.setOnMouseMoved(new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle(MouseEvent event) {
+				s.moveTo(event.getX(), event.getY());
 			}
 			
 		});
 	}
-	
+
 	public <A extends Node> java.util.List<A> getObjects(java.lang.Class<A> cls) {
 		ArrayList<A> verifiedList = new ArrayList<A>();
 		for (Node node : getChildren()) {
