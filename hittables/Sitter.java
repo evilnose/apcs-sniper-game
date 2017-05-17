@@ -13,14 +13,23 @@ public class Sitter extends Hittable {
 		super(isTarget);
 		setImage(img);
 		
-		dx = 3;
+		dx = 0;
 		dy = 0;
 		this.setHitboxCircle(200, 40, 17);
 	}
+	
 	@Override
 	public void act(long now) 
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void shot() {
+		super.shot();
+		
+		Level lvl = (Level)getParent();
+		lvl.removeHittable(this);
 	}
 }
