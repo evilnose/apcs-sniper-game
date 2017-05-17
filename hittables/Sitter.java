@@ -6,13 +6,17 @@ public class Sitter extends Hittable {
 	private double dx;
 	private double dy;
 	
-	public Sitter(boolean isTgt) 
+	private Image img = new Image("file:sprites/sitter_civilian_right.png");
+	
+	public Sitter(boolean isTarget)
 	{
-		super(isTgt, new Image("file:sprites/sitter")); // TODO: Sitter not included yet
-//		this.setGraphics();
-//		this.setHitbox();
+		super(isTarget);
+		setImage(img);
+		
+		dx = 3;
+		dy = 0;
+		this.setHitboxCircle(200, 40, 17);
 	}
-
 	@Override
 	public void act(long now) 
 	{
