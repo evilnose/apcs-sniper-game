@@ -3,15 +3,12 @@ import javafx.scene.image.Image;
 public class LevelTutorial extends Level 
 {
 
-	public LevelTutorial(int numLevel) 
-	{
+	public LevelTutorial(int numLevel) {
 		super(numLevel);
 		
-		Runner tester = new Runner(true);
+		Tester tester = new Tester(true);
 		this.addHittable(tester);
 		tester.setPos(200, 350);
-		
-
 		
 		this.setDefaultBackgroundImage(new Image("file:sprites/skyscrapers.jpg"));
 		

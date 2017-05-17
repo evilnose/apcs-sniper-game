@@ -6,11 +6,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -21,7 +19,6 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -38,13 +35,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Image defaultBackground;
 	private Scope hitbox;
 	
-	public Level(int numLevel)
-	{
+	public Level(int numLevel) {
 		// Use the "super" keyword in subclass constructors to invoke this.
 		super();
-		hitbox = new Scope();
-		this.addScope(hitbox);
-		setOnMouseTracking(hitbox);
 		levelNumber = numLevel;
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
@@ -73,16 +66,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			
 		};
+		Scope scope = new Scope();
+		addScope(scope);
+		setOnMouseTracking(scope);
+		
+		
 		this.setCursor(Cursor.NONE);
-	}
-	
-	public class MyKeyListener implements EventHandler<KeyEvent>
-	{
-		@Override
-		public void handle(KeyEvent event) 
-		{
-			hitbox.shoot();
-		}
 	}
 
 	public void load() {
@@ -125,7 +114,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 	
 	public void start() {
-		this.getScene().setOnKeyPressed(new MyKeyListener());
 		timer.start();
 	}
 	
@@ -229,9 +217,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		}
 	}
 	
-	protected void removeHittable(Hittable h) 
-	{
-		getChildren().removeAll(h,h.getHitbox());
+	protected void removeHittable(Hittable h) {
+		getChildren().removeAll(h, h.getHitbox());
 
 		if (h.isTarget()) {
 			targets.remove(h);
@@ -244,7 +231,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		getChildren().add(s);
 	}
 	
-	protected void setOnMouseTracking(Scope s) {
+	protected void setOnMouseTracking(Scope s) 
+	{
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			
 			@Override
@@ -285,4 +273,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public int compareTo(Level other) {
 		return this.getLevelNumber() - other.getLevelNumber();
 	}
+
+
 }
