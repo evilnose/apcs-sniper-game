@@ -67,7 +67,7 @@ public class SniperGame extends Application
 		levels.add(new LevelTutorial(0));
 		levels.add(new LevelOne(1));
 		levels.add(new LevelTwo(2));
-		
+		levels.add(new LevelThree(3));
 	}
 	
 	private void startLevel(int lvlNum) {
@@ -91,7 +91,8 @@ public class SniperGame extends Application
 			if (levels.size() != 0) {
 //				startLevel(0);
 //				startLevel(1);
-				startLevel(2);
+//				startLevel(2);
+				startLevel(3);
 			} else {
 				System.out.println("ERROR: no level loaded.");
 			}

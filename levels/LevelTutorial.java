@@ -6,7 +6,7 @@ public class LevelTutorial extends Level
 	public LevelTutorial(int numLevel) {
 		super(numLevel);
 		
-		Tester tester = new Tester(true,1);
+		Runner tester = new Runner(true,1);
 		this.addHittable(tester);
 		tester.setPos(200, 350);
 		

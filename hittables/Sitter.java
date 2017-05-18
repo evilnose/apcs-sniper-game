@@ -11,14 +11,13 @@ public class Sitter extends Hittable {
 	
 	public Sitter(boolean isTarget, double scale)
 	{
-		super(isTarget);
+		super(isTarget,img,scale);
 		setImage(img);
 		dx = 0;
 		dy = 0;
 		this.setHitboxCircle(200, 40, 17);
-		if(!isTarget)
-			hitbox.setStroke(Color.BLACK);
-		//this.scale(scale);
+//	if(!isTarget)
+//			hitbox.setStroke(Color.RED);
 	}
 	
 	public void shot() {
