@@ -44,7 +44,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Level thisLevel;
 	private MyEventHandler evHan;
 	private final Cursor LEVEL_SCREEN_CURSOR = Cursor.DEFAULT;
-	private final Cursor SCOPE_CURSOR = Cursor.NONE;
+	private final Cursor SCOPE_CURSOR = Cursor.DEFAULT;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
 
@@ -54,6 +54,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		super();
 		thisLevel = this;
 		evHan = new MyEventHandler();
+		thisLevel.setOnMousePressed(evHan);
+		thisLevel.setOnMouseMoved(evHan);
 
 		levelNumber = numLevel;
 
@@ -98,16 +100,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		{
 			thisLevel.stop();
 			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
-			thisLevel.getScene().setOnMouseMoved(null);
-			thisLevel.getScene().setOnMousePressed(null);
+			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayWinMessage();
 			return;
 		}
 		if (isLost()) {
 			thisLevel.stop();
 			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
-			thisLevel.getScene().setOnMouseMoved(null);
-			thisLevel.getScene().setOnMousePressed(null);
+			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayLostMessage();
 			return;
 		}
@@ -141,8 +141,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 
 	public void start() {
-		thisLevel.getScene().setOnMousePressed(evHan);
-		thisLevel.getScene().setOnMouseMoved(evHan);
 		thisLevel.getScene().setOnKeyPressed(new ZoomHandler());
 		numCivilians = civilians.size();
 		timer.start();
@@ -272,8 +270,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		if (h.isTarget()) {
 			targets.remove(h);
-		} else 
-		{
+		} else {
 			civilians.remove(h);
 		}
 	}
@@ -339,29 +336,25 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			if(event.getText().equals("+"))
 			{
 				Scale scale = new Scale(2,2);
-				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
-				double currY = scope.getY()+Scope.SCOPE_HEIGHT/2;
+				double currX = scope.getX()+scope.getImage().getWidth()/2;
+				double currY = scope.getY()+scope.getImage().getHeight()/2;
 				scale.setPivotX(currX);
 				scale.setPivotY(currY);
 				thisLevel.getTransforms().add(scale);
-				
 				scope.setScaleX(0.5);
 				scope.setScaleY(0.5);
+				scope.moveTo(currX, currY);
 			}
 			if(event.getText().equals("-"))
 			{
+				double currX = scope.getX()+scope.getImage().getWidth()/2;
+				double currY = scope.getY()+scope.getImage().getHeight()/2;
 				Scale scale = new Scale(0.5,0.5);
-				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
-				double currY = scope.getY()+Scope.SCOPE_HEIGHT/2;
 				scale.setPivotX(currX);
 				scale.setPivotY(currY);
 				thisLevel.getTransforms().add(scale);
-				
-				thisLevel.getChildren().remove(scope);
-				scope = new Scope();
-				scope.setX(currX -Scope.SCOPE_WIDTH/2);
-				scope.setY(currY -Scope.SCOPE_HEIGHT/2);
-				addScope(scope);
+				scope.setScaleX(1);
+				scope.setScaleY(1);
 			}
 		}
 	}
