@@ -20,7 +20,7 @@ public class Tester extends Hittable
 		int random = (int)(Math.random()*35)-1;
 		if(random < 0)
 			dx = -dx;
-		this.move(dx,dy);
+//		this.move(dx,dy);
 		if(this.isWithinBounds()==false)
 		{
 			Level lev = (Level) this.getParent();

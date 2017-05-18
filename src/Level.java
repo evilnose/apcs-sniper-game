@@ -44,7 +44,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Level thisLevel;
 	private MyEventHandler evHan;
 	private final Cursor LEVEL_SCREEN_CURSOR = Cursor.DEFAULT;
-	private final Cursor SCOPE_CURSOR = Cursor.NONE;
+	private final Cursor SCOPE_CURSOR = Cursor.DEFAULT;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
 
@@ -309,6 +309,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
+					System.out.println(scope.getX() + Scope.SCOPE_WIDTH / 2 + ", " + (scope.getY() + Scope.SCOPE_HEIGHT / 2));
+					System.out.println(event.getX() + ", " + event.getY());
 					scope.displayRecoil();
 					if (remainingBullets > 0) {
 						scope.shoot();
@@ -336,28 +338,25 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			if(event.getText().equals("+"))
 			{
 				Scale scale = new Scale(2,2);
-				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
-				double currY = scope.getY()+Scope.SCOPE_HEIGHT/2;
+				double currX = scope.getX()+scope.getImage().getWidth()/2;
+				double currY = scope.getY()+scope.getImage().getHeight()/2;
 				scale.setPivotX(currX);
 				scale.setPivotY(currY);
 				thisLevel.getTransforms().add(scale);
-				Scale scale1 = new Scale(0.5, 0.5);
-				scale1.setPivotX(currX);
-				scale1.setPivotY(currY);
-				scope.getTransforms().add(scale1);
+				scope.setScaleX(0.5);
+				scope.setScaleY(0.5);
+				scope.moveTo(currX, currY);
 			}
 			if(event.getText().equals("-"))
 			{
-				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
-				double currY = scope.getY()+Scope.SCOPE_HEIGHT/2;
+				double currX = scope.getX()+scope.getImage().getWidth()/2;
+				double currY = scope.getY()+scope.getImage().getHeight()/2;
 				Scale scale = new Scale(0.5,0.5);
 				scale.setPivotX(currX);
 				scale.setPivotY(currY);
 				thisLevel.getTransforms().add(scale);
-				Scale scale1 = new Scale(2,2);
-				scale1.setPivotX(currX);
-				scale1.setPivotY(currY);
-				scope.getTransforms().add(scale1);
+				scope.setScaleX(1);
+				scope.setScaleY(1);
 			}
 		}
 	}
