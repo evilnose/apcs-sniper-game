@@ -1,3 +1,4 @@
+import java.awt.MouseInfo;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -47,6 +48,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private final Cursor SCOPE_CURSOR = Cursor.DEFAULT;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
+	private boolean isZoomedIn;
+	private double lastPivotX;
+	private double lastPivotY;
+	private final Scale ZOOM_IN_SCALE = new Scale(2.0, 2.0);
+	private double startX, startY;
+	private double currX, currY;
 
 	public Level(int numLevel) 
 	{
@@ -91,6 +98,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		scope = new Scope();
 		addScope(scope);
 		this.setCursor(SCOPE_CURSOR);
+		isZoomedIn = false;
 	}
 
 
@@ -321,6 +329,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			else if (event.getEventType() == MouseEvent.MOUSE_MOVED)
 			{
 				scope.moveTo(event.getX(), event.getY());
+				currX = event.getX();
+				currY = event.getY();
 			}
 		}
 
@@ -333,28 +343,29 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		@Override
 		public void handle(KeyEvent event) 
 		{
-			if(event.getText().equals("+"))
-			{
-				Scale scale = new Scale(2,2);
-				double currX = scope.getX()+scope.getImage().getWidth()/2;
-				double currY = scope.getY()+scope.getImage().getHeight()/2;
-				scale.setPivotX(currX);
-				scale.setPivotY(currY);
-				thisLevel.getTransforms().add(scale);
-				scope.setScaleX(0.5);
-				scope.setScaleY(0.5);
-				scope.moveTo(currX, currY);
-			}
-			if(event.getText().equals("-"))
-			{
-				double currX = scope.getX()+scope.getImage().getWidth()/2;
-				double currY = scope.getY()+scope.getImage().getHeight()/2;
-				Scale scale = new Scale(0.5,0.5);
-				scale.setPivotX(currX);
-				scale.setPivotY(currY);
-				thisLevel.getTransforms().add(scale);
-				scope.setScaleX(1);
-				scope.setScaleY(1);
+			if (event.getCode() == KeyCode.Z) {
+				if (!isZoomedIn)
+				{
+					isZoomedIn = true;
+					lastPivotX = scope.getX()+scope.getImage().getWidth()/2;
+					lastPivotY = scope.getY()+scope.getImage().getHeight()/2;
+					ZOOM_IN_SCALE.setPivotX(lastPivotX);
+					ZOOM_IN_SCALE.setPivotY(lastPivotY);
+					thisLevel.getTransforms().add(ZOOM_IN_SCALE);
+					scope.setScaleX(0.5);
+					scope.setScaleY(0.5);
+					lastPivotX = scope.getX()+scope.getImage().getWidth()/2;
+					lastPivotY = scope.getY()+scope.getImage().getHeight()/2;
+					
+				}
+				else
+				{
+					isZoomedIn = false;
+					thisLevel.getTransforms().remove(ZOOM_IN_SCALE);
+					scope.setScaleX(1);
+					scope.setScaleY(1);
+					scope.move(currX - lastPivotX, currY - lastPivotY); // calibrate the scope
+				}
 			}
 		}
 	}

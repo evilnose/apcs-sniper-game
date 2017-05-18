@@ -69,7 +69,7 @@ public class Scope extends ImageView {
 		return resultingList;
 	}
 	
-	private void move(double dx, double dy) {
+	public void move(double dx, double dy) {
 		this.setX(this.getX() + dx);
 		this.setY(this.getY() + dy);
 	}
