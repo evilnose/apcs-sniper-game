@@ -16,7 +16,8 @@ public abstract class Hittable extends ImageView {
 	protected boolean isAlive;
 	protected boolean isStartled;
 	
-	public Hittable(boolean isTgt) {
+	public Hittable(boolean isTgt)
+	{
 		super();
 		
 		isTarget = isTgt;
@@ -24,7 +25,8 @@ public abstract class Hittable extends ImageView {
 		isStartled = false;
 	}
 
-	public Hittable(boolean isTgt, Image img) {
+	public Hittable(boolean isTgt, Image img) 
+	{
 		super(img);
 		
 		isTarget = isTgt;

@@ -1,5 +1,6 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 public class Sitter extends Hittable {
 	
@@ -16,6 +17,8 @@ public class Sitter extends Hittable {
 		dx = 0;
 		dy = 0;
 		this.setHitboxCircle(200, 40, 17);
+		if(!isTarget)
+			hitbox.setStroke(Color.BLACK);
 	}
 	
 	public void shot() {

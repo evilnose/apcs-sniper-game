@@ -1,5 +1,6 @@
 
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class Tester extends Hittable 
 {
@@ -12,6 +13,9 @@ public class Tester extends Hittable
 		setHitboxCircle(47.5, 20, 20);
 		dx = 2;
 		dy = 0;
+
+		if(!isTarget)
+			hitbox.setStroke(Color.BLACK);
 	}
 
 	@Override
