@@ -4,10 +4,8 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -16,7 +14,6 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 /*
@@ -32,7 +29,7 @@ public class SniperGame extends Application
 
 	
 	public static void main(String args[]) {
-		launch(); // I have failed to move this into its own driver classes. You guys are welcome to try.
+		launch(); 
 	}
 
 	@Override
@@ -45,12 +42,11 @@ public class SniperGame extends Application
 		
 		
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 800, 500); // The Golden Ratio
+		Scene scene = new Scene(root, 800, 500);
 		
 		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/start_background.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
 		root.setBackground(new Background(myBI));
-		
 		
 		Button startGameButton = new Button();
 		startGameButton.setText("Start");

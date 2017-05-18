@@ -42,7 +42,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	protected Scope scope;
 	private Level thisLevel;
 	private MyEventHandler evHan;
-	private Cursor MY_CURSOR = Cursor.DEFAULT;
+	private final Cursor LEVEL_SCREEN_CURSOR = Cursor.DEFAULT;
+	private final Cursor SCOPE_CURSOR = Cursor.NONE;
+	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
+	private final String LEVEL_FAILED_FONT = "Candara";
+	private final double ZOOM_SCALE = 2.0;
 
 	public Level(int numLevel) 
 	{
@@ -65,28 +69,28 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			@Override
 			public void handle(long now) 
 			{
-				for(int i = 0;i<civilians.size();i++)
+				for(int i = 0;i < civilians.size(); i++)
 				{
 					Hittable h = civilians.get(i);
 					h.act(now);
 					if(civilians.contains(h)==false)
 						i--;
 				}
-				for(int i = 0;i<targets.size();i++)
+				for(int i = 0; i < targets.size(); i++)
 				{
 					Hittable h = targets.get(i);
 					h.act(now);
-					if(targets.contains(h)==false)
+					if (targets.contains(h) == false)
 						i--;
 				}
 				act(now);
 			}
 
 		};
-
+		
 		scope = new Scope();
 		addScope(scope);
-		this.setCursor(Cursor.NONE);
+		this.setCursor(SCOPE_CURSOR);
 	}
 
 
@@ -95,14 +99,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		if(isWon())
 		{
 			thisLevel.stop();
-			thisLevel.setCursor(MY_CURSOR);
+			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayWinMessage();
 			return;
 		}
 		if (isLost()) {
 			thisLevel.stop();
-			thisLevel.setCursor(MY_CURSOR);
+			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayLostMessage();
 			return;
@@ -113,8 +117,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		Stage lvlStage = new Stage();
 
 	}
-
-
+	
 	public void activateCustomBackground(Image background) {
 		BackgroundImage myBI = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
@@ -173,7 +176,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		Text t = new Text("MISSION\n       "+ getLevelNumber() + " \nFAILED");
 		t.setFill(Color.WHITE);
-		t.setFont(Font.font("Monospaced Bold", FontWeight.BOLD, 35));
+		t.setFont(Font.font(LEVEL_FAILED_FONT, FontWeight.BOLD, 15));
 
 		ImageView img = new ImageView(new Image("file:sprites/lose.gif"));
 
@@ -302,10 +305,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		@Override
 		public void handle(MouseEvent event)
 		{
-			if(event.getEventType()==MouseEvent.MOUSE_PRESSED)
+			if (event.getEventType() == MouseEvent.MOUSE_PRESSED)
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
+					scope.displayRecoil();
 					if (remainingBullets > 0) {
 						scope.shoot();
 						remainingBullets--;
@@ -314,7 +318,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					}
 				}	
 			}
-			else if(event.getEventType()==MouseEvent.MOUSE_MOVED)
+			else if (event.getEventType() == MouseEvent.MOUSE_MOVED)
 			{
 				scope.moveTo(event.getX(), event.getY());
 			}
