@@ -39,7 +39,7 @@ public class Scope extends ImageView {
 	public void shoot() {
 		if (canShoot) {
 			displayRecoil();
-			Hittable victim = getOneShotHittable(this.getX() + SCOPE.getWidth() / 2, this.getY() + SCOPE.getHeight() / 2);
+			Hittable victim = getOneShotHittable(Math.abs(this.getX()) + SCOPE.getWidth() / 2,Math.abs( this.getY()) + SCOPE.getHeight() / 2);
 			if (victim != null)
 				victim.shot();
 			List<Hittable> list = this.getLevel().getObjects(Hittable.class);
@@ -51,12 +51,12 @@ public class Scope extends ImageView {
 	}
 	
 	private Hittable getOneShotHittable(double x, double y) {
-		System.out.println(x+" "+y);
 		List<Hittable> list = this.getLevel().getObjects(Hittable.class);
 		for (int i = list.size() - 1; i >= 0; i--) {
-			System.out.println(list.get(i).getX()+" "+list.get(i).getY());
 			if (list.get(i).getHitbox().contains(x, y))
+			{
 				return list.get(i);
+			}
 		}
 		return null;
 	}
