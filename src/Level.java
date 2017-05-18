@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -20,6 +21,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -45,7 +47,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private final Cursor SCOPE_CURSOR = Cursor.NONE;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
-	private final double ZOOM_SCALE = 2.0;
 
 	public Level(int numLevel) 
 	{
@@ -169,7 +170,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	{
 		Stage message = new Stage();
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 600, 650);
+		Scene scene = new Scene(root, 800, 541);
 		message.setTitle("You Lose!");
 		message.setResizable(false);
 
@@ -179,17 +180,16 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		ImageView img = new ImageView(new Image("file:sprites/lose.gif"));
 
-		HBox hb = new HBox();
+		VBox vb = new VBox();
 		Button exit = new Button("Exit");
 		Button restart = new Button("Retry Level");
-		HBox.setMargin(exit,new Insets(10,10,10,10));
-		HBox.setMargin(restart,new Insets(10,10,10,10));
-		hb.getChildren().addAll(exit, restart);
+		VBox.setMargin(t,new Insets(0,10,10,10));
+		VBox.setMargin(exit,new Insets(10,10,10,10));
+		VBox.setMargin(restart,new Insets(10,10,10,10));
+		vb.getChildren().addAll(t,exit, restart);
 
 		root.setLeft(img);
-		root.setRight(t);
-
-		root.setBottom(hb);
+		root.setRight(vb);
 
 		root.setStyle("-fx-background-color: #24ff21;");
 
@@ -333,19 +333,16 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		@Override
 		public void handle(KeyEvent event) 
 		{
-			if(event.getText().equals("Z")||event.getText().equals("z"))
+			if(event.getCode() == KeyCode.Z)
 			{
+				Scale scale = new Scale();
 				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
 				double currY = scope.getY()+Scope.SCOPE_HEIGHT/2;
-				Scale scale = new Scale(2,2);
 				scale.setPivotX(currX);
 				scale.setPivotY(currY);
 				thisLevel.getTransforms().add(scale);
-				thisLevel.getChildren().remove(scope);
-				scope = new Scope();
-				scope.setX(currX);
-				scope.setX(currY);
-				addScope(scope);
+				scope.getTransforms().remove(scale);
+				scope.getTransforms().add(scale);
 			}
 		}
 	}
