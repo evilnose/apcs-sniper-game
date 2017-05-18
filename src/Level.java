@@ -333,7 +333,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		@Override
 		public void handle(KeyEvent event) 
 		{
-			if(event.getCode() == KeyCode.Z)
+			if(event.getText().equals("+"))
 			{
 				Scale scale = new Scale();
 				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
@@ -341,8 +341,23 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				scale.setPivotX(currX);
 				scale.setPivotY(currY);
 				thisLevel.getTransforms().add(scale);
-				scope.getTransforms().remove(scale);
-				scope.getTransforms().add(scale);
+				Scale scale1 = new Scale(0.5,0.5);
+				scale1.setPivotX(currX);
+				scale1.setPivotY(currY);
+				scope.getTransforms().add(scale1);
+			}
+			if(event.getText().equals("-"))
+			{
+				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
+				double currY = scope.getY()+Scope.SCOPE_HEIGHT/2;
+				Scale scale = new Scale(0.5,0.5);
+				scale.setPivotX(currX);
+				scale.setPivotY(currY);
+				thisLevel.getTransforms().add(scale);
+				Scale scale1 = new Scale(2,2);
+				scale1.setPivotX(currX);
+				scale1.setPivotY(currY);
+				scope.getTransforms().add(scale1);
 			}
 		}
 	}
