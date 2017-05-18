@@ -159,9 +159,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 
 	private boolean isLost() {
-		if(civilians.size()<numCivilians||remainingBullets<0)
-			return true;
-		else
+//		if(civilians.size()<numCivilians||remainingBullets<0)
+//			return true;
+//		else
 			return false;
 
 	}

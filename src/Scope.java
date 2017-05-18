@@ -51,8 +51,10 @@ public class Scope extends ImageView {
 	}
 	
 	private Hittable getOneShotHittable(double x, double y) {
+		System.out.println(x+" "+y);
 		List<Hittable> list = this.getLevel().getObjects(Hittable.class);
 		for (int i = list.size() - 1; i >= 0; i--) {
+			System.out.println(list.get(i).getX()+" "+list.get(i).getY());
 			if (list.get(i).getHitbox().contains(x, y))
 				return list.get(i);
 		}
