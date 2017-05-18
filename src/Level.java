@@ -335,13 +335,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		{
 			if(event.getText().equals("+"))
 			{
-				Scale scale = new Scale();
+				Scale scale = new Scale(2,2);
 				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
 				double currY = scope.getY()+Scope.SCOPE_HEIGHT/2;
 				scale.setPivotX(currX);
 				scale.setPivotY(currY);
 				thisLevel.getTransforms().add(scale);
-				Scale scale1 = new Scale(0.5,0.5);
+				Scale scale1 = new Scale(0.5, 0.5);
 				scale1.setPivotX(currX);
 				scale1.setPivotY(currY);
 				scope.getTransforms().add(scale1);
