@@ -54,7 +54,7 @@ public class SniperGame extends Application
 		startGameButton.setStyle("-fx-background-color: transparent;");
 		startGameButton.setOnAction(new startGameHandler());
 		
-		root.setMargin(startGameButton,new Insets(100,250,50,50));
+		BorderPane.setMargin(startGameButton,new Insets(100,250,50,50));
 		root.setRight(startGameButton);
 		
 		homeScreen.setScene(scene);

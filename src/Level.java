@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -46,7 +47,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private final Cursor SCOPE_CURSOR = Cursor.NONE;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
-	private final double ZOOM_SCALE = 2.0;
 
 	public Level(int numLevel) 
 	{
@@ -335,13 +335,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		{
 			if(event.getText().equals("+"))
 			{
+				Scale scale = new Scale(2,2);
 				double currX = scope.getX()+Scope.SCOPE_WIDTH/2;
 				double currY = scope.getY()+Scope.SCOPE_HEIGHT/2;
-				Scale scale = new Scale(2,2);
 				scale.setPivotX(currX);
 				scale.setPivotY(currY);
 				thisLevel.getTransforms().add(scale);
-				Scale scale1 = new Scale(0.5,0.5);
+				Scale scale1 = new Scale(0.5, 0.5);
 				scale1.setPivotX(currX);
 				scale1.setPivotY(currY);
 				scope.getTransforms().add(scale1);
