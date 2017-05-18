@@ -6,8 +6,7 @@ public class LevelThree extends Level
 	{
 		super(numLevel);		
 		this.setDefaultBackgroundImage(new Image("file:sprites/level_three.jpg"));
-		Sitter r1 = new Sitter(true,2);
-//		Runner r1 = new Runner(true,2);
+		StreetRunner r1 = new StreetRunner(true,2);
 		addHittable(r1);
 		r1.setPos(500, 200);
 	}
