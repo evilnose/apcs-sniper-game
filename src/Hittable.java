@@ -1,7 +1,10 @@
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -15,6 +18,7 @@ public abstract class Hittable extends ImageView {
 
 	protected boolean isAlive;
 	protected boolean isStartled;
+	private int scale;
 	
 	public Hittable(boolean isTgt)
 	{
@@ -25,16 +29,31 @@ public abstract class Hittable extends ImageView {
 		isStartled = false;
 	}
 
-	public Hittable(boolean isTgt, Image img) 
+	public Hittable(boolean isTgt, Image img, int scale) 
 	{
 		super(img);
-		
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
 	}
 
 	public abstract void act(long now);
+	
+	protected void scale(double scale)
+	{
+		Circle circle = Circle.class.cast(hitbox);
+		Line l = new Line(circle.getCenterX(),circle.getCenterY(),circle.getCenterX(),circle.getCenterY());
+		l.setScaleX(scale);
+		l.setScaleY(scale);
+//		double orH = this.getImage().getHeight();
+//		double nH = orH - scale*orH;
+		this.setScaleX(scale);
+		this.setScaleY(scale);
+		this.setHitboxCircle(l.getStartX(),circle.getCenterY(),circle.getRadius());
+//		hitbox.setScaleX(scale);
+//		hitbox.setScaleY(scale);
+//		hitbox.relocate(circle.getCenterX(), nH);
+	}
 	
 	protected void setHitboxRect(double x, double y, double width, double height) {
 		hitbox = new Rectangle(x, y, width, height);

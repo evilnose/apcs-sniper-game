@@ -5,20 +5,20 @@ public class LevelTwo extends Level
 
 	public LevelTwo(int numLevel) {
 		super(numLevel);
-		Tester tester1 = new Tester(false);
+		Tester tester1 = new Tester(false,1);
 		addHittable(tester1);
 		tester1.setPos(200, 350);
 		
-		Tester tester2 = new Tester(true);
+		Tester tester2 = new Tester(true,0.5);
 		addHittable(tester2);
 		tester2.setPos(450, 350);
 		
-		Tester tester3 =new Tester(false); // we can add more tester or runners here because they should be
+		Tester tester3 =new Tester(false,1); // we can add more tester or runners here because they should be
 		                                 //     distracting from the target that are sitting
 		addHittable(tester3);
 		tester3.setPos(550, 350);
 		
-		Sitter sitter1 = new Sitter(false);
+		Sitter sitter1 = new Sitter(false,1);
 		addHittable(sitter1);
 		sitter1.setPos(550,100);
 		

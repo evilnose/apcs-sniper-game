@@ -4,18 +4,18 @@ import javafx.scene.paint.Color;
 
 public class Tester extends Hittable 
 {
-	private Image img = new Image("file:sprites/stick man.gif");
+	private static Image img = new Image("file:sprites/stick man.gif");
 
-	public Tester(boolean isTarget)
+	public Tester(boolean isTarget,double scale)
 	{
 		super(isTarget);
 		setImage(img);
-		setHitboxCircle(47.5, 20, 20);
 		dx = 2;
 		dy = 0;
-
+		setHitboxCircle(47.5, 20, 20);
 		if(!isTarget)
 			hitbox.setStroke(Color.BLACK);
+		//this.scale(scale);
 	}
 
 	@Override
