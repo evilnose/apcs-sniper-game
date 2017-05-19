@@ -45,7 +45,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Level thisLevel;
 	private MyEventHandler evHan;
 	private final Cursor LEVEL_SCREEN_CURSOR = Cursor.DEFAULT;
-	private final Cursor SCOPE_CURSOR = Cursor.DEFAULT;
+	private final Cursor SCOPE_CURSOR = Cursor.NONE;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
 	private boolean isZoomedIn;
@@ -179,7 +179,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		t.setFill(Color.WHITE);
 		t.setFont(Font.font(LEVEL_FAILED_FONT, FontWeight.BOLD, 15));
 
-		ImageView img = new ImageView(new Image("file:sprites/lose.gif"));
+		ImageView img = new ImageView(new Image("file:sprites/indicators/lose.gif"));
 
 		VBox vb = new VBox();
 		Button exit = new Button("Exit");
@@ -213,7 +213,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		t.setFill(Color.WHITE);
 		t.setFont(Font.font("Monospaced Bold", FontWeight.BOLD, 35));
 
-		ImageView img = new ImageView(new Image("file:sprites/win.gif"));
+		ImageView img = new ImageView(new Image("file:sprites/indicators/win.gif"));
 
 		HBox hb = new HBox();
 		Button next = new Button("Next Level");

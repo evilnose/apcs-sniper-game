@@ -17,7 +17,7 @@ public class LevelOne extends Level
 //		Tester tester3=new Tester(false);
 //		addHittable(tester3);
 //		tester3.setPos(550, 350);
-		this.setDefaultBackgroundImage(new Image("file:sprites/old buildings.jpeg"));
+		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/old buildings.jpeg"));
 	}
 
 	@Override

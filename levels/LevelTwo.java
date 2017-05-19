@@ -22,7 +22,7 @@ public class LevelTwo extends Level
 		addHittable(sitter1);
 		sitter1.setPos(550,100);
 		
-		this.setDefaultBackgroundImage(new Image("file:sprites/cafe.jpg"));
+		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/cafe.jpg"));
 	}
 
 	@Override

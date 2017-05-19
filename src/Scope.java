@@ -11,15 +11,13 @@ public class Scope extends ImageView {
 	private Scope thisScope;
 	private Color RIM_COLOR = Color.RED;
 	private int RIM_WIDTH = 2;
-	private static final Image SCOPE = new Image("file:sprites/redscope_framed.png");
+	private static final Image SCOPE = new Image("file:sprites/scopes/redscope_framed.png");
 	public static final double SCOPE_WIDTH = SCOPE.getWidth();
 	public static final double SCOPE_HEIGHT = SCOPE.getHeight();
-	private AnimationTimer recoilTimer;
-	private AnimationTimer reloadTimer;
-	private long startTime;
-	private final long RECOIL_MOVE_UP_TIME = 1000;
-	private final long RECOIL_MOVE_DOWN_TIME = 1500;
-	private final double RECOIL_CONSTANT = 2000;
+	private boolean isInCooldown;
+	private long readyTime;
+	private final long RECOIL_TIME = 1000;
+	private final long RELOAD_TIME = 2000;
 	private boolean canShoot;
 	private final double MAX_SHAKE_DISTANCE = 3;
 	private final double MAX_SHAKE_SPEED = 0.1;
@@ -33,14 +31,6 @@ public class Scope extends ImageView {
 		super(SCOPE);
 		thisScope = this;
 		canShoot = true;
-		recoilTimer = new AnimationTimer() {
-
-			@Override
-			public void handle(long now) {
-				// TODO
-			}
-			
-		};
 		
 		shakeSpeed = MAX_SHAKE_SPEED;
 		movingUp = true;
@@ -97,6 +87,14 @@ public class Scope extends ImageView {
 	}
 	
 	public void act(long now) {
+		breathe();
+		if (isInCooldown) {
+			if (System.currentTimeMillis() >= readyTime)
+				this.setImage(SCOPE);
+		}
+	}
+	
+	public void breathe() {
 		if (movingUp) {
 			if (getDy() >= MAX_SHAKE_DISTANCE) {
 				shakeSpeed = -shakeSpeed;
@@ -148,11 +146,13 @@ public class Scope extends ImageView {
 	}
 	
 	public void displayRecoil(){
-		startTime = System.currentTimeMillis();
-		recoilTimer.start();
+		isInCooldown = true;
+		readyTime = System.currentTimeMillis() + RECOIL_TIME;
+		this.setImage(new Image("**insert recoil gif here**")); // TODO
 	}
 	public void displayReload(){
-		
+		isInCooldown = true;
+		readyTime = System.currentTimeMillis() + RELOAD_TIME;
 	}
 	
 }
