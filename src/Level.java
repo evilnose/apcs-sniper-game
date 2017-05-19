@@ -45,7 +45,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Level thisLevel;
 	private MyEventHandler evHan;
 	private final Cursor LEVEL_SCREEN_CURSOR = Cursor.DEFAULT;
-	private final Cursor SCOPE_CURSOR = Cursor.NONE;
+	private final Cursor SCOPE_CURSOR = Cursor.DEFAULT;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
 	private boolean isZoomedIn;
@@ -365,7 +365,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					thisLevel.getTransforms().remove(ZOOM_IN_SCALE);
 					scope.setScaleX(1);
 					scope.setScaleY(1);
-					scope.move(currX - lastPivotX, currY - lastPivotY); // calibrate the scope
+					scope.move(scope.getX()+scope.getImage().getWidth()/2 - lastPivotX, scope.getY()+scope.getImage().getHeight()/2 - lastPivotY); // calibrate the scope
 				}
 			}
 		}

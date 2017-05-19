@@ -27,6 +27,7 @@ public class Scope extends ImageView {
 	private final double ACCELERATION_FACTOR = 50;
 	private boolean movingUp;
 	private boolean initialSetup = true;
+	private double dy;
 	
 	public Scope() {
 		super(SCOPE);
@@ -90,7 +91,7 @@ public class Scope extends ImageView {
 			initialSetup = false;
 		}
 		else {
-			this.setX(x - thisScope.getImage().getWidth() / 2 + getDx());
+			this.setX(x - thisScope.getImage().getWidth() / 2);
 			this.setY(y - thisScope.getImage().getHeight() / 2 + getDy());
 		}
 	}
@@ -116,15 +117,12 @@ public class Scope extends ImageView {
 				shakeSpeed -= MAX_SHAKE_SPEED / ACCELERATION_FACTOR;
 		}
 		
+		dy += shakeSpeed;
 		move(0, shakeSpeed);
 	}
 	
-	private double getDx() {
-		return this.getX() + this.getImage().getWidth() / 2 - this.getLevel().getMouseX();
-	}
-	
 	private double getDy() {
-		return this.getY() + this.getImage().getHeight() / 2 - this.getLevel().getMouseY();
+		return dy;
 	}
 
 //	private int getRandomDirection() {
