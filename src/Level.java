@@ -45,14 +45,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Level thisLevel;
 	private MyEventHandler evHan;
 	private final Cursor LEVEL_SCREEN_CURSOR = Cursor.DEFAULT;
-	private final Cursor SCOPE_CURSOR = Cursor.DEFAULT;
+	private final Cursor SCOPE_CURSOR = Cursor.NONE;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
 	private boolean isZoomedIn;
-	private double lastPivotX;
-	private double lastPivotY;
+	private double lastPivotX, lastPivotY;
 	private final Scale ZOOM_IN_SCALE = new Scale(2.0, 2.0);
-	private double startX, startY;
 	private double currX, currY;
 
 	public Level(int numLevel) 
@@ -71,33 +69,28 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		numMaxBullets = 10; // Default value
 		remainingBullets = numMaxBullets;
+		scope = new Scope();
+		addScope(scope);
+		this.setCursor(SCOPE_CURSOR);
 		timer = new AnimationTimer() {
+			
 
 			@Override
 			public void handle(long now) 
 			{
-				for(int i = 0;i < civilians.size(); i++)
+				for(Hittable h : civilians)
 				{
-					Hittable h = civilians.get(i);
 					h.act(now);
-					if(civilians.contains(h)==false)
-						i--;
 				}
-				for(int i = 0; i < targets.size(); i++)
+				for(Hittable h : targets)
 				{
-					Hittable h = targets.get(i);
 					h.act(now);
-					if (targets.contains(h) == false)
-						i--;
 				}
+				scope.act(now);
 				act(now);
 			}
 
 		};
-		
-		scope = new Scope();
-		addScope(scope);
-		this.setCursor(SCOPE_CURSOR);
 		isZoomedIn = false;
 	}
 
@@ -261,6 +254,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	public int getLevelNumber(){
 		return levelNumber;
+	}
+	
+	public double getMouseX() {
+		return currX;
+	}
+	
+	public double getMouseY() {
+		return currY;
 	}
 
 	protected void addHittable(Hittable h) {

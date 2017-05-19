@@ -21,6 +21,12 @@ public class Scope extends ImageView {
 	private final long RECOIL_MOVE_DOWN_TIME = 1500;
 	private final double RECOIL_CONSTANT = 2000;
 	private boolean canShoot;
+	private final double MAX_SHAKE_DISTANCE = 3;
+	private final double MAX_SHAKE_SPEED = 0.1;
+	private double shakeSpeed;
+	private final double ACCELERATION_FACTOR = 50;
+	private boolean movingUp;
+	private boolean initialSetup = true;
 	
 	public Scope() {
 		super(SCOPE);
@@ -34,6 +40,9 @@ public class Scope extends ImageView {
 			}
 			
 		};
+		
+		shakeSpeed = MAX_SHAKE_SPEED;
+		movingUp = true;
 	}
 	
 	public void shoot() {
@@ -74,10 +83,67 @@ public class Scope extends ImageView {
 		this.setY(this.getY() + dy);
 	}
 	
-	public void moveTo(double x, double y){
-		this.setX(x - thisScope.getImage().getWidth() / 2);
-		this.setY(y - thisScope.getImage().getHeight() / 2);
+	public void moveTo(double x, double y) {
+		if (initialSetup) {
+			this.setX(x - thisScope.getImage().getWidth() / 2);
+			this.setY(y - thisScope.getImage().getHeight() / 2);
+			initialSetup = false;
+		}
+		else {
+			this.setX(x - thisScope.getImage().getWidth() / 2 + getDx());
+			this.setY(y - thisScope.getImage().getHeight() / 2 + getDy());
+		}
 	}
+	
+	public void act(long now) {
+		if (movingUp) {
+			if (getDy() >= MAX_SHAKE_DISTANCE) {
+				shakeSpeed = -shakeSpeed;
+				movingUp = false;
+			}
+			else if (getDy() > 0)
+				shakeSpeed -= MAX_SHAKE_SPEED / ACCELERATION_FACTOR;
+			else
+				shakeSpeed += MAX_SHAKE_SPEED / ACCELERATION_FACTOR;
+		} else {
+			if (getDy() <= - MAX_SHAKE_DISTANCE) {
+				shakeSpeed = -shakeSpeed;
+				movingUp = true;
+			}
+			else if (getDy() < 0)
+				shakeSpeed += MAX_SHAKE_SPEED / ACCELERATION_FACTOR;
+			else 
+				shakeSpeed -= MAX_SHAKE_SPEED / ACCELERATION_FACTOR;
+		}
+		
+		move(0, shakeSpeed);
+	}
+	
+	private double getDx() {
+		return this.getX() + this.getImage().getWidth() / 2 - this.getLevel().getMouseX();
+	}
+	
+	private double getDy() {
+		return this.getY() + this.getImage().getHeight() / 2 - this.getLevel().getMouseY();
+	}
+
+//	private int getRandomDirection() {
+//		double mouseX = this.getLevel().getMouseX();
+//		double mouseY = this.getLevel().getMouseY();
+//		double actualX = this.getX() + this.getImage().getWidth() / 2;
+//		double actualY = this.getY() + this.getImage().getHeight() / 2;
+//		ArrayList<Integer> directions = new ArrayList<Integer>(); // 0 = UP, 1 = DOWN, 2 = RIGHT, 3 = LEFT
+//		if (actualY - mouseY < MAX_SHAKE_DISTANCE) // can move UP
+//			directions.add(new Integer(0));
+//		if (mouseY  - actualY < MAX_SHAKE_DISTANCE) // can move DOWN
+//			directions.add(new Integer(1));
+////		if (actualX - mouseX < MAX_SHAKE_DISTANCE) // can move RIGHT
+////			directions.add(new Integer(2));
+////		if (mouseX - actualX < MAX_SHAKE_DISTANCE) // can move LEFT
+////			directions.add(new Integer(3));		 
+//		int dirIndex = (int)(Math.random() * directions.size());
+//		return directions.get(dirIndex);
+//	}
 	
 	private Level getLevel() {
 		return (Level)getParent();
