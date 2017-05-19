@@ -2,15 +2,17 @@ import javafx.scene.image.Image;
 
 public class StreetRunner extends Runner
 {
-	int scale = 1;
+	private double scale;
+	int count = 0;
 	private static Image img = new Image("file:sprites/stick man.gif");
 	public StreetRunner(boolean isTarget, double scale)
 	{
 		super(isTarget, scale);
-		dx = 0;
-		dy = 0;
+		this.scale = scale;
+		dx = 1.5;
+		dy = -1;
 	}
-	
+
 	@Override
 	public void act(long now) 
 	{ 
@@ -20,9 +22,11 @@ public class StreetRunner extends Runner
 			Level lev = (Level) this.getParent();
 			lev.removeHittable(this);
 		}
-		this.scale(scale--);
+		count++;
+		if(count%100==0)
+			this.scale(0.5);
 	}
-	
+
 	@Override
 	public void startle() {
 		if (!isStartled && isAlive)

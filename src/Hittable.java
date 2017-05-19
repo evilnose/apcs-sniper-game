@@ -18,7 +18,7 @@ public abstract class Hittable extends Group
 	protected boolean isAlive;
 	protected boolean isStartled;
 
-	protected int dx;
+	protected double dx;
 	protected int dy;
 
 	private double scale;
