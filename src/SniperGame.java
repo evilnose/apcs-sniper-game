@@ -1,4 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -29,15 +34,17 @@ public class SniperGame extends Application
 	private static Stage lvlScreen;
 	private static Scene scene;
 	private static Level currLevel;
-
+	private static ArrayList<Boolean> levelsPassed;
 	
 	public static void main(String args[]) {
 		launch(); 
 	}
 
 	@Override
-	public void start(Stage homeScreen) {
+	public void start(Stage homeScreen) 
+	{
 		loadLevels();
+		fillLevelsPassed();
 		
 		homeScreen.setTitle("Sniper Game Alpha"); // TODO This Name is tentative. Need a cooler one.
 		homeScreen.setResizable(false);
@@ -120,10 +127,33 @@ public class SniperGame extends Application
 		}
 	}
 
-
+	private void fillLevelsPassed() 
+	{
+		levelsPassed = new ArrayList<Boolean>();
+		File f = new File("level_info.txt");
+		try
+		{
+			Scanner s = new Scanner(f);
+			while(s.hasNextInt())
+			{
+				boolean b = s.nextInt()==0?false:true;
+				levelsPassed.add(b);
+			}
+		} 
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public static void setLevelPassed(int levelNum, boolean passed)
+	{
+		levelsPassed.set(levelNum,passed);
+	}
+	
 	private void openMap() 
 	{
-		Map map =  new Map(levels);
+		Map map =  new Map(levels,levelsPassed);
 		Stage mapScreen = new Stage();
 		mapScreen.setResizable(true);
 		
@@ -143,4 +173,25 @@ public class SniperGame extends Application
 		
 	}
 
+	public static void setClosingState() 
+	{
+		FileWriter fw;
+		try 
+		{
+			fw = new FileWriter("level_info.txt");
+			for(Boolean b : levelsPassed)
+			{
+				if(b==true)
+					fw.write("1\r\n");
+				else
+					fw.write("0\r\n");
+			}
+			fw.close();
+		} 
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

@@ -1,7 +1,10 @@
 import java.awt.MouseInfo;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -79,6 +82,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 
+		
 		locImage = new ImageView(new Image("file:sprites/level_"+levelNumber+"_loc.png"));
 		
 		numMaxBullets = 10; // Default value
@@ -108,6 +112,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		isZoomedIn = false;
 		zoomer = new ZoomHandler();
 	}
+
+
+
 
 
 	private void act(long now) 
@@ -374,6 +381,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		{
 			if(event.getSource().equals(exit))
 			{
+				SniperGame.setLevelPassed(levelNumber-1, false);
+				SniperGame.setClosingState();
 				loseScreen.close();
 				System.exit(0);
 			}
@@ -385,6 +394,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			else if(event.getSource().equals(next))
 			{
+				SniperGame.setLevelPassed(levelNumber-1, true);
 				winScreen.close();
 				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber + 1; change before finishing
 			}
