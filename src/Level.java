@@ -386,7 +386,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			else if(event.getSource().equals(next))
 			{
 				winScreen.close();
-				SniperGame.startLevel(levelNumber);
+				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber + 1; change before finishing
 			}
 		}
 		

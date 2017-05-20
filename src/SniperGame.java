@@ -80,6 +80,7 @@ public class SniperGame extends Application
 			currLevel.stop();
 			restart();
 		}
+		
 		if (lvlScreen != null) {
 			lvlScreen.close();
 		}
