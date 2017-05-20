@@ -44,7 +44,7 @@ public class SniperGame extends Application
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 800, 500);
 		
-		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/start_background.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/start_background.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
 		root.setBackground(new Background(myBI));
 		

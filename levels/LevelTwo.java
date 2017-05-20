@@ -21,8 +21,7 @@ public class LevelTwo extends Level
 		Sitter sitter1 = new Sitter(false,0.5);
 		addHittable(sitter1);
 		sitter1.setPos(550,100);
-		
-		this.setDefaultBackgroundImage(new Image("file:sprites/level_two.jpg"));
+		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_two.jpg"));
 	}
 
 	@Override

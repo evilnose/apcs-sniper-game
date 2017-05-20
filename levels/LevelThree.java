@@ -4,9 +4,9 @@ public class LevelThree extends Level
 {
 	public LevelThree(int numLevel) 
 	{
-		super(numLevel);
-		this.setDefaultBackgroundImage(new Image("file:sprites/level_three.jpg"));
-		StreetRunner r1 = new StreetRunner(true,1);
+		super(numLevel);		
+		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_three.jpg"));
+		StreetRunner r1 = new StreetRunner(true,2);
 		addHittable(r1);
 		r1.setPos(100, 350);
 	}

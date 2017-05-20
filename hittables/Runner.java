@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 public class Runner extends Hittable 
 {
-	private static Image img = new Image("file:sprites/stick man.gif");
+	private static Image img = new Image("file:sprites/hittables/stick man.gif");
 
 	public Runner(boolean isTarget,double scale)
 	{
