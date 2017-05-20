@@ -35,7 +35,7 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 public abstract class Level extends Pane implements Comparable<Level> {
-
+	
 	private ArrayList<Hittable> targets;
 	private ArrayList<Hittable> civilians;
 	private int numCivilians;
@@ -52,20 +52,23 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private final Cursor SCOPE_CURSOR = Cursor.NONE;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
+	private ZoomHandler zoomer;
 	private boolean isZoomedIn;
 	private double lastPivotX, lastPivotY;
 	private final Scale ZOOM_IN_SCALE = new Scale(2.0, 2.0);
 	private double currX, currY;
 	private Button exit, restart, next;
-	private ButtonHandler b;
+	private ButtonHandler btnHandler;
 	private Stage winScreen, loseScreen;
 	private ImageView locImage;
+	private boolean isStarted;
 
 	public Level(Integer numLevel) 
 	{
 		// Use the "super" keyword in subclass constructors to invoke this.
 		super();
-		b = new ButtonHandler();
+		isStarted = false;
+		btnHandler = new ButtonHandler();
 		thisLevel = this;
 		evHan = new MyEventHandler();
 		thisLevel.setOnMousePressed(evHan);
@@ -103,6 +106,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		};
 		isZoomedIn = false;
+		zoomer = new ZoomHandler();
 	}
 
 
@@ -146,18 +150,26 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	public void pause()
 	{
-		this.stop();
+		timer.stop();
 		// TODO maybe add s'more later
 	}
 
 	public void start() {
-		thisLevel.getScene().setOnKeyPressed(new ZoomHandler());
+		isStarted = true;
+		thisLevel.getScene().setOnKeyPressed(zoomer);
 		numCivilians = civilians.size();
 		timer.start();
+	}
+	
+	public boolean isStarted() {
+		return isStarted;
 	}
 
 	public void stop() {
 		timer.stop();
+//		removeEventHandler(MouseEvent.MOUSE_PRESSED, evHan);
+//		removeEventHandler(MouseEvent.MOUSE_MOVED, evHan);
+//		removeEventHandler(KeyEvent.KEY_PRESSED, zoomer);
 	}
 
 	private boolean isWon() 
@@ -198,9 +210,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		VBox vb = new VBox();
 		exit = new Button("Exit");
-		exit.setOnMouseClicked(b);
+		exit.setOnMouseClicked(btnHandler);
 		restart = new Button("Retry Level");
-		//restart.setOnMouseClicked(b);
+		restart.setOnMouseClicked(btnHandler);
 		VBox.setMargin(t,new Insets(0,10,10,10));
 		VBox.setMargin(exit,new Insets(10,10,10,10));
 		VBox.setMargin(restart,new Insets(10,10,10,10));
@@ -235,7 +247,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		VBox vb = new VBox();
 		next = new Button("Next Level");
 		next.setPrefSize(125, 30);
-		next.setOnMouseClicked(b);
+		next.setOnMouseClicked(btnHandler);
 		vb.setMargin(next, new Insets(20,10,10,10));
 		vb.getChildren().addAll(t,next);
 
@@ -368,7 +380,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			else if(event.getSource().equals(restart))
 			{
 				loseScreen.close();
-				SniperGame.startLevel(levelNumber-1);
+				
+				SniperGame.startLevel(levelNumber - 1); // TODO should have been levelNumber; change before finishing
 			}
 			else if(event.getSource().equals(next))
 			{

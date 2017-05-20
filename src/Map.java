@@ -32,7 +32,7 @@ public class Map extends Pane
 		}
 	}
 	
-	public void activateCustomBackground() 
+	public void activateDefaultBackground() 
 	{
 		this.setBackground(new Background(img));
 		
@@ -51,7 +51,7 @@ public class Map extends Pane
 			int levelNum = 0;
 			for(Level l :levels)
 			{
-				if(l.getLocationImage().equals(img))
+				if(l.getLocationImage() == img)
 					break;
 				levelNum++;
 			}

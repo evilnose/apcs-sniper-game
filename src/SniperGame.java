@@ -26,6 +26,9 @@ public class SniperGame extends Application
 	private static ArrayList<Level> levels;
 	public static final int LEVEL_WIDTH = 1000;
 	public static final int LEVEL_HEIGHT = 600;
+	private static Stage lvlScreen;
+	private static Scene scene;
+	private static Level currLevel;
 
 	
 	public static void main(String args[]) {
@@ -72,17 +75,48 @@ public class SniperGame extends Application
 	
 	public static void startLevel(int lvlNum) 
 	{
-		Level currLevel = levels.get(lvlNum);
-		Stage lvlScreen = new Stage();
+		currLevel = levels.get(lvlNum);
+		if (currLevel.isStarted()) {
+			currLevel.stop();
+			restart();
+		}
+		if (lvlScreen != null) {
+			lvlScreen.close();
+		}
+		lvlScreen = new Stage();
 		lvlScreen.setTitle(currLevel.getName());
 		lvlScreen.setResizable(false);
 		
-		Scene scene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
+		if (scene == null)
+			scene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
+		else
+			scene.setRoot(currLevel);
+		
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
 		
 		currLevel.activateDefaultBackground();
 		currLevel.start();
+	}
+	
+	private static void restart() {
+		for (Level lvl : levels) {
+			if (lvl == currLevel) {
+				String className = currLevel.getClass().getName();
+				System.out.println(className);
+				int levelNum = currLevel.getLevelNumber();
+				switch(className) {
+				case "LevelTutorial": currLevel = new LevelTutorial(levelNum);
+				break;	
+				case "LevelOne": currLevel = new LevelOne(levelNum);
+				break;	
+				case "LevelTwo": currLevel = new LevelTwo(levelNum);
+				break;
+				case "LevelThree" : currLevel = new LevelThree(levelNum);
+				break;
+				}
+			}
+		}
 	}
 
 
@@ -95,7 +129,7 @@ public class SniperGame extends Application
 		Scene scene = new Scene(map,496,750);
 		mapScreen.setScene(scene);
 		mapScreen.show();
-		map.activateCustomBackground();
+		map.activateDefaultBackground();
 	}
 	
 	private class startGameHandler implements EventHandler<ActionEvent> {
