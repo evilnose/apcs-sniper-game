@@ -3,9 +3,9 @@ import javafx.scene.image.Image;
 public class LevelTwo extends Level 
 {
 
-	public LevelTwo(int numLevel) {
+	public LevelTwo(Integer numLevel) {
 		super(numLevel);
-		Runner tester1 = new Runner(false,0.5);
+		Runner tester1 = new Runner(false,1);
 		addHittable(tester1);
 		tester1.setPos(200, 350);
 		
@@ -22,7 +22,7 @@ public class LevelTwo extends Level
 		addHittable(sitter1);
 		sitter1.setPos(550,100);
 		
-		this.setDefaultBackgroundImage(new Image("file:sprites/cafe.jpg"));
+		this.setDefaultBackgroundImage(new Image("file:sprites/level_two.jpg"));
 	}
 
 	@Override

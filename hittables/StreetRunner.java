@@ -7,10 +7,11 @@ public class StreetRunner extends Runner
 	private static Image img = new Image("file:sprites/stick man.gif");
 	public StreetRunner(boolean isTarget, double scale)
 	{
+		//Line l = new Line()
 		super(isTarget, scale);
 		this.scale = scale;
-		dx = 1.5;
-		dy = -1;
+		dx = 1.8;
+		dy = -0.9;
 	}
 
 	@Override
@@ -22,9 +23,10 @@ public class StreetRunner extends Runner
 			Level lev = (Level) this.getParent();
 			lev.removeHittable(this);
 		}
-		count++;
-		if(count%100==0)
-			this.scale(0.5);
+//		count++;
+//		if(count%100==0)
+		scale-=0.00002;
+			this.scale(scale);
 	}
 
 	@Override

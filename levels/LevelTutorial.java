@@ -10,7 +10,7 @@ public class LevelTutorial extends Level
 		this.addHittable(tester);
 		tester.setPos(200, 350);
 		
-		this.setDefaultBackgroundImage(new Image("file:sprites/skyscrapers.jpg"));
+		this.setDefaultBackgroundImage(new Image("file:sprites/level_one.jpg"));
 		
 	}
 

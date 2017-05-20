@@ -1,4 +1,6 @@
 import java.awt.MouseInfo;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -6,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -22,6 +25,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -52,11 +56,16 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private double lastPivotX, lastPivotY;
 	private final Scale ZOOM_IN_SCALE = new Scale(2.0, 2.0);
 	private double currX, currY;
+	private Button exit, restart, next;
+	private ButtonHandler b;
+	private Stage winScreen, loseScreen;
+	private ImageView locImage;
 
-	public Level(int numLevel) 
+	public Level(Integer numLevel) 
 	{
 		// Use the "super" keyword in subclass constructors to invoke this.
 		super();
+		b = new ButtonHandler();
 		thisLevel = this;
 		evHan = new MyEventHandler();
 		thisLevel.setOnMousePressed(evHan);
@@ -67,6 +76,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 
+		locImage = new ImageView(new Image("file:sprites/level_"+levelNumber+"_loc.png"));
+		
 		numMaxBullets = 10; // Default value
 		remainingBullets = numMaxBullets;
 		scope = new Scope();
@@ -103,14 +114,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayWinMessage();
-			return;
 		}
 		if (isLost()) {
 			thisLevel.stop();
 			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.displayLostMessage();
-			return;
 		}
 	}
 
@@ -153,6 +162,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	private boolean isWon() 
 	{
+		for(Hittable h : targets)
+			if(h.isWithinBounds()==false)
+				return false;
 		if(numCivilians==civilians.size()&&targets!=null&&targets.size()==0&&remainingBullets>0)
 			return true;
 		else
@@ -160,6 +172,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 
 	private boolean isLost() {
+		for(Hittable h : targets)
+			if(h.isWithinBounds()==false)
+				return true;
 		if(civilians.size()<numCivilians||remainingBullets<0)
 			return true;
 		else
@@ -169,11 +184,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	protected void displayLostMessage()
 	{
-		Stage message = new Stage();
+		loseScreen = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 800, 541);
-		message.setTitle("You Lose!");
-		message.setResizable(false);
+		loseScreen.setTitle("You Lose!");
+		loseScreen.setResizable(false);
 
 		Text t = new Text("MISSION\n       "+ getLevelNumber() + " \nFAILED");
 		t.setFill(Color.WHITE);
@@ -182,8 +197,10 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		ImageView img = new ImageView(new Image("file:sprites/lose.gif"));
 
 		VBox vb = new VBox();
-		Button exit = new Button("Exit");
-		Button restart = new Button("Retry Level");
+		exit = new Button("Exit");
+		exit.setOnMouseClicked(b);
+		restart = new Button("Retry Level");
+		//restart.setOnMouseClicked(b);
 		VBox.setMargin(t,new Insets(0,10,10,10));
 		VBox.setMargin(exit,new Insets(10,10,10,10));
 		VBox.setMargin(restart,new Insets(10,10,10,10));
@@ -194,20 +211,20 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		root.setStyle("-fx-background-color: #24ff21;");
 
-		message.setScene(scene);
+		loseScreen.setScene(scene);
 		HBox.setMargin(exit, new Insets(0,0,exit.getScene().getHeight() / 5,(exit.getScene().getWidth() - exit.getPrefWidth()) / 2));
 		HBox.setMargin(restart, new Insets(0,0,restart.getScene().getHeight() / 5,(restart.getScene().getWidth() - restart.getPrefWidth()) / 2));
-		message.setAlwaysOnTop(true);
-		message.show();
+		loseScreen.setAlwaysOnTop(true);
+		loseScreen.show();
 	}
 
 	protected void displayWinMessage() 
 	{
-		Stage message = new Stage();
+		winScreen = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 650, 270);
-		message.setTitle("You Win!");
-		message.setResizable(false);
+		winScreen.setTitle("You Win!");
+		winScreen.setResizable(false);
 
 		Text t = new Text("MISSION\n       "+ getLevelNumber() + " \nPASSED");
 		t.setFill(Color.WHITE);
@@ -215,21 +232,22 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		ImageView img = new ImageView(new Image("file:sprites/win.gif"));
 
-		HBox hb = new HBox();
-		Button next = new Button("Next Level");
+		VBox vb = new VBox();
+		next = new Button("Next Level");
 		next.setPrefSize(125, 30);
-		hb.getChildren().addAll(next);
+		next.setOnMouseClicked(b);
+		vb.setMargin(next, new Insets(20,10,10,10));
+		vb.getChildren().addAll(t,next);
 
 		root.setLeft(img);
-		root.setRight(t);
-		root.setBottom(hb);
+		root.setRight(vb);
 
 		root.setStyle("-fx-background-color: #24ff21;");
 
-		message.setScene(scene);
+		winScreen.setScene(scene);
 		HBox.setMargin(next, new Insets(0,0,next.getScene().getHeight() / 5,(next.getScene().getWidth() - next.getPrefWidth()) / 2));
-		message.setAlwaysOnTop(true);
-		message.show();
+		winScreen.setAlwaysOnTop(true);
+		winScreen.show();
 	}
 
 	public double getWindSpeed(){
@@ -337,7 +355,35 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	}
 
-
+	private class ButtonHandler implements EventHandler<MouseEvent>
+	{
+		@Override
+		public void handle(MouseEvent event)
+		{
+			if(event.getSource().equals(exit))
+			{
+				loseScreen.close();
+				System.exit(0);
+			}
+			else if(event.getSource().equals(restart))
+			{
+				loseScreen.close();
+				SniperGame.startLevel(levelNumber-1);
+			}
+			else if(event.getSource().equals(next))
+			{
+				winScreen.close();
+				SniperGame.startLevel(levelNumber);
+			}
+		}
+		
+	}
+	
+	public ImageView getLocationImage()
+	{
+		return this.locImage;
+	}
+	
 	private class ZoomHandler implements EventHandler<KeyEvent> 
 	{
 

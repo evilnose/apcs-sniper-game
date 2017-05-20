@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 public class SniperGame extends Application 
 {
 	
-	private ArrayList<Level> levels;
+	private static ArrayList<Level> levels;
 	public static final int LEVEL_WIDTH = 1000;
 	public static final int LEVEL_HEIGHT = 600;
 
@@ -61,41 +61,49 @@ public class SniperGame extends Application
 		homeScreen.show();
 	}
 	
-	private void loadLevels() {
+	private void loadLevels()
+	{
 		levels = new ArrayList<Level>();
 		// Note: there cannot be two levels with the same level numbers
-		levels.add(new LevelTutorial(0));
 		levels.add(new LevelOne(1));
 		levels.add(new LevelTwo(2));
 		levels.add(new LevelThree(3));
 	}
 	
-	private void startLevel(int lvlNum) {
+	public static void startLevel(int lvlNum) 
+	{
 		Level currLevel = levels.get(lvlNum);
 		Stage lvlScreen = new Stage();
 		lvlScreen.setTitle(currLevel.getName());
 		lvlScreen.setResizable(false);
 		
-		Scene scene = new Scene(currLevel, LEVEL_WIDTH, LEVEL_HEIGHT);
+		Scene scene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
 		
 		currLevel.activateDefaultBackground();
 		currLevel.start();
 	}
+
+
+	private void openMap() 
+	{
+		Map map =  new Map(levels);
+		Stage mapScreen = new Stage();
+		mapScreen.setResizable(true);
+		
+		Scene scene = new Scene(map,496,750);
+		mapScreen.setScene(scene);
+		mapScreen.show();
+		map.activateCustomBackground();
+	}
 	
 	private class startGameHandler implements EventHandler<ActionEvent> {
 
 		@Override
-		public void handle(ActionEvent event) {
-			if (levels.size() != 0) {
-//				startLevel(0);
-//				startLevel(1);
-//				startLevel(2);
-				startLevel(3);
-			} else {
-				System.out.println("ERROR: no level loaded.");
-			}
+		public void handle(ActionEvent event)
+		{
+			openMap();
 		}
 		
 	}

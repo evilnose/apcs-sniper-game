@@ -19,7 +19,7 @@ public abstract class Hittable extends Group
 	protected boolean isStartled;
 
 	protected double dx;
-	protected int dy;
+	protected double dy;
 
 	private double scale;
 	
@@ -127,9 +127,9 @@ public abstract class Hittable extends Group
 
 	protected boolean isWithinBounds()
 	{
-		double x = this.getLayoutX();
-		double y = this.getLayoutY();
-		if(x<0||x>SniperGame.LEVEL_WIDTH||y<0||y>SniperGame.LEVEL_HEIGHT)
+		double x = person.getX();
+		double y = person.getY();
+		if(x+person.getImage().getWidth()<0||x>SniperGame.LEVEL_WIDTH||y+person.getImage().getHeight()<0||y>SniperGame.LEVEL_HEIGHT)
 			return false;
 		else
 			return true;

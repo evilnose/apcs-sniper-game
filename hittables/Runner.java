@@ -16,7 +16,7 @@ public class Runner extends Hittable
 		if(!isTarget)
 			hitbox.setStroke(Color.BLACK);
 	}
-
+	
 	@Override
 	public void act(long now) 
 	{ 
@@ -26,8 +26,9 @@ public class Runner extends Hittable
 		this.move(dx,dy);
 		if(this.isWithinBounds()==false)
 		{
-			Level lev = (Level) this.getParent();
-			lev.removeHittable(this);
+			dx = 0;
+//			Level lev = (Level) this.getParent();
+//			lev.removeHittable(this);
 		}
 	}
 	
