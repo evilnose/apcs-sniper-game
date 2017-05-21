@@ -348,7 +348,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					scope.displayRecoil();
 					if (remainingBullets > 0) {
 						scope.shoot();
 						remainingBullets--;

@@ -1,24 +1,25 @@
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
+import javafx.scene.image.WritableImage;
 
 public class Scope extends ImageView {
 	// Use Circle method getCenterX() and getCenterY() to get coordinates of crosshair.
-	private Scope thisScope;
-	private Color RIM_COLOR = Color.RED;
-	private int RIM_WIDTH = 2;
+	private final Scope thisScope;
 	private static final Image SCOPE = new Image("file:sprites/scopes/redscope_framed.png");
+	private final String RECOIL_URL = "file:sprites/scopes/recoil.gif";
+	private Image[] recoilSequence;
 	public static final double SCOPE_WIDTH = SCOPE.getWidth();
 	public static final double SCOPE_HEIGHT = SCOPE.getHeight();
 	private boolean isInCooldown;
 	private long readyTime;
-	private final long RECOIL_TIME = 1000;
+	private final long RECOIL_TIME = 800;
 	private final long RELOAD_TIME = 2000;
-	private boolean canShoot;
 	private final double MAX_SHAKE_DISTANCE = 3;
 	private final double MAX_SHAKE_SPEED = 0.1;
 	private double shakeSpeed;
@@ -26,18 +27,29 @@ public class Scope extends ImageView {
 	private boolean movingUp;
 	private boolean initialSetup = true;
 	private double dy;
+	private AnimationTimer timer;
 	
 	public Scope() {
 		super(SCOPE);
 		thisScope = this;
-		canShoot = true;
-		
+		isInCooldown = false;
 		shakeSpeed = MAX_SHAKE_SPEED;
 		movingUp = true;
+		GifDecoder gd = new GifDecoder();
+		gd.read(RECOIL_URL);
+		recoilSequence = new Image[gd.getFrameCount()];
+        for(int i=0; i < gd.getFrameCount(); i++) {
+
+            WritableImage wimg = null;
+            BufferedImage bimg = gd.getFrame(i);
+            recoilSequence[i] = SwingFXUtils.toFXImage(bimg, wimg);
+        }
+
 	}
 	
 	public void shoot() {
-		if (canShoot) {
+		if (!isInCooldown) {
+			System.out.println(isInCooldown);
 			displayRecoil();
 			Hittable victim = getOneShotHittable(this.getX() + thisScope.getImage().getWidth() / 2, this.getY() + thisScope.getImage().getHeight() / 2);
 			if (victim != null)
@@ -75,6 +87,7 @@ public class Scope extends ImageView {
 	}
 	
 	public void moveTo(double x, double y) {
+
 		if (initialSetup) {
 			this.setX(x - thisScope.getImage().getWidth() / 2);
 			this.setY(y - thisScope.getImage().getHeight() / 2);
@@ -88,10 +101,6 @@ public class Scope extends ImageView {
 	
 	public void act(long now) {
 		breathe();
-		if (isInCooldown) {
-			if (System.currentTimeMillis() >= readyTime)
-				this.setImage(SCOPE);
-		}
 	}
 	
 	public void breathe() {
@@ -122,24 +131,6 @@ public class Scope extends ImageView {
 	private double getDy() {
 		return dy;
 	}
-
-//	private int getRandomDirection() {
-//		double mouseX = this.getLevel().getMouseX();
-//		double mouseY = this.getLevel().getMouseY();
-//		double actualX = this.getX() + this.getImage().getWidth() / 2;
-//		double actualY = this.getY() + this.getImage().getHeight() / 2;
-//		ArrayList<Integer> directions = new ArrayList<Integer>(); // 0 = UP, 1 = DOWN, 2 = RIGHT, 3 = LEFT
-//		if (actualY - mouseY < MAX_SHAKE_DISTANCE) // can move UP
-//			directions.add(new Integer(0));
-//		if (mouseY  - actualY < MAX_SHAKE_DISTANCE) // can move DOWN
-//			directions.add(new Integer(1));
-////		if (actualX - mouseX < MAX_SHAKE_DISTANCE) // can move RIGHT
-////			directions.add(new Integer(2));
-////		if (mouseX - actualX < MAX_SHAKE_DISTANCE) // can move LEFT
-////			directions.add(new Integer(3));		 
-//		int dirIndex = (int)(Math.random() * directions.size());
-//		return directions.get(dirIndex);
-//	}
 	
 	private Level getLevel() {
 		return (Level)getParent();
@@ -147,12 +138,105 @@ public class Scope extends ImageView {
 	
 	public void displayRecoil(){
 		isInCooldown = true;
-		readyTime = System.currentTimeMillis() + RECOIL_TIME;
-		//this.setImage(new Image("**insert recoil gif here**")); // TODO
+//		readyTime = System.currentTimeMillis() + RECOIL_TIME;
+		displayImageSequence(recoilSequence, 100);
+//		this.setImage(new Image("file:sprites/scopes/recoil.gif"));
+	
+		
 	}
 	public void displayReload(){
 		isInCooldown = true;
 		readyTime = System.currentTimeMillis() + RELOAD_TIME;
+		
 	}
+	
+	private void displayImageSequence(Image[] sequence, double delay) {
+		final int TOTAL_FRAMES = sequence.length;
+		timer = new AnimationTimer() {
+			long lastTime = 0;
+			int currFrame = 0;
+			@Override
+			public void handle(long now) {
+				if (System.currentTimeMillis() - lastTime >= 100) {
+					thisScope.setImage(recoilSequence[currFrame]);
+					currFrame++;
+					lastTime = System.currentTimeMillis();
+				}
+				if (currFrame >= TOTAL_FRAMES) {
+					isInCooldown = false;
+					System.out.println("stopped");
+					this.stop();
+				}
+			}
+			
+		};
+		timer.start();
+		
+	}
+	
+	
+//	public class AnimatedGif extends Animation {
+//
+//        public AnimatedGif(String filename, double durationMs) {
+//
+//            GifDecoder d = new GifDecoder();
+//            d.read(filename);
+//
+//            Image[] sequence = new Image[d.getFrameCount()];
+//            for( int i=0; i < d.getFrameCount(); i++) {
+//
+//                WritableImage wimg = null;
+//                BufferedImage bimg = d.getFrame(i);
+//                sequence[i] = SwingFXUtils.toFXImage(bimg, wimg);
+//
+//            }
+//
+//            super.init(sequence, durationMs);
+//        }
+//
+//    }
+//
+//    public class Animation extends Transition {
+//
+//        private ImageView imageView;
+//        private int count;
+//
+//        private int lastIndex;
+//
+//        private Image[] sequence;
+//
+//        private Animation() {
+//        }
+//
+//        public Animation(Image[] sequence, double durationMs) {
+//            init( sequence, durationMs);
+//        }
+//
+//        private void init(Image[] sequence, double durationMs) {
+//            this.imageView = new ImageView(sequence[0]);
+//            this.sequence = sequence;
+//            this.count = sequence.length;
+//
+//            setCycleCount(1);
+//            setCycleDuration(Duration.millis(durationMs));
+//            setInterpolator(Interpolator.LINEAR);
+//
+//        }
+//
+//        protected void interpolate(double k) {
+//
+//            final int index = Math.min((int) Math.floor(k * count), count - 1);
+//            if (index != lastIndex) {
+//                imageView.setImage(sequence[index]);
+//                lastIndex = index;
+//            }
+//
+//        }
+//
+//        public ImageView getView() {
+//            return imageView;
+//        }
+//
+//    }
 	
 }
