@@ -1,19 +1,13 @@
-import java.awt.MouseInfo;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -28,7 +22,6 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -45,6 +38,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int numMaxBullets;
 	private int levelNumber;
 	private int remainingBullets;
+	
 	private double windSpeed;
 	private AnimationTimer timer;
 	private Image defaultBackground;
@@ -67,13 +61,17 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private boolean isStarted;
 	private boolean isPaused = false;
 	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
-
+	private static Label bulletLabel;
+	
+    
 	public Level(Integer numLevel) 
 	{
 		// Use the "super" keyword in subclass constructors to invoke this.
 		super();
 		isStarted = false;
 		btnHandler = new ButtonHandler();
+		numMaxBullets = 10; // Default value
+		remainingBullets = numMaxBullets;
 		thisLevel = this;
 		evHan = new MyEventHandler();
 		thisLevel.setOnMousePressed(evHan);
@@ -87,11 +85,21 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		
 		locImage = new ImageView(new Image("file:sprites/level_"+levelNumber+"_loc.png"));
 		
-		numMaxBullets = 10; // Default value
-		remainingBullets = numMaxBullets;
 		scope = new Scope();
 		addScope(scope);
+         bulletLabel= new Label();
+		
+		 bulletLabel.setFont(new Font(30));
+		 bulletLabel.setTextFill(Color.WHITE);
+		 bulletLabel.setText(this.getRemainingBullets()+"/"+this.getNumMaxBullets());
+		 
 		this.setCursor(SCOPE_CURSOR);
+		HBox H1= new HBox();
+		Label bulletImage= new Label();
+		bulletImage.setGraphic(new ImageView(new Image("file:sprites/bullet.png")));
+		H1.getChildren().addAll(bulletImage,bulletLabel);
+		this.getChildren().add(H1);
+		
 		timer = new AnimationTimer() {
 			
 
@@ -113,7 +121,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		};
 		isZoomedIn = false;
 		zoomer = new ZoomHandler();
+		
+		
+	
 	}
+	 
 
 
 
@@ -290,6 +302,10 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public int getRemainingBullets(){
 		return remainingBullets;
 	}
+	
+	public void reduceBullets(){
+		remainingBullets--;
+	}
 
 	public int getLevelNumber(){
 		return levelNumber;
@@ -357,13 +373,18 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					if (remainingBullets > 0) {
+					if (getRemainingBullets()>0) {
 						scope.shoot();
 						remainingBullets--;
+						bulletLabel.setText(thisLevel.getRemainingBullets()+"/"+thisLevel.getNumMaxBullets());
+						System.out.println(thisLevel.getRemainingBullets()+"/"+thisLevel.getNumMaxBullets());
 					} else {
+						bulletLabel.setText("0/0");
+						System.out.println("out of bullets");
 						// TODO alert player: out of bullets
 					}
 				}	
+				
 			}
 			else if (event.getEventType() == MouseEvent.MOUSE_MOVED)
 			{

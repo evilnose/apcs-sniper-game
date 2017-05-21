@@ -17,8 +17,6 @@ public class Scope extends ImageView {
 	public static final double SCOPE_WIDTH = SCOPE.getWidth();
 	public static final double SCOPE_HEIGHT = SCOPE.getHeight();
 	private boolean isInCooldown;
-	private long readyTime;
-	private final long RECOIL_TIME = 800;
 	private final long RELOAD_TIME = 2000;
 	private final double MAX_SHAKE_DISTANCE = 3;
 	private final double MAX_SHAKE_SPEED = 0.1;
@@ -138,15 +136,12 @@ public class Scope extends ImageView {
 	
 	public void displayRecoil(){
 		isInCooldown = true;
-//		readyTime = System.currentTimeMillis() + RECOIL_TIME;
 		displayImageSequence(recoilSequence, 100);
-//		this.setImage(new Image("file:sprites/scopes/recoil.gif"));
 	
 		
 	}
 	public void displayReload(){
 		isInCooldown = true;
-		readyTime = System.currentTimeMillis() + RELOAD_TIME;
 		
 	}
 	

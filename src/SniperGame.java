@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -36,6 +37,8 @@ public class SniperGame extends Application
 	private static Level currLevel;
 	private static ArrayList<Boolean> levelsPassed;
 	
+	
+	
 	public static void main(String args[]) {
 		launch(); 
 	}
@@ -48,8 +51,6 @@ public class SniperGame extends Application
 		
 		homeScreen.setTitle("Sniper Game Alpha"); // TODO This Name is tentative. Need a cooler one.
 		homeScreen.setResizable(false);
-		
-		
 		
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 800, 500);
@@ -66,6 +67,7 @@ public class SniperGame extends Application
 		
 		BorderPane.setMargin(startGameButton,new Insets(100,250,50,50));
 		root.setRight(startGameButton);
+		
 		
 		homeScreen.setScene(scene);
 		homeScreen.show();
@@ -95,11 +97,15 @@ public class SniperGame extends Application
 		lvlScreen.setTitle(currLevel.getName());
 		lvlScreen.setResizable(false);
 		
+		
+		
+		
 		if (scene == null)
 			scene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
 		else
 			scene.setRoot(currLevel);
 		
+	
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
 		
