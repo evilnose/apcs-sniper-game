@@ -5,6 +5,10 @@ public class LevelTwo extends Level
 
 	public LevelTwo(Integer numLevel) {
 		super(numLevel);
+	}
+	
+	@Override
+	protected void addAllHittables() {
 		Runner tester1 = new Runner(false,1);
 		addHittable(tester1);
 		tester1.setPos(200, 350);

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -37,8 +38,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int numCivilians;
 	private int numMaxBullets;
 	private int levelNumber;
-	private int remainingBullets;
-	
+	private int numRemainingBullets;
 	private double windSpeed;
 	private AnimationTimer timer;
 	private Image defaultBackground;
@@ -49,7 +49,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private final Cursor SCOPE_CURSOR = Cursor.NONE;
 	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
 	private final String LEVEL_FAILED_FONT = "Candara";
-	private ZoomHandler zoomer;
+	private KeyHandler zoomer;
 	private boolean isZoomedIn;
 	private double lastPivotX, lastPivotY;
 	private final Scale ZOOM_IN_SCALE = new Scale(2.0, 2.0);
@@ -61,8 +61,10 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private boolean isStarted;
 	private boolean isPaused = false;
 	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
-	private static Label bulletLabel;
-	
+	private Label bulletLabel;
+	private int cartridgeSize; // number of bullets per cartridge
+	private int numRemainingCartridges;
+	private int numAvailableBullets;
     
 	public Level(Integer numLevel) 
 	{
@@ -70,39 +72,28 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		super();
 		isStarted = false;
 		btnHandler = new ButtonHandler();
-		numMaxBullets = 10; // Default value
-		remainingBullets = numMaxBullets;
+		numMaxBullets = 9; // Default value
+		numRemainingBullets = numMaxBullets;
+		cartridgeSize = 3;
+		numRemainingCartridges = numMaxBullets / cartridgeSize;
+		numAvailableBullets = numMaxBullets % cartridgeSize;
 		thisLevel = this;
 		evHan = new MyEventHandler();
 		thisLevel.setOnMousePressed(evHan);
 		thisLevel.setOnMouseMoved(evHan);
-
 		levelNumber = numLevel;
-
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
-
-		
-		locImage = new ImageView(new Image("file:sprites/level_"+levelNumber+"_loc.png"));
+		locImage = new ImageView(new Image("file:sprites/level_" + levelNumber+ "_loc.png"));
 		
 		scope = new Scope();
 		addScope(scope);
-         bulletLabel= new Label();
 		
-		 bulletLabel.setFont(new Font(30));
-		 bulletLabel.setTextFill(Color.WHITE);
-		 bulletLabel.setText(this.getRemainingBullets()+"/"+this.getNumMaxBullets());
-		 
 		this.setCursor(SCOPE_CURSOR);
-		HBox H1= new HBox();
-		Label bulletImage= new Label();
-		bulletImage.setGraphic(new ImageView(new Image("file:sprites/bullet.png")));
-		H1.getChildren().addAll(bulletImage,bulletLabel);
-		this.getChildren().add(H1);
-		
+		addBulletLabel();
+		addAllHittables();
 		timer = new AnimationTimer() {
 			
-
 			@Override
 			public void handle(long now) 
 			{
@@ -120,17 +111,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		};
 		isZoomedIn = false;
-		zoomer = new ZoomHandler();
-		
-		
-	
+		zoomer = new KeyHandler();
 	}
 	 
-
-
-
-
-
 	private void act(long now) 
 	{
 		if(isWon())
@@ -147,6 +130,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			thisLevel.displayLostMessage();
 		}
 	}
+	
+	protected abstract void addAllHittables();
 
 	public void load() {
 		Stage lvlStage = new Stage();
@@ -198,7 +183,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		for(Hittable h : targets)
 			if(h.isWithinBounds()==false)
 				return false;
-		if(numCivilians==civilians.size()&&targets!=null&&targets.size()==0&&remainingBullets>0)
+		if(numCivilians==civilians.size()&&targets!=null&&targets.size()==0&&numRemainingBullets>0)
 			return true;
 		else
 			return false;
@@ -208,7 +193,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		for(Hittable h : targets)
 			if(h.isWithinBounds()==false)
 				return true;
-		if(civilians.size()<numCivilians||remainingBullets<0)
+		if(civilians.size()<numCivilians||numRemainingBullets<0)
 			return true;
 		else
 			return false;
@@ -269,7 +254,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		next = new Button("Next Level");
 		next.setPrefSize(125, 30);
 		next.setOnMouseClicked(btnHandler);
-		vb.setMargin(next, new Insets(20,10,10,10));
+		VBox.setMargin(next, new Insets(20,10,10,10));
 		vb.getChildren().addAll(t,next);
 
 		root.setLeft(img);
@@ -290,21 +275,64 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public void setWindSpeed(double speed){
 		windSpeed = speed;
 	}
+	
 
+	@Override
+	public int compareTo(Level other) {
+		return this.getLevelNumber() - other.getLevelNumber();
+	}
+	
+	private void reduceNumBullets() {
+		if (numRemainingBullets > 0) {
+			if (numAvailableBullets == 0) {
+				remindToReload();
+			} else {
+				numAvailableBullets--;
+				numRemainingBullets--;
+				updateBulletLabel();
+			}
+		} else {
+			// TODO display out of bullets
+		}
+	}
+	
+	private void updateBulletLabel() {
+		
+		bulletLabel.setText(numAvailableBullets + "/" + numRemainingCartridges);
+	}
+
+	private void addBulletLabel() {
+        bulletLabel = new Label();
+		bulletLabel.setFont(new Font(30));
+		bulletLabel.setTextFill(Color.WHITE);
+		reloadBulletLabel();
+		updateBulletLabel();
+		bulletLabel.setPadding(new Insets(10, 10, 10, 10));
+		this.getChildren().add(bulletLabel);
+	}
+	
+	public void reloadBulletLabel() {
+		if (numRemainingCartridges > 0 && numAvailableBullets == 0) {
+			numAvailableBullets = cartridgeSize;
+			numRemainingCartridges--;
+			updateBulletLabel();
+		}
+	}
+
+	private void remindToReload() {
+		// TODO implement code to remind player to reload
+	}
+
+	public int getNumRemainingBullets() {
+		return numRemainingBullets;
+	}
+	
 	public int getNumMaxBullets(){
 		return numMaxBullets;
 	}
 
-	public void setNumMaxBullets(int n) {
+	protected void setNumMaxBullets(int n) {
 		numMaxBullets = n;
-	}
-
-	public int getRemainingBullets(){
-		return remainingBullets;
-	}
-	
-	public void reduceBullets(){
-		remainingBullets--;
 	}
 
 	public int getLevelNumber(){
@@ -358,11 +386,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	protected abstract String getName();
 
-	@Override
-	public int compareTo(Level other) {
-		return this.getLevelNumber() - other.getLevelNumber();
-	}
-
 	public class MyEventHandler implements EventHandler<MouseEvent>
 	{
 
@@ -373,16 +396,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					if (getRemainingBullets()>0) {
+					if (numRemainingBullets>0 && numAvailableBullets > 0) {
 						scope.shoot();
-						remainingBullets--;
-						bulletLabel.setText(thisLevel.getRemainingBullets()+"/"+thisLevel.getNumMaxBullets());
-						System.out.println(thisLevel.getRemainingBullets()+"/"+thisLevel.getNumMaxBullets());
-					} else {
-						bulletLabel.setText("0/0");
-						System.out.println("out of bullets");
-						// TODO alert player: out of bullets
 					}
+						reduceNumBullets();
+						updateBulletLabel();
+
 				}	
 				
 			}
@@ -429,13 +448,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		return this.locImage;
 	}
 	
-	private class ZoomHandler implements EventHandler<KeyEvent> 
+	private class KeyHandler implements EventHandler<KeyEvent> 
 	{
 
 		@Override
 		public void handle(KeyEvent event) 
 		{
-			if (event.getCode() == KeyCode.Z) {
+			if (event.getCode() == KeyCode.Z)
+			{
 				if (!isZoomedIn)
 				{
 					isZoomedIn = true;
@@ -459,7 +479,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					scope.move(scope.getX()+scope.getImage().getWidth()/2 - lastPivotX, scope.getY()+scope.getImage().getHeight()/2 - lastPivotY); // calibrate the scope
 				}
 			}
-			if(event.getCode()==KeyCode.SPACE)
+			else if(event.getCode() == KeyCode.SPACE)
 			{
 				if(!isPaused)
 				{
@@ -478,6 +498,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					timer.start();
 					isPaused = false;
 				}
+			} else if (event.getCode() == KeyCode.R) {
+				reloadBulletLabel();
 			}
 		}
 	}
