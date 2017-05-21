@@ -18,30 +18,36 @@ public class Map extends Pane
 	private ImageView level1, level2;
 	private BackgroundImage img = new BackgroundImage(new Image("file:sprites/map.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 			BackgroundSize.DEFAULT);
-	
-	public Map(ArrayList<Level> obj)
+	private ArrayList<Boolean> levelsPassed;
+
+	public Map(ArrayList<Level> obj, ArrayList<Boolean> levelsPassed)
 	{
 		super();
-		
+
+		this.levelsPassed = levelsPassed;
 		levels = obj;
-		
+
 		for(int i = 0;i<levels.size();i++)
 		{
-			levels.get(i).getLocationImage().setOnMouseClicked(new MissionHandler());
-			this.getChildren().add(levels.get(i).getLocationImage());
+			if(levelsPassed.get(i))
+			{
+				levels.get(i).getLocationImage().setOnMouseClicked(new MissionHandler());
+				this.getChildren().add(levels.get(i).getLocationImage());
+			}
 		}
 	}
-	
+
 	public void activateDefaultBackground() 
 	{
 		this.setBackground(new Background(img));
-		
+
 		for(int i = 0;i<levels.size();i++)
 		{
-			levels.get(i).getLocationImage().relocate((int)(Math.random()*346),(int)(Math.random()*600));
+			if(levelsPassed.get(i))
+				levels.get(i).getLocationImage().relocate((int)(Math.random()*346),(int)(Math.random()*600));
 		}
 	}
-	
+
 	private class MissionHandler implements EventHandler<MouseEvent>
 	{
 		@Override
@@ -49,7 +55,7 @@ public class Map extends Pane
 		{
 			ImageView img = (ImageView) event.getSource();
 			int levelNum = 0;
-			for(Level l :levels)
+			for(Level l : levels)
 			{
 				if(l.getLocationImage() == img)
 					break;
@@ -57,6 +63,6 @@ public class Map extends Pane
 			}
 			SniperGame.startLevel(levelNum);
 		}
-		
+
 	}
 }

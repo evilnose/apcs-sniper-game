@@ -1,7 +1,10 @@
 import java.awt.MouseInfo;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -62,6 +65,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Stage winScreen, loseScreen;
 	private ImageView locImage;
 	private boolean isStarted;
+	private boolean isPaused = false;
+	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
 
 	public Level(Integer numLevel) 
 	{
@@ -79,6 +84,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 
+		
 		locImage = new ImageView(new Image("file:sprites/level_"+levelNumber+"_loc.png"));
 		
 		numMaxBullets = 10; // Default value
@@ -108,6 +114,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		isZoomedIn = false;
 		zoomer = new ZoomHandler();
 	}
+
+
+
 
 
 	private void act(long now) 
@@ -373,6 +382,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		{
 			if(event.getSource().equals(exit))
 			{
+				SniperGame.setLevelPassed(levelNumber-1, false);
+				SniperGame.setClosingState();
 				loseScreen.close();
 				System.exit(0);
 			}
@@ -384,6 +395,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			else if(event.getSource().equals(next))
 			{
+				SniperGame.setLevelPassed(levelNumber-1, true);
 				winScreen.close();
 				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber + 1; change before finishing
 			}
@@ -424,6 +436,26 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					scope.setScaleX(1);
 					scope.setScaleY(1);
 					scope.move(scope.getX()+scope.getImage().getWidth()/2 - lastPivotX, scope.getY()+scope.getImage().getHeight()/2 - lastPivotY); // calibrate the scope
+				}
+			}
+			if(event.getCode()==KeyCode.SPACE)
+			{
+				if(!isPaused)
+				{
+					timer.stop();
+					thisLevel.getChildren().remove(scope);
+					thisLevel.getChildren().add(pause);
+					pause.relocate(500-256,300-256);
+					thisLevel.setOnMouseMoved(null);
+					isPaused = true;
+				}
+				else
+				{
+					thisLevel.setOnMouseMoved(evHan);
+					thisLevel.getChildren().add(scope);
+					thisLevel.getChildren().remove(pause);
+					timer.start();
+					isPaused = false;
 				}
 			}
 		}
