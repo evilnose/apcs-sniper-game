@@ -87,17 +87,20 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		
 		scope = new Scope();
 		addScope(scope);
-         bulletLabel= new Label();
 		
-		 bulletLabel.setFont(new Font(30));
-		 bulletLabel.setTextFill(Color.WHITE);
-		 bulletLabel.setText(this.getRemainingBullets()+"/"+this.getNumMaxBullets());
-		 
-		this.setCursor(SCOPE_CURSOR);
-		HBox H1= new HBox();
+        bulletLabel= new Label(this.getRemainingBullets()+"/"+this.getNumMaxBullets());
+		bulletLabel.setFont(new Font(30));
+		bulletLabel.setTextFill(Color.WHITE);
+		
+		
 		Label bulletImage= new Label();
 		bulletImage.setGraphic(new ImageView(new Image("file:sprites/bullet.png")));
+		 
+		this.setCursor(SCOPE_CURSOR);
+		
+		HBox H1= new HBox();
 		H1.getChildren().addAll(bulletImage,bulletLabel);
+		
 		this.getChildren().add(H1);
 		
 		timer = new AnimationTimer() {
@@ -378,11 +381,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					if (getRemainingBullets()>0) {
 						scope.shoot();
 						remainingBullets--;
-						bulletLabel.setText(L1.getRemainingBullets()+"/"+L1.getNumMaxBullets());
-						System.out.println(L1.getRemainingBullets()+"/"+L1.getNumMaxBullets());
+						bulletLabel.setText(getRemainingBullets()+"/"+getNumMaxBullets());
+						System.out.println(getRemainingBullets()+"/"+getNumMaxBullets());
+						
 					} else {
 						// TODO alert player: out of bullets
-						bulletLabel.setText(L1.getRemainingBullets()+"/"+L1.getNumMaxBullets());
+						bulletLabel.setText(getRemainingBullets()+"/"+getNumMaxBullets());
 						System.out.println("out of bullets");
 					}
 				}	
