@@ -65,6 +65,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Stage winScreen, loseScreen;
 	private ImageView locImage;
 	private boolean isStarted;
+	private boolean isPaused = false;
+	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
 
 	public Level(Integer numLevel) 
 	{
@@ -435,6 +437,26 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					scope.setScaleX(1);
 					scope.setScaleY(1);
 					scope.move(scope.getX()+scope.getImage().getWidth()/2 - lastPivotX, scope.getY()+scope.getImage().getHeight()/2 - lastPivotY); // calibrate the scope
+				}
+			}
+			if(event.getCode()==KeyCode.SPACE)
+			{
+				if(!isPaused)
+				{
+					timer.stop();
+					thisLevel.getChildren().remove(scope);
+					thisLevel.getChildren().add(pause);
+					pause.relocate(500-256,300-256);
+					thisLevel.setOnMouseMoved(null);
+					isPaused = true;
+				}
+				else
+				{
+					thisLevel.setOnMouseMoved(evHan);
+					thisLevel.getChildren().add(scope);
+					thisLevel.getChildren().remove(pause);
+					timer.start();
+					isPaused = false;
 				}
 			}
 		}
