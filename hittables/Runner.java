@@ -4,12 +4,17 @@ import javafx.scene.paint.Color;
 
 public class Runner extends Hittable 
 {
-	private static Image img = new Image("file:sprites/hittables/stick man.gif");
+	private final Image img;
 
 	public Runner(boolean isTarget,double scale)
 	{
-		super(isTarget,img,scale);
-		setImage(img);
+		super(isTarget);
+		if (isTarget)
+			img = new Image("file:sprites/hittables/targets/runner_left.gif");
+		else
+			img = new Image("file:sprites/hittables/civilians/runner_right.gif");
+		setGraphics(img);
+		setScale(scale);
 		dx = 2;
 		dy = 0;
 		setHitboxCircle(47.5, 20, 20);

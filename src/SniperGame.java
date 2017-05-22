@@ -99,7 +99,6 @@ public class SniperGame extends Application
 		
 		
 		
-		
 		if (scene == null)
 			scene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
 		else

@@ -26,7 +26,7 @@ public class StreetRunner extends Runner
 //		count++;
 //		if(count%100==0)
 		scale-=0.00002;
-			this.scale(scale);
+			this.setScale(scale);
 	}
 
 	@Override
