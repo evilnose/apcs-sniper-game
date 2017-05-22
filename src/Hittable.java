@@ -11,7 +11,7 @@ import javafx.scene.transform.Scale;
 
 public abstract class Hittable extends Group
 {
-	protected ImageView person;
+	protected ImageView graphics;
 	protected Shape hitbox;
 	
 	protected boolean isTarget;
@@ -27,9 +27,9 @@ public abstract class Hittable extends Group
 	{
 		super();
 		
-		person = new ImageView();
+		graphics = new ImageView();
 		hitbox = new Circle();
-		this.getChildren().addAll(person,hitbox);
+		this.getChildren().addAll(graphics,hitbox);
 		scale = 1;
 		isTarget = isTgt;
 		isAlive = true;
@@ -40,9 +40,9 @@ public abstract class Hittable extends Group
 	{
 		super();
 		
-		person = new ImageView(img);
+		graphics = new ImageView(img);
 		hitbox = new Circle();
-		this.getChildren().addAll(person,hitbox);
+		this.getChildren().addAll(graphics,hitbox);
 		
 		this.scale = scale;
 		
@@ -53,18 +53,18 @@ public abstract class Hittable extends Group
 
 	public abstract void act(long now);
 	
-	protected void setImage(Image img)
+	protected void setGraphics(Image img)
 	{
-		person.setImage(img);
+		graphics.setImage(img);
 	}
 	
-	protected void scale(double scale)
+	protected void setScale(double scale)
 	{
 		Circle circle = (Circle)hitbox;
 		Scale s = new Scale(scale,scale);
 		s.setPivotX(circle.getCenterX());
 		s.setPivotY(circle.getCenterY());
-		person.getTransforms().add(s);
+		graphics.getTransforms().add(s);
 		hitbox.getTransforms().add(s);
 	}
 	
@@ -103,8 +103,8 @@ public abstract class Hittable extends Group
 	}
 
 	protected void move(double dx, double dy) {
-		person.setX(person.getX() + dx);
-		person.setY(person.getY() + dy);
+		graphics.setX(graphics.getX() + dx);
+		graphics.setY(graphics.getY() + dy);
 		if (Circle.class.isInstance(hitbox)) {
 			Circle circle = Circle.class.cast(hitbox);
 			circle.setCenterX(circle.getCenterX() + dx);
@@ -119,17 +119,17 @@ public abstract class Hittable extends Group
 
 	public void setPos(int x, int y)
 	{
-		double dx = x - person.getX();
-		double dy = y - person.getY();
+		double dx = x - graphics.getX();
+		double dy = y - graphics.getY();
 		move(dx, dy);
-		this.scale(scale);
+		this.setScale(scale);
 	}
 
 	protected boolean isWithinBounds()
 	{
-		double x = person.getX();
-		double y = person.getY();
-		if(x+person.getImage().getWidth()<0||x>SniperGame.LEVEL_WIDTH||y+person.getImage().getHeight()<0||y>SniperGame.LEVEL_HEIGHT)
+		double x = graphics.getX();
+		double y = graphics.getY();
+		if(x+graphics.getImage().getWidth()<0||x>SniperGame.LEVEL_WIDTH||y+graphics.getImage().getHeight()<0||y>SniperGame.LEVEL_HEIGHT)
 			return false;
 		else
 			return true;

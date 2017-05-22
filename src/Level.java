@@ -365,7 +365,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public int compareTo(Level other) {
 		return this.getLevelNumber() - other.getLevelNumber();
 	}
-	Level L1= this;
+
 	public class MyEventHandler implements EventHandler<MouseEvent>
 	{
 
@@ -376,18 +376,22 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					bulletLabel.setText(getRemainingBullets()+"/"+getNumMaxBullets());
-					scope.displayRecoil();
 					if (getRemainingBullets()>0) {
 						scope.shoot();
 						remainingBullets--;
-						bulletLabel.setText(getRemainingBullets()+"/"+getNumMaxBullets());
-						System.out.println(getRemainingBullets()+"/"+getNumMaxBullets());
-						
+             	
+						bulletLabel.setText(thisLevel.getRemainingBullets()+"/"+thisLevel.getNumMaxBullets());
+						System.out.println(thisLevel.getRemainingBullets()+"/"+thisLevel.getNumMaxBullets());
+
 					} else {
+
 						// TODO alert player: out of bullets
 						bulletLabel.setText(getRemainingBullets()+"/"+getNumMaxBullets());
+
+						bulletLabel.setText("0/0");
+
 						System.out.println("out of bullets");
+						// TODO alert player: out of bullets
 					}
 				}	
 				
@@ -450,6 +454,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					ZOOM_IN_SCALE.setPivotX(lastPivotX);
 					ZOOM_IN_SCALE.setPivotY(lastPivotY);
 					thisLevel.getTransforms().add(ZOOM_IN_SCALE);
+					
 					scope.setScaleX(0.5);
 					scope.setScaleY(0.5);
 					lastPivotX = scope.getX()+scope.getImage().getWidth()/2;
