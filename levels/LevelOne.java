@@ -6,6 +6,13 @@ public class LevelOne extends Level
 	public LevelOne(Integer numLevel) 
 	{
 		super(numLevel);
+		
+		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_one.jpg"));
+	}
+
+	@Override
+	protected void addAllHittables() {
+		// TODO Auto-generated method stub
 		Runner tester1 = new Runner(true,1);
 		addHittable(tester1);
 		tester1.setPos(200, 350);
@@ -17,9 +24,8 @@ public class LevelOne extends Level
 //		Tester tester3=new Tester(false);
 //		addHittable(tester3);
 //		tester3.setPos(550, 350);
-		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_one.jpg"));
 	}
-
+	
 	@Override
 	protected String getDescription() {
 		return "Level 1: The Start";
@@ -29,5 +35,6 @@ public class LevelOne extends Level
 	protected String getName() {
 		return "Level 1";
 	}
+
 
 }
