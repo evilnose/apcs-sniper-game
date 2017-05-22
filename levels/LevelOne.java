@@ -6,7 +6,8 @@ public class LevelOne extends Level
 	public LevelOne(Integer numLevel) 
 	{
 		super(numLevel);
-		
+
+		levelMessage = "MISSION 1!\nTHERE IS A VIGILANTE KILLER ON THE RUN IN THE CITY.\nKILL HIM BEFORE HE KILLS YOU!";
 		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_one.jpg"));
 	}
 

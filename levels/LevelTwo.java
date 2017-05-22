@@ -2,9 +2,9 @@ import javafx.scene.image.Image;
 
 public class LevelTwo extends Level 
 {
-
 	public LevelTwo(Integer numLevel) {
 		super(numLevel);
+		levelMessage = "MISSION 2!\nTHE CAFE YOU ARE SITTING IN HAS BEEN TAKEN HOSTAGE BY A CYBORG. SINCE YOU ARE UNDER A TABLE, HE HAS NOT SPOTTED YOU YET. KILL HIM BEFORE HE KILLS INNOCENTS!";
 	}
 	
 	@Override

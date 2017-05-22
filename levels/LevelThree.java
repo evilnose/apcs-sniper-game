@@ -6,6 +6,7 @@ public class LevelThree extends Level
 	{
 		super(numLevel);		
 		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_three.jpg"));
+		levelMessage = "MISSION 3!\nA MYSTERIOUS STORMTROOPER CARRYING A GUN IS WALKING DOWN THIS BUSTLING MARKET IN JAPAN. PUT HIM TO SLEEP BEFORE HE STRIKES OFF THE NEXT ITEM ON HIS CHECKLIST.";
 	}
 	
 	public void addAllHittables() {

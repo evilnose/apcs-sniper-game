@@ -47,7 +47,6 @@ public class Scope extends ImageView {
 	
 	public void shoot() {
 		if (!isInCooldown) {
-			System.out.println(isInCooldown);
 			displayRecoil();
 			Hittable victim = getOneShotHittable(this.getX() + thisScope.getImage().getWidth() / 2, this.getY() + thisScope.getImage().getHeight() / 2);
 			if (victim != null)
@@ -159,7 +158,6 @@ public class Scope extends ImageView {
 				}
 				if (currFrame >= TOTAL_FRAMES) {
 					isInCooldown = false;
-					System.out.println("stopped");
 					this.stop();
 				}
 			}
