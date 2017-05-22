@@ -15,7 +15,7 @@ public class LevelOne extends Level
 		// TODO Auto-generated method stub
 		Runner tester1 = new Runner(true,1);
 		addHittable(tester1);
-		tester1.setPos(200, 350);
+		tester1.setPos(200, 250);
 		
 //		Tester tester2= new Tester(true);
 //		addHittable(tester2);
