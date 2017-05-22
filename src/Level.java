@@ -65,6 +65,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
 	private int numAvailableBullets;
+	private String levelMessage = "Mission 1! In this mission you will kill the vigilante killer threatening to set the city to fire if we do not yield to his demands";
     
 	public Level(Integer numLevel) 
 	{
@@ -114,6 +115,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		zoomer = new KeyHandler();
 	}
 	 
+	public String getLevelMessage()
+	{
+		return this.levelMessage;
+	}
+	
 	private void act(long now) 
 	{
 		if(isWon())

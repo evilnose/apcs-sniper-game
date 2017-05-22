@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -20,6 +22,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /*
@@ -28,17 +31,17 @@ import javafx.stage.Stage;
 
 public class SniperGame extends Application 
 {
-	
+
 	private static ArrayList<Level> levels;
 	public static final int LEVEL_WIDTH = 1000;
 	public static final int LEVEL_HEIGHT = 600;
-	private static Stage lvlScreen;
-	private static Scene scene;
+	private static Stage levelScreen;
+	private static Scene levelScene;
 	private static Level currLevel;
 	private static ArrayList<Boolean> levelsPassed;
-	
-	
-	
+
+
+
 	public static void main(String args[]) {
 		launch(); 
 	}
@@ -48,31 +51,31 @@ public class SniperGame extends Application
 	{
 		loadLevels();
 		fillLevelsPassed();
-		
+
 		homeScreen.setTitle("Sniper Game Alpha"); // TODO This Name is tentative. Need a cooler one.
 		homeScreen.setResizable(false);
-		
+
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 800, 500);
-		
+
 		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/start_background.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
 		root.setBackground(new Background(myBI));
-		
+
 		Button startGameButton = new Button();
 		startGameButton.setText("Start");
 		startGameButton.setFont(new Font("Monospaced Bold",30));
 		startGameButton.setStyle("-fx-background-color: transparent;");
 		startGameButton.setOnAction(new startGameHandler());
-		
+
 		BorderPane.setMargin(startGameButton,new Insets(100,250,50,50));
 		root.setRight(startGameButton);
-		
-		
+
+
 		homeScreen.setScene(scene);
 		homeScreen.show();
 	}
-	
+
 	private void loadLevels()
 	{
 		levels = new ArrayList<Level>();
@@ -81,38 +84,92 @@ public class SniperGame extends Application
 		levels.add(new LevelTwo(2));
 		levels.add(new LevelThree(3));
 	}
-	
+
+	public static void displayLevelMessage(int lvlNum)
+	{
+		String message = levels.get(lvlNum).getLevelMessage();
+		System.out.println(message);
+		Stage missionScreen = new Stage();
+		missionScreen.setTitle("Mission "+currLevel.getLevelNumber());
+		missionScreen.setResizable(false);
+
+		BorderPane root = new BorderPane();
+		Scene scene = new Scene(root,LEVEL_WIDTH,LEVEL_HEIGHT);
+
+		Text t = new Text();
+		t.setFont(new Font("Verdana", 30));
+		Button b = new Button("Continue");		
+		b.setOnMouseClicked(new EventHandler<MouseEvent>()
+		{
+
+
+			@Override
+			public void handle(MouseEvent event) 
+			{
+				if (currLevel.isStarted()) {
+					currLevel.stop();
+					restart();
+				}
+
+				if (levelScreen != null) {
+					levelScreen.close();
+				}
+				levelScreen = new Stage();
+				levelScreen.setTitle(currLevel.getName());
+				levelScreen.setResizable(false);
+
+
+
+
+				if (levelScene == null)
+					levelScene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
+				else
+					levelScene.setRoot(currLevel);
+
+
+				missionScreen.setScene(levelScene);
+				missionScreen.show();
+				
+				currLevel.activateDefaultBackground();
+				currLevel.start();
+			}
+		});
+
+		AnimationTimer timer = new AnimationTimer() 
+		{
+			int i = 0;
+			@Override
+			public void handle(long now) 
+			{
+				long start = 0;
+				if(now-start>3*Math.pow(10, 9))
+				{
+					if(i<message.length())
+					{
+						t.setText(t.getText()+message.charAt(i));
+						i++;
+					}
+					else
+						this.stop();
+					start = now;
+				}
+			}
+		};
+		root.setBackground(new Background(new BackgroundImage(new Image("file:sprites/backgrounds/mission_screen.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT)));
+		root.setCenter(t);
+		root.setBottom(b);
+		missionScreen.setScene(scene);
+		missionScreen.show();
+		timer.start();
+	}
+
 	public static void startLevel(int lvlNum) 
 	{
 		currLevel = levels.get(lvlNum);
-		if (currLevel.isStarted()) {
-			currLevel.stop();
-			restart();
-		}
-		
-		if (lvlScreen != null) {
-			lvlScreen.close();
-		}
-		lvlScreen = new Stage();
-		lvlScreen.setTitle(currLevel.getName());
-		lvlScreen.setResizable(false);
-		
-		
-		
-		
-		if (scene == null)
-			scene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
-		else
-			scene.setRoot(currLevel);
-		
-	
-		lvlScreen.setScene(scene);
-		lvlScreen.show();
-		
-		currLevel.activateDefaultBackground();
-		currLevel.start();
+		displayLevelMessage(lvlNum);
 	}
-	
+
 	private static void restart() {
 		for (Level lvl : levels) {
 			if (lvl == currLevel) {
@@ -151,24 +208,24 @@ public class SniperGame extends Application
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void setLevelPassed(int levelNum, boolean passed)
 	{
 		levelsPassed.set(levelNum,passed);
 	}
-	
+
 	private void openMap() 
 	{
 		Map map =  new Map(levels,levelsPassed);
 		Stage mapScreen = new Stage();
 		mapScreen.setResizable(true);
-		
+
 		Scene scene = new Scene(map,496,750);
 		mapScreen.setScene(scene);
 		mapScreen.show();
 		map.activateDefaultBackground();
 	}
-	
+
 	private class startGameHandler implements EventHandler<ActionEvent> {
 
 		@Override
@@ -176,7 +233,7 @@ public class SniperGame extends Application
 		{
 			openMap();
 		}
-		
+
 	}
 
 	public static void setClosingState() 
