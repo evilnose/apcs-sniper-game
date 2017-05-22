@@ -157,7 +157,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public void pause()
 	{
 		timer.stop();
-		// TODO maybe add s'more later
 	}
 
 	public void start() {
