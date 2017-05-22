@@ -31,7 +31,7 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 public abstract class Level extends Pane implements Comparable<Level> {
-	
+
 	private ArrayList<Hittable> targets;
 	private ArrayList<Hittable> civilians;
 	private int numCivilians;
