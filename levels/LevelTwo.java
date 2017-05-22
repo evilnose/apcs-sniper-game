@@ -11,16 +11,16 @@ public class LevelTwo extends Level
 	protected void addAllHittables() {
 		Runner tester1 = new Runner(false,1);
 		addHittable(tester1);
-		tester1.setPos(200, 350);
+		tester1.setPos(200, 250);
 		
 		Runner tester2 = new Runner(true,1);
 		addHittable(tester2);
-		tester2.setPos(450, 350);
+		tester2.setPos(450, 250);
 		
 		Runner tester3 =new Runner(false,1); // we can add more tester or runners here because they should be
 		                                 //     distracting from the target that are sitting
 		addHittable(tester3);
-		tester3.setPos(550, 350);
+		tester3.setPos(550, 250);
 		
 		Sitter sitter1 = new Sitter(false,0.5);
 		addHittable(sitter1);
