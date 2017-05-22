@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -32,7 +31,7 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 public abstract class Level extends Pane implements Comparable<Level> {
-	
+
 	private ArrayList<Hittable> targets;
 	private ArrayList<Hittable> civilians;
 	private int numCivilians;
@@ -90,9 +89,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		scope = new Scope();
 		addScope(scope);
 		
+		 
+		this.setCursor(SCOPE_CURSOR);
+		
 		this.setCursor(SCOPE_CURSOR);
 		addBulletLabel();
 		addAllHittables();
+
 		timer = new AnimationTimer() {
 			
 			@Override
@@ -282,12 +285,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		windSpeed = speed;
 	}
 	
-
-	@Override
-	public int compareTo(Level other) {
-		return this.getLevelNumber() - other.getLevelNumber();
-	}
-	
 	private void reduceNumBullets() {
 		if (numRemainingBullets > 0) {
 			if (numAvailableBullets == 0) {
@@ -392,6 +389,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	protected abstract String getName();
 
+	@Override
+	public int compareTo(Level other) {
+		return this.getLevelNumber() - other.getLevelNumber();
+	}
+
+
 	public class MyEventHandler implements EventHandler<MouseEvent>
 	{
 
@@ -405,10 +408,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					System.out.println(event.getX()+" "+event.getY());
 					if (numRemainingBullets>0 && numAvailableBullets > 0) {
 						scope.shoot();
-					}
 						reduceNumBullets();
 						updateBulletLabel();
-
+					}
 				}	
 				
 			}
@@ -450,6 +452,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		
 	}
 	
+	
 	public ImageView getLocationImage()
 	{
 		return this.locImage;
@@ -471,6 +474,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					ZOOM_IN_SCALE.setPivotX(lastPivotX);
 					ZOOM_IN_SCALE.setPivotY(lastPivotY);
 					thisLevel.getTransforms().add(ZOOM_IN_SCALE);
+					
 					scope.setScaleX(0.5);
 					scope.setScaleY(0.5);
 					lastPivotX = scope.getX()+scope.getImage().getWidth()/2;
@@ -511,3 +515,4 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		}
 	}
 }
+
