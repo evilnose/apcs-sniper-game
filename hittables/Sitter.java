@@ -7,7 +7,7 @@ public class Sitter extends Hittable {
 	private double dx;
 	private double dy;
 	
-	private static Image img = new Image("file:sprites/hittables/sitter_civilian_right.png");
+	private static Image img = new Image("file:sprites/hittables/civilians/sitter_right.png");
 	
 	public Sitter(boolean isTarget, double scale)
 	{
@@ -15,7 +15,7 @@ public class Sitter extends Hittable {
 		setGraphics(img);
 		dx = 0;
 		dy = 0;
-		this.setHitboxCircle(200, 40, 17);
+		this.setHitboxCircle(250, 112, 20);
 		if(!isTarget)
 			hitbox.setStroke(Color.RED);
 	}
