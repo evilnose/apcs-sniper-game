@@ -77,6 +77,7 @@ public class SniperGame extends Application
 	{
 		levels = new ArrayList<Level>();
 		// Note: there cannot be two levels with the same level numbers
+		levels.add(new LevelTutorial(0));
 		levels.add(new LevelOne(1));
 		levels.add(new LevelTwo(2));
 		levels.add(new LevelThree(3));
@@ -96,16 +97,12 @@ public class SniperGame extends Application
 		lvlScreen = new Stage();
 		lvlScreen.setTitle(currLevel.getName());
 		lvlScreen.setResizable(false);
-		
-		
-		
-		
+
 		if (scene == null)
 			scene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
 		else
 			scene.setRoot(currLevel);
 		
-	
 		lvlScreen.setScene(scene);
 		lvlScreen.show();
 		
@@ -117,7 +114,6 @@ public class SniperGame extends Application
 		for (Level lvl : levels) {
 			if (lvl == currLevel) {
 				String className = currLevel.getClass().getName();
-				System.out.println(className);
 				int levelNum = currLevel.getLevelNumber();
 				switch(className) {
 				case "LevelTutorial": currLevel = new LevelTutorial(levelNum);

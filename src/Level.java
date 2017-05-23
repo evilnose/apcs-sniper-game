@@ -99,11 +99,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				for(Hittable h : civilians)
 				{
-					h.act(now);
+					if (h.isWithinBounds())
+						h.act(now);
 				}
 				for(Hittable h : targets)
 				{
-					h.act(now);
+					if (h.isWithinBounds())
+						h.act(now);
 				}
 				scope.act(now);
 				act(now);
@@ -179,9 +181,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	private boolean isWon() 
 	{
-		for(Hittable h : targets)
-			if(h.isWithinBounds()==false)
-				return false;
 		if(numCivilians==civilians.size()&&targets!=null&&targets.size()==0&&numRemainingBullets>0)
 			return true;
 		else
@@ -395,12 +394,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					System.out.println(event.getX()+" "+event.getY());
 					if (numRemainingBullets>0 && numAvailableBullets > 0) {
 						scope.shoot();
-					}
 						reduceNumBullets();
 						updateBulletLabel();
+					}
 
 				}	
 				
@@ -422,7 +420,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		{
 			if(event.getSource().equals(exit))
 			{
-				SniperGame.setLevelPassed(levelNumber-1, false);
+				SniperGame.setLevelPassed(levelNumber, false);
 				SniperGame.setClosingState();
 				loseScreen.close();
 				System.exit(0);
@@ -431,13 +429,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				loseScreen.close();
 				
-				SniperGame.startLevel(levelNumber - 1); // TODO should have been levelNumber; change before finishing
+				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber; change before finishing
 			}
 			else if(event.getSource().equals(next))
 			{
-				SniperGame.setLevelPassed(levelNumber-1, true);
+				SniperGame.setLevelPassed(levelNumber, true);
 				winScreen.close();
-				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber + 1; change before finishing
+				SniperGame.startLevel(levelNumber + 1); // TODO should have been levelNumber + 1; change before finishing
 			}
 		}
 		

@@ -7,11 +7,11 @@ public class Sitter extends Hittable {
 	private double dx;
 	private double dy;
 	
-	private static Image img = new Image("file:sprites/hittables/civilians/sitter_right.png");
+	private final Image img = new Image("file:sprites/hittables/civilians/sitter_right.png");
 	
 	public Sitter(boolean isTarget, double scale)
 	{
-		super(isTarget,img,scale);
+		super(isTarget,scale);
 		setGraphics(img);
 		dx = 0;
 		dy = 0;

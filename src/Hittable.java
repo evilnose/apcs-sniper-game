@@ -1,10 +1,8 @@
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Scale;
@@ -31,6 +29,18 @@ public abstract class Hittable extends Group
 		hitbox = new Circle();
 		this.getChildren().addAll(graphics,hitbox);
 		scale = 1;
+		isTarget = isTgt;
+		isAlive = true;
+		isStartled = false;
+	}
+	
+	public Hittable(boolean isTgt, double scale) {
+		super();
+		
+		graphics = new ImageView();
+		hitbox = new Circle();
+		this.getChildren().addAll(graphics, hitbox);
+		this.scale = scale;
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
