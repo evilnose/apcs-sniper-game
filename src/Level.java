@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -23,6 +24,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -65,7 +68,16 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int numRemainingCartridges;
 	private int numAvailableBullets;
 	private String levelMessage = "Mission 1! In this mission you will kill the vigilante killer threatening to set the city to fire if we do not yield to his demands";
+	
+	private Media gunShot= new Media(new File("sounds/gunshot_sound.wav").toURI().toString());
+    private MediaPlayer gunShotPlayer= new MediaPlayer(gunShot);
     
+	private Media victory= new Media(new File("sounds/victory_sound.wav").toURI().toString());
+	private MediaPlayer victoryPlayer= new MediaPlayer(victory);
+	
+	private Media lost= new Media(new File("sounds/lost_sound2.wav").toURI().toString());
+	private MediaPlayer lostPlayer= new MediaPlayer(lost);
+	
 	public Level(Integer numLevel) 
 	{
 		// Use the "super" keyword in subclass constructors to invoke this.
@@ -242,6 +254,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		HBox.setMargin(exit, new Insets(0,0,exit.getScene().getHeight() / 5,(exit.getScene().getWidth() - exit.getPrefWidth()) / 2));
 		HBox.setMargin(restart, new Insets(0,0,restart.getScene().getHeight() / 5,(restart.getScene().getWidth() - restart.getPrefWidth()) / 2));
 		loseScreen.setAlwaysOnTop(true);
+		lostPlayer.stop();
+		lostPlayer.play();
 		loseScreen.show();
 	}
 
@@ -274,6 +288,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		winScreen.setScene(scene);
 		HBox.setMargin(next, new Insets(0,0,next.getScene().getHeight() / 5,(next.getScene().getWidth() - next.getPrefWidth()) / 2));
 		winScreen.setAlwaysOnTop(true);
+		victoryPlayer.stop();
+		victoryPlayer.play();
 		winScreen.show();
 	}
 
@@ -408,6 +424,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					System.out.println(event.getX()+" "+event.getY());
 					if (numRemainingBullets>0 && numAvailableBullets > 0) {
 						scope.shoot();
+						gunShotPlayer.stop();
+						gunShotPlayer.play();
 						reduceNumBullets();
 						updateBulletLabel();
 					}

@@ -27,6 +27,7 @@ public class Scope extends ImageView {
 	private double dy;
 	private AnimationTimer timer;
 	
+	
 	public Scope() {
 		super(SCOPE);
 		thisScope = this;
@@ -47,11 +48,15 @@ public class Scope extends ImageView {
 	
 	public void shoot() {
 		if (!isInCooldown) {
-			System.out.println(isInCooldown);
+			
 			displayRecoil();
+		
+			
 			Hittable victim = getOneShotHittable(this.getX() + thisScope.getImage().getWidth() / 2, this.getY() + thisScope.getImage().getHeight() / 2);
 			if (victim != null)
 				victim.shot();
+			
+					
 			List<Hittable> list = this.getLevel().getObjects(Hittable.class);
 			for (Hittable h : list)
 				h.startle();
