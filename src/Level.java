@@ -67,16 +67,18 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
 	private int numAvailableBullets;
-	private String levelMessage = "Mission 1! In this mission you will kill the vigilante killer threatening to set the city to fire if we do not yield to his demands";
-	
+
 	private Media gunShot= new Media(new File("sounds/gunshot_sound.wav").toURI().toString());
     private MediaPlayer gunShotPlayer= new MediaPlayer(gunShot);
+
     
 	private Media victory= new Media(new File("sounds/victory_sound.wav").toURI().toString());
 	private MediaPlayer victoryPlayer= new MediaPlayer(victory);
 	
 	private Media lost= new Media(new File("sounds/lost_sound2.wav").toURI().toString());
 	private MediaPlayer lostPlayer= new MediaPlayer(lost);
+	
+	protected String levelMessage="";
 	
 	public Level(Integer numLevel) 
 	{
@@ -130,7 +132,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		zoomer = new KeyHandler();
 	}
 	 
-	public String getLevelMessage()
+  public String getLevelMessage()
 	{
 		return this.levelMessage;
 	}
@@ -421,7 +423,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					System.out.println(event.getX()+" "+event.getY());
 					if (numRemainingBullets>0 && numAvailableBullets > 0) {
 						scope.shoot();
 						gunShotPlayer.stop();
@@ -462,6 +463,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			else if(event.getSource().equals(next))
 			{
+				Stage s = (Stage) thisLevel.getScene().getWindow();
+				s.close();
 				SniperGame.setLevelPassed(levelNumber-1, true);
 				winScreen.close();
 				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber + 1; change before finishing
