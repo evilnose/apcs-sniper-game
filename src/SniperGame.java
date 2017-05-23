@@ -117,10 +117,7 @@ public class SniperGame extends Application
 				levelScreen = new Stage();
 				levelScreen.setTitle(currLevel.getName());
 				levelScreen.setResizable(false);
-
-
-
-
+				
 				if (levelScene == null)
 					levelScene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
 				else
@@ -149,8 +146,9 @@ public class SniperGame extends Application
 						t.setText(t.getText()+message.charAt(i));
 						i++;
 					}
-					else
+					else {
 						this.stop();
+					}
 					start = now;
 				}
 			}
@@ -184,12 +182,7 @@ public class SniperGame extends Application
 		else
 			levelScene.setRoot(currLevel);
 		
-		levelScreen.setScene(levelScene);
-		levelScreen.show();
-		
-		currLevel.activateDefaultBackground();
 		displayLevelMessage(lvlNum);
-		currLevel.start();
 	}
 
 	private static void restart() {
@@ -252,7 +245,8 @@ public class SniperGame extends Application
 		@Override
 		public void handle(ActionEvent event)
 		{
-			openMap();
+//			openMap(); // TODO recover this
+			startLevel(0);
 		}
 
 	}

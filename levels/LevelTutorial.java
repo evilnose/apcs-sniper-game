@@ -13,16 +13,17 @@ public class LevelTutorial extends Level
 	protected void addAllHittables()
 	{
 
-		Runner tester = new Runner(true,1);
-		this.addHittable(tester);
-		tester.setPos(200, 350);
-		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_one.jpg"));
+		Sitter sitter = new Sitter(true, 0.4);
+		this.addHittable(sitter);
+		sitter.setPos(260, 260);
+		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/bus_stop.jpg"));
 		
 	}
 	
 	@Override
 	protected String getDescription() {
-		return "Welcome! Here is a quick tutorial to get you started.";
+		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
+				" before it gets away.";
 	}
 
 	@Override
