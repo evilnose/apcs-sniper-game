@@ -17,7 +17,7 @@ public class Sitter extends Hittable {
 		dy = 0;
 		this.setHitboxCircle(250, 112, 20);
 		if(!isTarget)
-			hitbox.setStroke(Color.RED);
+			hitbox.setStroke(Color.BLACK);
 	}
 	
 	public void shot() {

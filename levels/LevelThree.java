@@ -6,7 +6,7 @@ public class LevelThree extends Level
 	{
 		super(numLevel);		
 		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_three.jpg"));
-	}
+			}
 	
 	public void addAllHittables() {
 		StreetRunner r1 = new StreetRunner(true,2);

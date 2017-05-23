@@ -1,9 +1,9 @@
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -24,6 +24,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -32,7 +34,7 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 public abstract class Level extends Pane implements Comparable<Level> {
-	
+
 	private ArrayList<Hittable> targets;
 	private ArrayList<Hittable> civilians;
 	private int numCivilians;
@@ -65,7 +67,19 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
 	private int numAvailableBullets;
+
+	private Media gunShot= new Media(new File("sounds/gunshot_sound.wav").toURI().toString());
+    private MediaPlayer gunShotPlayer= new MediaPlayer(gunShot);
+
     
+	private Media victory= new Media(new File("sounds/victory_sound.wav").toURI().toString());
+	private MediaPlayer victoryPlayer= new MediaPlayer(victory);
+	
+	private Media lost= new Media(new File("sounds/lost_sound2.wav").toURI().toString());
+	private MediaPlayer lostPlayer= new MediaPlayer(lost);
+	
+	protected String levelMessage="";
+	
 	public Level(Integer numLevel) 
 	{
 		// Use the "super" keyword in subclass constructors to invoke this.
@@ -89,9 +103,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		scope = new Scope();
 		addScope(scope);
 		
+		 
+		this.setCursor(SCOPE_CURSOR);
+		
 		this.setCursor(SCOPE_CURSOR);
 		addBulletLabel();
 		addAllHittables();
+
 		timer = new AnimationTimer() {
 			
 			@Override
@@ -116,6 +134,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		zoomer = new KeyHandler();
 	}
 	 
+  public String getLevelMessage()
+	{
+		return this.levelMessage;
+	}
+	
 	private void act(long now) 
 	{
 		if(isWon())
@@ -231,6 +254,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		HBox.setMargin(exit, new Insets(0,0,exit.getScene().getHeight() / 5,(exit.getScene().getWidth() - exit.getPrefWidth()) / 2));
 		HBox.setMargin(restart, new Insets(0,0,restart.getScene().getHeight() / 5,(restart.getScene().getWidth() - restart.getPrefWidth()) / 2));
 		loseScreen.setAlwaysOnTop(true);
+		lostPlayer.stop();
+		lostPlayer.play();
 		loseScreen.show();
 	}
 
@@ -263,6 +288,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		winScreen.setScene(scene);
 		HBox.setMargin(next, new Insets(0,0,next.getScene().getHeight() / 5,(next.getScene().getWidth() - next.getPrefWidth()) / 2));
 		winScreen.setAlwaysOnTop(true);
+		victoryPlayer.stop();
+		victoryPlayer.play();
 		winScreen.show();
 	}
 
@@ -272,12 +299,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	public void setWindSpeed(double speed){
 		windSpeed = speed;
-	}
-	
-
-	@Override
-	public int compareTo(Level other) {
-		return this.getLevelNumber() - other.getLevelNumber();
 	}
 	
 	private void reduceNumBullets() {
@@ -384,6 +405,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	protected abstract String getName();
 
+	@Override
+	public int compareTo(Level other) {
+		return this.getLevelNumber() - other.getLevelNumber();
+	}
+
+
 	public class MyEventHandler implements EventHandler<MouseEvent>
 	{
 
@@ -396,6 +423,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				{
 					if (numRemainingBullets>0 && numAvailableBullets > 0) {
 						scope.shoot();
+						gunShotPlayer.stop();
+						gunShotPlayer.play();
+
 						reduceNumBullets();
 						updateBulletLabel();
 					}
@@ -434,12 +464,15 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			else if(event.getSource().equals(next))
 			{
 				SniperGame.setLevelPassed(levelNumber, true);
+				Stage s = (Stage) thisLevel.getScene().getWindow();
+				s.close();
 				winScreen.close();
 				SniperGame.startLevel(levelNumber + 1); // TODO should have been levelNumber + 1; change before finishing
 			}
 		}
 		
 	}
+	
 	
 	public ImageView getLocationImage()
 	{
@@ -462,6 +495,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					ZOOM_IN_SCALE.setPivotX(lastPivotX);
 					ZOOM_IN_SCALE.setPivotY(lastPivotY);
 					thisLevel.getTransforms().add(ZOOM_IN_SCALE);
+					
 					scope.setScaleX(0.5);
 					scope.setScaleY(0.5);
 					lastPivotX = scope.getX()+scope.getImage().getWidth()/2;
@@ -502,3 +536,4 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		}
 	}
 }
+

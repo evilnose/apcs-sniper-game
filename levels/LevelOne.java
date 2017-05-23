@@ -5,8 +5,7 @@ public class LevelOne extends Level
 
 	public LevelOne(Integer numLevel) 
 	{
-		super(numLevel);
-		
+		super(numLevel);		
 		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_one.jpg"));
 	}
 

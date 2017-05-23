@@ -3,13 +3,15 @@ import javafx.scene.image.Image;
 public class LevelTutorial extends Level 
 {
 	
-	public LevelTutorial(int numLevel) {
+	public LevelTutorial(int numLevel) 
+	{
 		super(numLevel);
 		
 	}
 	
 	@Override
-	protected void addAllHittables() {
+	protected void addAllHittables()
+	{
 
 		Runner tester = new Runner(true,1);
 		this.addHittable(tester);
