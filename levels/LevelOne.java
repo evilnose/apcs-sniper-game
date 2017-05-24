@@ -2,10 +2,11 @@ import javafx.scene.image.Image;
 
 public class LevelOne extends Level 
 {
-
+	
 	public LevelOne(Integer numLevel) 
 	{
 		super(numLevel);		
+		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";
 		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_one.jpg"));
 	}
 

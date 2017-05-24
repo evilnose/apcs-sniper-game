@@ -59,7 +59,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Button exit, restart, next;
 	private ButtonHandler btnHandler;
 	private Stage winScreen, loseScreen;
-	private ImageView locImage;
+	protected ImageView locImage;
 	private boolean isStarted;
 	private boolean isPaused = false;
 	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));

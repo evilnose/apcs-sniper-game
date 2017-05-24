@@ -5,6 +5,7 @@ public class LevelTwo extends Level
 
 	public LevelTwo(Integer numLevel) {
 		super(numLevel);
+		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";
 	}
 	
 	@Override
