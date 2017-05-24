@@ -15,7 +15,6 @@ import javafx.scene.layout.Pane;
 public class Map extends Pane
 {
 	private ArrayList<Level> levels;
-	private ImageView level1, level2;
 	private BackgroundImage img = new BackgroundImage(new Image("file:sprites/map.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 			BackgroundSize.DEFAULT);
 	private ArrayList<Boolean> levelsPassed;

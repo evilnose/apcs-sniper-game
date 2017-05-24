@@ -1,4 +1,6 @@
+
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -23,6 +25,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -37,7 +40,7 @@ public class SniperGame extends Application
 	private static ArrayList<Level> levels;
 	public static final int LEVEL_WIDTH = 1000;
 	public static final int LEVEL_HEIGHT = 600;
-	private static Stage levelScreen;
+	private static Stage mainScreen,levelScreen,mapScreen,missionScreen;
 	private static Scene levelScene;
 	private static Level currLevel;
 	private static ArrayList<Boolean> levelsPassed;
@@ -54,6 +57,7 @@ public class SniperGame extends Application
 		loadLevels();
 		fillLevelsPassed();
 
+		mainScreen = homeScreen;
 		homeScreen.setTitle("Sniper Game Alpha"); // TODO This Name is tentative. Need a cooler one.
 		homeScreen.setResizable(false);
 
@@ -90,18 +94,23 @@ public class SniperGame extends Application
 
 	public static void displayLevelMessage(int lvlNum)
 	{
+		mapScreen.close();
 		String message = levels.get(lvlNum).getLevelMessage();
-		System.out.println(message);
-		Stage missionScreen = new Stage();
+		missionScreen = new Stage();
 		missionScreen.setTitle("Mission "+currLevel.getLevelNumber());
 		missionScreen.setResizable(false);
 
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root,LEVEL_WIDTH,LEVEL_HEIGHT);
+		Scene scene = new Scene(root,960,540);
 
 		Text t = new Text();
-		t.setFont(new Font("Verdana", 30));
-		Button b = new Button("Continue");		
+		t.setFont(new Font("American Typewriter", 30));
+		t.wrappingWidthProperty().bind(scene.widthProperty());
+
+		Button b = new Button("CONTINUE");	
+		b.setFont(new Font("American Typewriter", 30));
+		b.setStyle("-fx-background-color: transparent;");
+		b.setTextFill(Color.BLACK);
 		b.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
 
@@ -120,18 +129,22 @@ public class SniperGame extends Application
 				levelScreen = new Stage();
 				levelScreen.setTitle(currLevel.getName());
 				levelScreen.setResizable(false);
-				
+
+
+
+
 				if (levelScene == null)
 					levelScene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
 				else
 					levelScene.setRoot(currLevel);
 
+				levelScreen.setScene(levelScene);
+				levelScreen.show();
 
-				missionScreen.setScene(levelScene);
-				missionScreen.show();
-				
 				currLevel.activateDefaultBackground();
 				currLevel.start();
+
+				missionScreen.close();
 			}
 		});
 
@@ -149,17 +162,22 @@ public class SniperGame extends Application
 						t.setText(t.getText()+message.charAt(i));
 						i++;
 					}
-					else {
+					else
+					{
+						if(i==message.length())
+							root.setBottom(b);
 						this.stop();
 					}
 					start = now;
 				}
 			}
 		};
+
+		root.setMargin(t, new Insets(10,10,10,10));
+		root.setMargin(b, new Insets(20,300,20,400));
 		root.setBackground(new Background(new BackgroundImage(new Image("file:sprites/backgrounds/mission_screen.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT)));
 		root.setCenter(t);
-		root.setBottom(b);
 		missionScreen.setScene(scene);
 		missionScreen.show();
 		timer.start();
@@ -168,23 +186,6 @@ public class SniperGame extends Application
 	public static void startLevel(int lvlNum) 
 	{
 		currLevel = levels.get(lvlNum);
-		if (currLevel.isStarted()) {
-			currLevel.stop();
-			restart();
-		}
-		
-		if (levelScreen != null) {
-			levelScreen.close();
-		}
-		levelScreen = new Stage();
-		levelScreen.setTitle(currLevel.getName());
-		levelScreen.setResizable(false);
-
-		if (levelScene == null)
-			levelScene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
-		else
-			levelScene.setRoot(currLevel);
-		
 		displayLevelMessage(lvlNum);
 	}
 
@@ -192,6 +193,7 @@ public class SniperGame extends Application
 		for (Level lvl : levels) {
 			if (lvl == currLevel) {
 				String className = currLevel.getClass().getName();
+				System.out.println(className);
 				int levelNum = currLevel.getLevelNumber();
 				switch(className) {
 				case "LevelTutorial": currLevel = new LevelTutorial(levelNum);
@@ -233,8 +235,9 @@ public class SniperGame extends Application
 
 	private void openMap() 
 	{
+		mainScreen.close();
 		Map map =  new Map(levels,levelsPassed);
-		Stage mapScreen = new Stage();
+		mapScreen = new Stage();
 		mapScreen.setResizable(true);
 
 		Scene scene = new Scene(map,496,750);
@@ -248,8 +251,7 @@ public class SniperGame extends Application
 		@Override
 		public void handle(ActionEvent event)
 		{
-//			openMap(); // TODO recover this
-			startLevel(0);
+			openMap();
 		}
 
 	}
@@ -288,4 +290,6 @@ public class SniperGame extends Application
         }
         return imgs;
 	}
+
 }
+

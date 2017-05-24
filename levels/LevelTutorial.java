@@ -6,7 +6,7 @@ public class LevelTutorial extends Level
 	public LevelTutorial(int numLevel) 
 	{
 		super(numLevel);
-		
+		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
 	}
 	
 	@Override

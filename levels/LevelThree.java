@@ -4,7 +4,8 @@ public class LevelThree extends Level
 {
 	public LevelThree(int numLevel) 
 	{
-		super(numLevel);		
+		super(numLevel);
+		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";		
 		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_three.jpg"));
 			}
 	
