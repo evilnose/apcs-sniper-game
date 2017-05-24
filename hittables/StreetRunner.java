@@ -33,9 +33,11 @@ public class StreetRunner extends Runner
 	public void startle() {
 		if (!isStartled && isAlive)
 		{
+			isStartled = true;
 			dx*=2;
 			dy*=2;
 		}
 	}
+	
 
 }

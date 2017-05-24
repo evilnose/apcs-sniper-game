@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -7,12 +8,14 @@ import java.util.Scanner;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -271,5 +274,18 @@ public class SniperGame extends Application
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static Image[] decodeGifToImages(String url) {
+		GifDecoder gd = new GifDecoder();
+		gd.read(url);
+		Image[] imgs = new Image[gd.getFrameCount()];
+        for(int i=0; i < gd.getFrameCount(); i++) {
+
+            WritableImage wimg = null;
+            BufferedImage bimg = gd.getFrame(i);
+            imgs[i] = SwingFXUtils.toFXImage(bimg, wimg);
+        }
+        return imgs;
 	}
 }

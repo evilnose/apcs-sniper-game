@@ -46,6 +46,12 @@ public class Runner extends Hittable
 			lev.removeHittable(this);
 		}
 	}
+	
+	@Override
+	protected void initialStartle() {
+		isStartled = true;
+		// TODO set animation
+	}
 
 	@Override
 	public void shot() {

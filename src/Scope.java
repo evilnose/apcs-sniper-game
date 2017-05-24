@@ -1,4 +1,5 @@
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +8,14 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class Scope extends ImageView {
 	// Use Circle method getCenterX() and getCenterY() to get coordinates of crosshair.
 	private final Scope thisScope;
 	private static final Image SCOPE = new Image("file:sprites/scopes/redscope_framed.png");
-	private final String RECOIL_URL = "file:sprites/scopes/recoil.gif";
+	private final String recoilUrl = "file:sprites/scopes/recoil.gif";
 	private Image[] recoilSequence;
 	public static final double SCOPE_WIDTH = SCOPE.getWidth();
 	public static final double SCOPE_HEIGHT = SCOPE.getHeight();
@@ -26,6 +29,9 @@ public class Scope extends ImageView {
 	private boolean initialSetup = true;
 	private double dy;
 	private AnimationTimer timer;
+
+	private Media gunShot= new Media(new File("sounds/gunshot_sound.wav").toURI().toString());
+    private MediaPlayer gunShotPlayer= new MediaPlayer(gunShot);
 	
 	
 	public Scope() {
@@ -34,22 +40,15 @@ public class Scope extends ImageView {
 		isInCooldown = false;
 		shakeSpeed = MAX_SHAKE_SPEED;
 		movingUp = true;
-		GifDecoder gd = new GifDecoder();
-		gd.read(RECOIL_URL);
-		recoilSequence = new Image[gd.getFrameCount()];
-        for(int i=0; i < gd.getFrameCount(); i++) {
-
-            WritableImage wimg = null;
-            BufferedImage bimg = gd.getFrame(i);
-            recoilSequence[i] = SwingFXUtils.toFXImage(bimg, wimg);
-        }
+		recoilSequence = SniperGame.decodeGifToImages(recoilUrl);
 
 	}
 	
 	public void shoot() {
 		if (!isInCooldown) {
+			gunShotPlayer.stop();
+			gunShotPlayer.play();
 			displayRecoil();
-		
 			
 			Hittable victim = getOneShotHittable(this.getX() + thisScope.getImage().getWidth() / 2, this.getY() + thisScope.getImage().getHeight() / 2);
 			if (victim != null)
@@ -140,7 +139,7 @@ public class Scope extends ImageView {
 	
 	public void displayRecoil(){
 		isInCooldown = true;
-		displayImageSequence(recoilSequence, 100);
+		displayScopeAnimation(recoilSequence, 100);
 	
 		
 	}
@@ -149,7 +148,7 @@ public class Scope extends ImageView {
 		
 	}
 	
-	private void displayImageSequence(Image[] sequence, double delay) {
+	private void displayScopeAnimation(Image[] sequence, double delay) {
 		final int TOTAL_FRAMES = sequence.length;
 		timer = new AnimationTimer() {
 			long lastTime = 0;
@@ -157,7 +156,7 @@ public class Scope extends ImageView {
 			@Override
 			public void handle(long now) {
 				if (System.currentTimeMillis() - lastTime >= 100) {
-					thisScope.setImage(recoilSequence[currFrame]);
+					thisScope.setImage(sequence[currFrame]);
 					currFrame++;
 					lastTime = System.currentTimeMillis();
 				}

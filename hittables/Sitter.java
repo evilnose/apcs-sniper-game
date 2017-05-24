@@ -9,6 +9,8 @@ public class Sitter extends Hittable {
 	
 	private final Image civImg = new Image("file:sprites/hittables/civilians/sitter_right.png");
 	private final Image tgtImg = new Image("file:sprites/hittables/targets/sitter_right.png");
+	private final Image[] startledCivImgs = SniperGame.decodeGifToImages("file:sprites/hittables/civilians/startled_sitter_right.gif");
+	private final Image[] startledTgtImgs = SniperGame.decodeGifToImages("file:sprites/hittables/targets/startled_sitter_right.gif");
 	
 	public Sitter(boolean isTarget)
 	{
@@ -26,14 +28,16 @@ public class Sitter extends Hittable {
 	
 	public Sitter(boolean isTarget, double scale)
 	{
-		super(isTarget,scale);
+		super(isTarget);
 		if (isTarget)
 			setGraphics(tgtImg);
 		else
 			setGraphics(civImg);
+		this.setScale(scale);
 		dx = 0;
 		dy = 0;
 		this.setHitboxCircle(250, 112, 20);
+		setScale(scale);
 		if(!isTarget)
 			hitbox.setStroke(Color.BLACK);
 	}
@@ -49,6 +53,25 @@ public class Sitter extends Hittable {
 	public void act(long now) 
 	{
 		// TODO Auto-generated method stub
-		
+		if (isStartled) {
+			if (isFacingRight())
+				move(3.5, 0);
+			else
+				move(-3.5, 0);
+		}
 	}
+	
+	@Override
+	public void startle() {
+		if (!isStartled && isAlive) {
+			initialStartle();
+		}
+	}
+	
+	@Override
+	public void initialStartle() {
+		displayStartledAnimation(this, startledTgtImgs, 100);
+		moveHitbox(4.8, 8.8);
+	}
+	
 }

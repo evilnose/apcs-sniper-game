@@ -67,10 +67,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
 	private int numAvailableBullets;
-
-	private Media gunShot= new Media(new File("sounds/gunshot_sound.wav").toURI().toString());
-    private MediaPlayer gunShotPlayer= new MediaPlayer(gunShot);
-
     
 	private Media victory= new Media(new File("sounds/victory_sound.wav").toURI().toString());
 	private MediaPlayer victoryPlayer= new MediaPlayer(victory);
@@ -254,8 +250,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		HBox.setMargin(exit, new Insets(0,0,exit.getScene().getHeight() / 5,(exit.getScene().getWidth() - exit.getPrefWidth()) / 2));
 		HBox.setMargin(restart, new Insets(0,0,restart.getScene().getHeight() / 5,(restart.getScene().getWidth() - restart.getPrefWidth()) / 2));
 		loseScreen.setAlwaysOnTop(true);
-		lostPlayer.stop();
-		lostPlayer.play();
+//		lostPlayer.stop();
+//		lostPlayer.play();
 		loseScreen.show();
 	}
 
@@ -423,8 +419,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				{
 					if (numRemainingBullets>0 && numAvailableBullets > 0) {
 						scope.shoot();
-						gunShotPlayer.stop();
-						gunShotPlayer.play();
 
 						reduceNumBullets();
 						updateBulletLabel();

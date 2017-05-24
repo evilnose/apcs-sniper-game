@@ -15,7 +15,7 @@ public class LevelTutorial extends Level
 
 		Sitter sitter = new Sitter(true, 0.4);
 		this.addHittable(sitter);
-		sitter.setPos(260, 260);
+		sitter.setPos(175, 220);
 		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/bus_stop.jpg"));
 		
 	}
