@@ -46,7 +46,7 @@ public class Sitter extends Hittable {
 		super.shot();
 		
 		Level lvl = (Level)getParent();
-		lvl.removeHittable(this);
+		lvl.getChildren().remove(this);
 	}
 	
 	@Override
