@@ -64,6 +64,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private boolean isPaused = false;
 	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
 	private Label bulletLabel;
+	private final Label reloadLabel = new Label("R");
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
 	private int numAvailableBullets;
@@ -95,7 +96,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 		locImage = new ImageView(new Image("file:sprites/level_" + levelNumber+ "_loc.png"));
+		initReloadLabel();
 		
+		addAllHittables();
 		scope = new Scope();
 		addScope(scope);
 		
@@ -104,20 +107,21 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		
 		this.setCursor(SCOPE_CURSOR);
 		addBulletLabel();
-		addAllHittables();
 
 		timer = new AnimationTimer() {
 			
 			@Override
 			public void handle(long now) 
 			{
-				for(Hittable h : civilians)
+				for(int i = 0;i<civilians.size();i++)
 				{
+					Hittable h = civilians.get(i);
 					if (h.isWithinBounds())
 						h.act(now);
 				}
-				for(Hittable h : targets)
+				for(int i = 0;i<targets.size();i++)
 				{
+					Hittable h = targets.get(i);
 					if (h.isWithinBounds())
 						h.act(now);
 				}
@@ -210,7 +214,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		for(Hittable h : targets)
 			if(h.isWithinBounds()==false)
 				return true;
-		if(civilians.size()<numCivilians||numRemainingBullets<0)
+		if(civilians.size()<numCivilians)
+			return true;
+		else if (numRemainingBullets == 0 && targets.size() > 0)
 			return true;
 		else
 			return false;
@@ -307,7 +313,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				updateBulletLabel();
 			}
 		} else {
-			// TODO display out of bullets
+			// game is lost
 		}
 	}
 	
@@ -336,6 +342,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	private void remindToReload() {
 		// TODO implement code to remind player to reload
+		if (!this.getChildren().contains(reloadLabel))
+			this.getChildren().add(reloadLabel);
 	}
 
 	public int getNumRemainingBullets() {
@@ -373,13 +381,17 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 
 	protected void removeHittable(Hittable h) {
-		getChildren().removeAll(h, h.getHitbox());
+		getChildren().remove(h);
 
 		if (h.isTarget()) {
 			targets.remove(h);
 		} else {
 			civilians.remove(h);
 		}
+	}
+	
+	protected void removeHittableFromScene(Hittable h) {
+		getChildren().remove(h);
 	}
 
 	protected void addScope(Scope s) {
@@ -405,7 +417,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public int compareTo(Level other) {
 		return this.getLevelNumber() - other.getLevelNumber();
 	}
-
+	
+	private void initReloadLabel() {
+		reloadLabel.setTextFill(Color.RED);
+		reloadLabel.setPadding(new Insets(300, 0, 0, 0));
+	}
 
 	public class MyEventHandler implements EventHandler<MouseEvent>
 	{
@@ -417,11 +433,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					if (numRemainingBullets>0 && numAvailableBullets > 0) {
-						scope.shoot();
-
-						reduceNumBullets();
-						updateBulletLabel();
+					if (numRemainingBullets>0) {
+						if (numAvailableBullets > 0) {
+							scope.shoot();
+							reduceNumBullets();
+							updateBulletLabel();
+						} else {
+							remindToReload();
+						}
 					}
 
 				}	
@@ -444,7 +463,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		{
 			if(event.getSource().equals(exit))
 			{
-				SniperGame.setLevelPassed(levelNumber, false);
 				SniperGame.setClosingState();
 				loseScreen.close();
 				System.exit(0);
@@ -452,12 +470,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			else if(event.getSource().equals(restart))
 			{
 				loseScreen.close();
-				
 				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber; change before finishing
 			}
 			else if(event.getSource().equals(next))
 			{
-				SniperGame.setLevelPassed(levelNumber, true);
+				SniperGame.setLevelPassed(levelNumber);
 				Stage s = (Stage) thisLevel.getScene().getWindow();
 				s.close();
 				winScreen.close();
@@ -466,7 +483,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		}
 		
 	}
-	
 	
 	public ImageView getLocationImage()
 	{

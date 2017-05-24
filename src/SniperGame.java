@@ -173,8 +173,8 @@ public class SniperGame extends Application
 			}
 		};
 
-		root.setMargin(t, new Insets(10,10,10,10));
-		root.setMargin(b, new Insets(20,300,20,400));
+		BorderPane.setMargin(t, new Insets(10,10,10,10));
+		BorderPane.setMargin(b, new Insets(20,300,20,400));
 		root.setBackground(new Background(new BackgroundImage(new Image("file:sprites/backgrounds/mission_screen.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT)));
 		root.setCenter(t);
@@ -193,7 +193,6 @@ public class SniperGame extends Application
 		for (Level lvl : levels) {
 			if (lvl == currLevel) {
 				String className = currLevel.getClass().getName();
-				System.out.println(className);
 				int levelNum = currLevel.getLevelNumber();
 				switch(className) {
 				case "LevelTutorial": currLevel = new LevelTutorial(levelNum);
@@ -221,16 +220,17 @@ public class SniperGame extends Application
 				boolean b = s.nextInt()==0?false:true;
 				levelsPassed.add(b);
 			}
-		} 
+			s.close();
+		}
 		catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
 		}
 	}
 
-	public static void setLevelPassed(int levelNum, boolean passed)
+	public static void setLevelPassed(int levelNum)
 	{
-		levelsPassed.set(levelNum,passed);
+		levelsPassed.set(levelNum, true);
 	}
 
 	private void openMap() 
@@ -273,7 +273,6 @@ public class SniperGame extends Application
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -289,6 +288,10 @@ public class SniperGame extends Application
             imgs[i] = SwingFXUtils.toFXImage(bimg, wimg);
         }
         return imgs;
+	}
+	
+	public static void gamePassed() {
+		// TODO The game is WON
 	}
 
 }
