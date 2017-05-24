@@ -63,8 +63,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private boolean isStarted;
 	private boolean isPaused = false;
 	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
-	private Label bulletLabel;
 	private final Label reloadLabel = new Label("R");
+	private Label bulletLabel,cartridgeLabel;
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
 	private int numAvailableBullets;
@@ -319,17 +319,39 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	
 	private void updateBulletLabel() {
 		
-		bulletLabel.setText(numAvailableBullets + "/" + numRemainingCartridges);
+		bulletLabel.setText(":   "+numAvailableBullets);
+		cartridgeLabel.setText(":   "+numRemainingCartridges);
 	}
 
-	private void addBulletLabel() {
+	private void addBulletLabel()
+	{
+		VBox v = new VBox();
+		
+		HBox h = new HBox();
+		ImageView bullets = new ImageView(new Image("file:sprites/bullet.png"));
         bulletLabel = new Label();
-		bulletLabel.setFont(new Font(30));
+		bulletLabel.setFont(new Font(12));
 		bulletLabel.setTextFill(Color.WHITE);
+		h.setMargin(bullets, new Insets(10, 10, 10, 10));
+		h.setMargin(bulletLabel, new Insets(10, 10, 10, 10));
+		h.getChildren().addAll(bullets,bulletLabel);
+		
+		HBox h1 = new HBox();
+		ImageView magazines = new ImageView(new Image("file:sprites/magazine.png"));
+        cartridgeLabel = new Label();
+        cartridgeLabel.setFont(new Font(12));
+        cartridgeLabel.setTextFill(Color.WHITE);
 		reloadBulletLabel();
 		updateBulletLabel();
-		bulletLabel.setPadding(new Insets(10, 10, 10, 10));
-		this.getChildren().add(bulletLabel);
+		h1.setMargin(magazines, new Insets(10, 10, 10, 10));
+		h1.setMargin(cartridgeLabel, new Insets(10, 10, 10, 10));
+		h1.getChildren().addAll(magazines, cartridgeLabel);
+		
+		reloadBulletLabel();
+		updateBulletLabel();
+		
+		v.getChildren().addAll(h,h1);
+		this.getChildren().addAll(v);
 	}
 	
 	public void reloadBulletLabel() {
@@ -380,7 +402,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		}
 	}
 
-	protected void removeHittable(Hittable h) {
+	protected void removeHittable(Hittable h) 
+	{
 		getChildren().remove(h);
 
 		if (h.isTarget()) {
@@ -388,10 +411,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		} else {
 			civilians.remove(h);
 		}
-	}
-	
-	protected void removeHittableFromScene(Hittable h) {
-		getChildren().remove(h);
 	}
 
 	protected void addScope(Scope s) {
