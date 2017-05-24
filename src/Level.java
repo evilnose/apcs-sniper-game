@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -75,6 +76,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private MediaPlayer lostPlayer= new MediaPlayer(lost);
 	
 	protected String levelMessage="";
+	
 	
 	public Level(Integer numLevel) 
 	{
