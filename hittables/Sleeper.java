@@ -7,9 +7,11 @@ public class Sleeper extends Hittable {
 	private final Image civImgL = new Image("file:sprites/hittables/civilians/sleeper_left.png");
 	private final Image tgtImg = new Image("file:sprites/hittables/targets/sleeper_right.png");
 	private final Image tgtImgL = new Image("file:sprites/hittables/targets/sleeper_left.png");
+	protected int i = 3;
 	
 	public Sleeper(boolean isTarget) {
 		super(isTarget);
+		System.out.println(i);
 		if (isTarget)
 			setGraphics(tgtImg);
 		else

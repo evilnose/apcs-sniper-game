@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -87,15 +88,15 @@ public class SniperGame extends Application
 		levels = new ArrayList<Level>();
 		// Note: there cannot be two levels with the same level numbers
 		levels.add(new LevelOne(1));
-		levels.add(new LevelTwo(2));
-		levels.add(new LevelThree(3));
-		levels.add(new LevelFour(4));
-		levels.add(new LevelFive(5));
-		levels.add(new LevelSix(6));
-		levels.add(new LevelSeven(7));
-		levels.add(new LevelEight(8));
-		levels.add(new LevelNine(9));
-		levels.add(new LevelTen(10));
+//		levels.add(new LevelTwo(2));
+//		levels.add(new LevelThree(3));
+//		levels.add(new LevelFour(4));
+//		levels.add(new LevelFive(5));
+//		levels.add(new LevelSix(6));
+//		levels.add(new LevelSeven(7));
+//		levels.add(new LevelEight(8));
+//		levels.add(new LevelNine(9));
+//		levels.add(new LevelTen(10));
 	}
 
 	public static void displayLevelMessage(int lvlNum)
@@ -110,7 +111,7 @@ public class SniperGame extends Application
 		Scene scene = new Scene(root,960,540);
 
 		Text t = new Text();
-		t.setFont(new Font("American Typewriter", 30));
+		t.setFont(new Font("American Typewriter", 27));
 		t.wrappingWidthProperty().bind(scene.widthProperty());
 
 		Button b = new Button("CONTINUE");	
@@ -178,6 +179,20 @@ public class SniperGame extends Application
 				}
 			}
 		};
+		
+		// click to skip message animation
+		scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.getButton() == MouseButton.PRIMARY) {
+					t.setText(message);
+					root.setBottom(b);
+					timer.stop();
+				}
+			}
+			
+		});
 
 		BorderPane.setMargin(t, new Insets(10,10,10,10));
 		BorderPane.setMargin(b, new Insets(20,300,20,400));

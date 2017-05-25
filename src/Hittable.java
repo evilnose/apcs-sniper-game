@@ -33,24 +33,25 @@ public abstract class Hittable extends Group
 	public Hittable(boolean isTgt)
 	{
 		super();
-		
+		hitbox = new Circle();
 		graphics = new ImageView();
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
 		isFacingRight = true;
+		this.getChildren().addAll(hitbox, graphics);
 	}
 
 	public Hittable(boolean isTgt, Image img) 
 	{
 		super();
-		
+		hitbox = new Circle();
 		graphics = new ImageView(img);
-		
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
 		isFacingRight = true;
+		this.getChildren().addAll(hitbox, graphics);
 	}
 
 	public abstract void act(long now);
@@ -84,13 +85,14 @@ public abstract class Hittable extends Group
 	
 	protected void setHitboxRect(double x, double y, double width, double height) {
 		hitbox = new Rectangle(x, y, width, height);
+		this.getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 		hitbox.setStroke(Color.RED);
 	}
 	
 	protected void setHitboxCircle(double x, double y, double radius) {
 		hitbox = new Circle(x, y, radius);
-		this.getChildren().addAll(graphics,hitbox);
+		this.getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 		hitbox.setStroke(Color.RED);
 	}

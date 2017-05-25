@@ -43,6 +43,7 @@ public class Scope extends ImageView {
 	
 	public void shoot() {
 		if (!isInCooldown) {
+			this.getLevel().reduceNumBullets();
 			gunShotPlayer.stop();
 			gunShotPlayer.play();
 			displayRecoil();

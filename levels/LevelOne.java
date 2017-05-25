@@ -1,12 +1,11 @@
-import javafx.scene.image.Image;
-
 public class LevelOne extends Level 
 {
 	
 	public LevelOne(int numLevel) 
 	{
 		super(numLevel);
-		levelMessage = "A SUICIDE BOMBER WITH EXPLOSIVES STRAPPED TO HIS CHEST IS STANDING AT THIS BUS STOP. KILL HIM BEFORE HE BOARDS HIS TARGET BUS. BEWARE! HE RUNS FAST.";	
+		levelMessage = "A NEWLY ARRIVED ALIEN IS WAITING AT THE BUS STOP. ELIMINATE IT BEFORE IT GETS AWAY AND INFILTRATE THE CITY."
+				+ " BEWARE: THEY RUN FAST.";	
 	}
 	
 	@Override
@@ -21,8 +20,7 @@ public class LevelOne extends Level
 	
 	@Override
 	protected String getDescription() {
-		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
-				" before it gets away.";
+		return "This is the tutorial.";
 	}
 
 	@Override
