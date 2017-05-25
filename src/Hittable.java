@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.transform.Scale;
 
 public abstract class Hittable extends Group
 {
@@ -16,6 +17,8 @@ public abstract class Hittable extends Group
 	protected boolean isAlive;
 	protected boolean isStartled;
 
+	private double startX;
+	private double startY;
 	protected double dx;
 	protected double dy;
 
@@ -31,8 +34,6 @@ public abstract class Hittable extends Group
 		super();
 		
 		graphics = new ImageView();
-		hitbox = new Circle();
-		this.getChildren().addAll(graphics,hitbox);
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
@@ -44,8 +45,6 @@ public abstract class Hittable extends Group
 		super();
 		
 		graphics = new ImageView(img);
-		hitbox = new Circle();
-		this.getChildren().addAll(graphics,hitbox);
 		
 		isTarget = isTgt;
 		isAlive = true;
@@ -90,6 +89,7 @@ public abstract class Hittable extends Group
 	
 	protected void setHitboxCircle(double x, double y, double radius) {
 		hitbox = new Circle(x, y, radius);
+		this.getChildren().addAll(graphics,hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 		hitbox.setStroke(Color.RED);
 	}

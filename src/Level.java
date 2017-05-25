@@ -96,6 +96,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 		locImage = new ImageView(new Image("file:sprites/level_" + levelNumber+ "_loc.png"));
+		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/level_"+levelNumber+".png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		this.setBackground(new Background(myBI));
 		initReloadLabel();
 		
 		addAllHittables();
@@ -167,16 +170,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		BackgroundImage myBI = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
 		this.setBackground(new Background(myBI));
-	}
-
-	public void activateDefaultBackground() {
-		BackgroundImage myBI = new BackgroundImage(defaultBackground, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		this.setBackground(new Background(myBI));
-	}
-
-	protected void setDefaultBackgroundImage(Image img) {
-		defaultBackground = img;
 	}
 
 	public void pause()
@@ -404,7 +397,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	protected void removeHittable(Hittable h) 
 	{
-		getChildren().remove(h);
+		getChildren().removeAll(h,h.getHitbox());
 
 		if (h.isTarget()) {
 			targets.remove(h);
@@ -489,7 +482,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			else if(event.getSource().equals(restart))
 			{
 				loseScreen.close();
-				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber; change before finishing
+				Stage s = (Stage) thisLevel.getScene().getWindow();
+				s.close();
+				SniperGame.startLevel(levelNumber-1); // TODO should have been levelNumber; change before finishing
 			}
 			else if(event.getSource().equals(next))
 			{
@@ -497,7 +492,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				Stage s = (Stage) thisLevel.getScene().getWindow();
 				s.close();
 				winScreen.close();
-				SniperGame.startLevel(levelNumber + 1); // TODO should have been levelNumber + 1; change before finishing
+				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber + 1; change before finishing
 			}
 		}
 		

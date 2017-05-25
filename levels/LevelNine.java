@@ -1,9 +1,9 @@
 import javafx.scene.image.Image;
 
-public class LevelTutorial extends Level 
+public class LevelNine extends Level 
 {
 	
-	public LevelTutorial(int numLevel) 
+	public LevelNine(int numLevel) 
 	{
 		super(numLevel);
 		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
@@ -16,7 +16,7 @@ public class LevelTutorial extends Level
 		Sitter sitter = new Sitter(true, 0.4);
 		this.addHittable(sitter);
 		sitter.setPos(175, 220);
-		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/bus_stop.jpg"));
+		
 		
 	}
 	

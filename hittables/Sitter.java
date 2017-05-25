@@ -33,7 +33,6 @@ public class Sitter extends Hittable {
 			setGraphics(tgtImg);
 		else
 			setGraphics(civImg);
-		this.setScale(scale);
 		dx = 0;
 		dy = 0;
 		this.setHitboxCircle(250, 112, 20);
@@ -44,9 +43,8 @@ public class Sitter extends Hittable {
 	
 	public void shot() {
 		super.shot();
-		
-		Level lvl = (Level)getParent();
-		lvl.getChildren().remove(this);
+		Level lvl = (Level) this.getParent();
+		lvl.removeHittable(this);
 	}
 	
 	@Override

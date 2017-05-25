@@ -86,10 +86,16 @@ public class SniperGame extends Application
 	{
 		levels = new ArrayList<Level>();
 		// Note: there cannot be two levels with the same level numbers
-		levels.add(new LevelTutorial(0));
 		levels.add(new LevelOne(1));
 		levels.add(new LevelTwo(2));
 		levels.add(new LevelThree(3));
+		levels.add(new LevelFour(4));
+		levels.add(new LevelFive(5));
+		levels.add(new LevelSix(6));
+		levels.add(new LevelSeven(7));
+		levels.add(new LevelEight(8));
+		levels.add(new LevelNine(9));
+		levels.add(new LevelTen(10));
 	}
 
 	public static void displayLevelMessage(int lvlNum)
@@ -141,7 +147,7 @@ public class SniperGame extends Application
 				levelScreen.setScene(levelScene);
 				levelScreen.show();
 
-				currLevel.activateDefaultBackground();
+				//currLevel.activateDefaultBackground();
 				currLevel.start();
 
 				missionScreen.close();
@@ -155,7 +161,7 @@ public class SniperGame extends Application
 			public void handle(long now) 
 			{
 				long start = 0;
-				if(now-start>3*Math.pow(10, 9))
+				if(now-start>Math.pow(10, 9))
 				{
 					if(i<message.length())
 					{
@@ -195,13 +201,25 @@ public class SniperGame extends Application
 				String className = currLevel.getClass().getName();
 				int levelNum = currLevel.getLevelNumber();
 				switch(className) {
-				case "LevelTutorial": currLevel = new LevelTutorial(levelNum);
-				break;	
 				case "LevelOne": currLevel = new LevelOne(levelNum);
 				break;	
 				case "LevelTwo": currLevel = new LevelTwo(levelNum);
 				break;
 				case "LevelThree" : currLevel = new LevelThree(levelNum);
+				break;
+				case "LevelFour" : currLevel = new LevelFour(levelNum);
+				break;
+				case "LevelFive" : currLevel = new LevelFive(levelNum);
+				break;
+				case "LevelSix" : currLevel = new LevelSix(levelNum);
+				break;
+				case "LevelSeven" : currLevel = new LevelSeven(levelNum);
+				break;
+				case "LevelEight" : currLevel = new LevelEight(levelNum);
+				break;
+				case "LevelNine" : currLevel = new LevelNine(levelNum);
+				break;
+				case "LevelTen" : currLevel = new LevelTen(levelNum);
 				break;
 				}
 			}
