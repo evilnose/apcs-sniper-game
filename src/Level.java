@@ -495,7 +495,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			else if(event.getSource().equals(next))
 			{
-				SniperGame.setLevelPassed(levelNumber);
+				SniperGame.setLevelPassed(levelNumber-1);
 				Stage s = (Stage) thisLevel.getScene().getWindow();
 				s.close();
 				winScreen.close();
