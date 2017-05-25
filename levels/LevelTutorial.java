@@ -7,6 +7,7 @@ public class LevelTutorial extends Level
 	{
 		super(numLevel);
 		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
+		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/bus_stop.jpg"));
 	}
 	
 	@Override
@@ -16,16 +17,17 @@ public class LevelTutorial extends Level
 		Sitter sitter = new Sitter(true, 0.4);
 		this.addHittable(sitter);
 		sitter.setPos(175, 220);
-		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/bus_stop.jpg"));
 		
+		Sleeper sleeper = new Sleeper(true, 0.5);
+		this.addHittable(sleeper);
+		sleeper.faceLeft();
 	}
 	
 	@Override
 	protected String getDescription() {
-		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
-				" before it gets away.";
+		return "Tutorial Level. Designed to show the player around.";
 	}
-
+		
 	@Override
 	protected String getName() {
 		return "Tutorial";

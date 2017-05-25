@@ -404,7 +404,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	protected void removeHittable(Hittable h) 
 	{
-		getChildren().remove(h);
+		getChildren().removeAll(h);
 
 		if (h.isTarget()) {
 			targets.remove(h);

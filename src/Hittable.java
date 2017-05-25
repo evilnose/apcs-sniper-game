@@ -18,6 +18,7 @@ public abstract class Hittable extends Group
 
 	protected double dx;
 	protected double dy;
+	protected int num = 1;
 
 	private boolean isFacingRight;
 	
@@ -128,12 +129,10 @@ public abstract class Hittable extends Group
 	
 	protected void faceLeft() {
 		isFacingRight = false;
+		double dx = ((Circle)hitbox).getCenterX() - graphics.getX();
+		this.moveHitbox(graphics.getImage().getWidth() - dx * 2, 0); // calibrate hitbox
 	}
-	
-	protected void faceRight() {
-		isFacingRight = true;
-	}
-	
+
 	protected boolean isFacingRight() {
 		return isFacingRight;
 	}
