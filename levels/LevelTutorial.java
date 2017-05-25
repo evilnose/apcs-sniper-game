@@ -1,5 +1,3 @@
-import javafx.scene.image.Image;
-
 public class LevelTutorial extends Level 
 {
 	
@@ -7,7 +5,6 @@ public class LevelTutorial extends Level
 	{
 		super(numLevel);
 		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
-		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/bus_stop.jpg"));
 	}
 	
 	@Override

@@ -1,12 +1,12 @@
 import javafx.scene.image.Image;
 
-public class LevelOne extends Level 
+public class LevelTen extends Level 
 {
 	
-	public LevelOne(int numLevel) 
+	public LevelTen(int numLevel) 
 	{
 		super(numLevel);
-		levelMessage = "A SUICIDE BOMBER WITH EXPLOSIVES STRAPPED TO HIS CHEST IS STANDING AT THIS BUS STOP. KILL HIM BEFORE HE BOARDS HIS TARGET BUS. BEWARE! HE RUNS FAST.";	
+		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
 	}
 	
 	@Override
@@ -16,6 +16,7 @@ public class LevelOne extends Level
 		Sitter sitter = new Sitter(true, 0.4);
 		this.addHittable(sitter);
 		sitter.setPos(175, 220);
+		
 		
 	}
 	

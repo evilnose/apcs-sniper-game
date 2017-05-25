@@ -1,30 +1,34 @@
 import javafx.scene.image.Image;
 
-public class LevelThree extends Level
+public class LevelThree extends Level 
 {
+	
 	public LevelThree(int numLevel) 
 	{
 		super(numLevel);
-		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";		
-		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_three.jpg"));
-			}
-	
-	public void addAllHittables() {
-		StreetRunner r1 = new StreetRunner(true,2);
-		addHittable(r1);
-		r1.setPos(100, 350);
+		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
 	}
+	
+	@Override
+	protected void addAllHittables()
+	{
 
+		Sitter sitter = new Sitter(true, 0.4);
+		this.addHittable(sitter);
+		sitter.setPos(175, 220);
+		
+		
+	}
+	
 	@Override
 	protected String getDescription() {
-		
-		return "Level 3: The Dark Alleys";
+		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
+				" before it gets away.";
 	}
 
 	@Override
 	protected String getName() {
-		
-		return "Level 3";
+		return "Tutorial";
 	}
 
 }
