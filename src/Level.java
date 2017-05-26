@@ -75,6 +75,10 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Media lost= new Media(new File("sounds/lost_sound2.wav").toURI().toString());
 	private MediaPlayer lostPlayer= new MediaPlayer(lost);
 	
+	private Media reload= new Media(new File("sounds/reload_sound.wav").toURI().toString());
+	private MediaPlayer reloadPlayer= new MediaPlayer(reload);
+	
+	
 	protected String levelMessage="";
 	
 	
@@ -355,6 +359,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			numAvailableBullets = cartridgeSize;
 			numRemainingCartridges--;
 			updateBulletLabel();
+			reloadPlayer.stop();
+			reloadPlayer.play();
+			
 		}
 	}
 
