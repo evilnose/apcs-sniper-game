@@ -1,13 +1,10 @@
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -46,6 +43,7 @@ public class Scope extends ImageView {
 	
 	public void shoot() {
 		if (!isInCooldown) {
+			this.getLevel().reduceNumBullets();
 			gunShotPlayer.stop();
 			gunShotPlayer.play();
 			displayRecoil();

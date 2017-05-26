@@ -1,9 +1,9 @@
 import javafx.scene.image.Image;
 
-public class LevelThree extends Level 
+public class LevelFour extends Level 
 {
 	
-	public LevelThree(int numLevel) 
+	public LevelFour(int numLevel) 
 	{
 		super(numLevel);
 		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	

@@ -43,7 +43,6 @@ public class Runner extends Hittable
 		{
 			dx = 0;
 			Level lev = (Level) this.getParent();
-			//lev.removeHittable(this);
 			lev.getChildren().remove(this);
 		}
 	}

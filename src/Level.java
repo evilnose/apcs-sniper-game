@@ -2,8 +2,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -33,6 +35,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public abstract class Level extends Pane implements Comparable<Level> {
 
@@ -64,6 +67,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private boolean isStarted;
 	private boolean isPaused = false;
 	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
+	private final Label reloadLabel = new Label();
+	private FadeTransition ft;
 	private Label bulletLabel,cartridgeLabel;
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
@@ -101,7 +106,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 		locImage = new ImageView(new Image("file:sprites/level_" + levelNumber+ "_loc.png"));
+		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/level_"+levelNumber+".png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		this.setBackground(new Background(myBI));
 		
+		addAllHittables();
 		scope = new Scope();
 		addScope(scope);
 		
@@ -110,20 +119,22 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		
 		this.setCursor(SCOPE_CURSOR);
 		addBulletLabel();
-		addAllHittables();
+		initReloadLabel();
 
 		timer = new AnimationTimer() {
 			
 			@Override
 			public void handle(long now) 
 			{
-				for(Hittable h : civilians)
+				for(int i = 0;i<civilians.size();i++)
 				{
+					Hittable h = civilians.get(i);
 					if (h.isWithinBounds())
 						h.act(now);
 				}
-				for(Hittable h : targets)
+				for(int i = 0;i<targets.size();i++)
 				{
+					Hittable h = targets.get(i);
 					if (h.isWithinBounds())
 						h.act(now);
 				}
@@ -159,26 +170,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 	
 	protected abstract void addAllHittables();
-
-	public void load() {
-		Stage lvlStage = new Stage();
-
-	}
 	
 	public void activateCustomBackground(Image background) {
 		BackgroundImage myBI = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
 		this.setBackground(new Background(myBI));
-	}
-
-	public void activateDefaultBackground() {
-		BackgroundImage myBI = new BackgroundImage(defaultBackground, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		this.setBackground(new Background(myBI));
-	}
-
-	protected void setDefaultBackgroundImage(Image img) {
-		defaultBackground = img;
 	}
 
 	public void pause()
@@ -216,7 +212,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		for(Hittable h : targets)
 			if(h.isWithinBounds()==false)
 				return true;
-		if(civilians.size()<numCivilians||numRemainingBullets<0)
+		if(civilians.size()<numCivilians)
+			return true;
+		else if (numRemainingBullets == 0 && targets.size() > 0)
 			return true;
 		else
 			return false;
@@ -303,7 +301,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		windSpeed = speed;
 	}
 	
-	private void reduceNumBullets() {
+	public void reduceNumBullets() {
 		if (numRemainingBullets > 0) {
 			if (numAvailableBullets == 0) {
 				remindToReload();
@@ -313,7 +311,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				updateBulletLabel();
 			}
 		} else {
-			// TODO display out of bullets
+			// game is lost
 		}
 	}
 	
@@ -332,8 +330,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
         bulletLabel = new Label();
 		bulletLabel.setFont(new Font(12));
 		bulletLabel.setTextFill(Color.WHITE);
-		h.setMargin(bullets, new Insets(10, 10, 10, 10));
-		h.setMargin(bulletLabel, new Insets(10, 10, 10, 10));
+		HBox.setMargin(bullets, new Insets(10, 10, 10, 10));
+		HBox.setMargin(bulletLabel, new Insets(10, 10, 10, 10));
 		h.getChildren().addAll(bullets,bulletLabel);
 		
 		HBox h1 = new HBox();
@@ -343,8 +341,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
         cartridgeLabel.setTextFill(Color.WHITE);
 		reloadBulletLabel();
 		updateBulletLabel();
-		h1.setMargin(magazines, new Insets(10, 10, 10, 10));
-		h1.setMargin(cartridgeLabel, new Insets(10, 10, 10, 10));
+		HBox.setMargin(magazines, new Insets(10, 10, 10, 10));
+		HBox.setMargin(cartridgeLabel, new Insets(10, 10, 10, 10));
 		h1.getChildren().addAll(magazines, cartridgeLabel);
 		
 		reloadBulletLabel();
@@ -366,7 +364,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 
 	private void remindToReload() {
-		// TODO implement code to remind player to reload
+		ft.play();
 	}
 
 	public int getNumRemainingBullets() {
@@ -405,7 +403,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	protected void removeHittable(Hittable h) 
 	{
-		getChildren().removeAll(h, h.getHitbox());
+		getChildren().removeAll(h,h.getHitbox());
 
 		if (h.isTarget()) {
 			targets.remove(h);
@@ -437,7 +435,22 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public int compareTo(Level other) {
 		return this.getLevelNumber() - other.getLevelNumber();
 	}
-
+	
+	private void initReloadLabel() {
+		reloadLabel.setText("Press R to Reload");
+		reloadLabel.setTextFill(Color.RED);
+		reloadLabel.setFont(new Font("Monospaced Bold", 18));
+		reloadLabel.setAlignment(Pos.CENTER);
+		// this is hardcoded :(
+		reloadLabel.setPadding(new Insets(20, 0, 0, 400));
+		reloadLabel.setOpacity(0);
+		this.getChildren().add(reloadLabel);
+		ft = new FadeTransition(Duration.millis(1000), reloadLabel);
+		ft.setFromValue(0);
+		ft.setToValue(1.0);
+		ft.setCycleCount(2);
+		ft.setAutoReverse(true);
+	}
 
 	public class MyEventHandler implements EventHandler<MouseEvent>
 	{
@@ -449,11 +462,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					if (numRemainingBullets>0 && numAvailableBullets > 0) {
-						scope.shoot();
-
-						reduceNumBullets();
-						updateBulletLabel();
+					if (numRemainingBullets > 0) {
+						if (numAvailableBullets > 0) {
+							scope.shoot();
+							updateBulletLabel();
+						} else {
+							remindToReload();
+						}
 					}
 
 				}	
@@ -476,7 +491,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		{
 			if(event.getSource().equals(exit))
 			{
-				SniperGame.setLevelPassed(levelNumber, false);
 				SniperGame.setClosingState();
 				loseScreen.close();
 				System.exit(0);
@@ -484,21 +498,21 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			else if(event.getSource().equals(restart))
 			{
 				loseScreen.close();
-				
-				SniperGame.startLevel(levelNumber); // TODO should have been levelNumber; change before finishing
+				Stage s = (Stage) thisLevel.getScene().getWindow();
+				s.close();
+				SniperGame.startLevel(levelNumber-1); // This is due to the one offset betwixt the ArrayList levels index and the levelNumber
 			}
 			else if(event.getSource().equals(next))
 			{
-				SniperGame.setLevelPassed(levelNumber, true);
+				SniperGame.setLevelPassed(levelNumber-1);
 				Stage s = (Stage) thisLevel.getScene().getWindow();
 				s.close();
 				winScreen.close();
-				SniperGame.startLevel(levelNumber + 1); // TODO should have been levelNumber + 1; change before finishing
+				SniperGame.startLevel(levelNumber); // Same reason as above
 			}
 		}
 		
 	}
-	
 	
 	public ImageView getLocationImage()
 	{

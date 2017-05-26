@@ -21,6 +21,7 @@ public abstract class Hittable extends Group
 	private double startY;
 	protected double dx;
 	protected double dy;
+	protected int num = 1;
 
 	private boolean isFacingRight;
 	
@@ -32,28 +33,25 @@ public abstract class Hittable extends Group
 	public Hittable(boolean isTgt)
 	{
 		super();
-		
-		graphics = new ImageView();
 		hitbox = new Circle();
-		this.getChildren().addAll(graphics,hitbox);
+		graphics = new ImageView();
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
 		isFacingRight = true;
+		this.getChildren().addAll(hitbox, graphics);
 	}
 
 	public Hittable(boolean isTgt, Image img) 
 	{
 		super();
-		
-		graphics = new ImageView(img);
 		hitbox = new Circle();
-		this.getChildren().addAll(graphics,hitbox);
-		
+		graphics = new ImageView(img);
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
 		isFacingRight = true;
+		this.getChildren().addAll(hitbox, graphics);
 	}
 
 	public abstract void act(long now);
@@ -87,12 +85,14 @@ public abstract class Hittable extends Group
 	
 	protected void setHitboxRect(double x, double y, double width, double height) {
 		hitbox = new Rectangle(x, y, width, height);
+		this.getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 		hitbox.setStroke(Color.RED);
 	}
 	
 	protected void setHitboxCircle(double x, double y, double radius) {
 		hitbox = new Circle(x, y, radius);
+		this.getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 		hitbox.setStroke(Color.RED);
 	}
@@ -131,12 +131,10 @@ public abstract class Hittable extends Group
 	
 	protected void faceLeft() {
 		isFacingRight = false;
+		double dx = ((Circle)hitbox).getCenterX() - graphics.getX();
+		this.moveHitbox(graphics.getImage().getWidth() - dx * 2, 0); // calibrate hitbox
 	}
-	
-	protected void faceRight() {
-		isFacingRight = true;
-	}
-	
+
 	protected boolean isFacingRight() {
 		return isFacingRight;
 	}

@@ -1,49 +1,32 @@
-import java.io.File;
-
-import javafx.scene.image.Image;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 public class LevelOne extends Level 
 {
-	private MediaPlayer alienSound= new MediaPlayer(new Media(new File("sounds/alien_level1.wav").toURI().toString()));
 	
-	
-	public LevelOne(Integer numLevel) 
+	public LevelOne(int numLevel) 
 	{
-		super(numLevel);		
-		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";
-		this.setDefaultBackgroundImage(new Image("file:sprites/backgrounds/level_one.jpg"));
-		alienSound.setCycleCount(20);
-		alienSound.play();
-		
+		super(numLevel);
+		levelMessage = "A NEWLY ARRIVED ALIEN IS WAITING AT THE BUS STOP. ELIMINATE IT BEFORE IT GETS AWAY AND INFILTRATE THE CITY."
+				+ " BEWARE: THEY RUN FAST.";	
 	}
-
+	
 	@Override
-	protected void addAllHittables() {
-		// TODO Auto-generated method stub
-		Runner tester1 = new Runner(true,1);
-		addHittable(tester1);
-		tester1.setPos(200, 250);
+	protected void addAllHittables()
+	{
+
+		Sitter sitter = new Sitter(true, 0.4);
+		this.addHittable(sitter);
+		sitter.setPos(175, 220);
 		
-//		Tester tester2= new Tester(true);
-//		addHittable(tester2);
-//		tester2.setPos(450, 350);
-//		
-//		Tester tester3=new Tester(false);
-//		addHittable(tester3);
-//		tester3.setPos(550, 350);
 	}
 	
 	@Override
 	protected String getDescription() {
-		return "Level 1: The Start";
+		return "This is the tutorial.";
 	}
 
 	@Override
 	protected String getName() {
-		return "Level 1";
+		return "Tutorial";
 	}
-
 
 }

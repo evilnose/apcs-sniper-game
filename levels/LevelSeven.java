@@ -1,9 +1,9 @@
 import javafx.scene.image.Image;
 
-public class LevelThree extends Level 
+public class LevelSeven extends Level 
 {
 	
-	public LevelThree(int numLevel) 
+	public LevelSeven(int numLevel) 
 	{
 		super(numLevel);
 		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
@@ -16,7 +16,7 @@ public class LevelThree extends Level
 		Sitter sitter = new Sitter(true, 0.4);
 		this.addHittable(sitter);
 		sitter.setPos(175, 220);
-		
+	
 		
 	}
 	

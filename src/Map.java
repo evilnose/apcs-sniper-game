@@ -26,12 +26,18 @@ public class Map extends Pane
 		this.levelsPassed = levelsPassed;
 		levels = obj;
 
+		int c = 0;
 		for(int i = 0;i<levels.size();i++)
 		{
-			if(levelsPassed.get(i))
+			if(!levelsPassed.get(i))
 			{
 				levels.get(i).getLocationImage().setOnMouseClicked(new MissionHandler());
 				this.getChildren().add(levels.get(i).getLocationImage());
+				c++;
+				break;
+			}
+			if (i == levels.size() - 1) {
+				SniperGame.gamePassed();
 			}
 		}
 	}
