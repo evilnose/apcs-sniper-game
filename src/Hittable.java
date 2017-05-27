@@ -45,8 +45,8 @@ public abstract class Hittable extends Group
 		isStartled = false;
 		isFacingRight = true;
 		this.getChildren().addAll(hitbox, graphics);
-		boundX1 = SniperGame.LEVEL_WIDTH;
-		boundX2 = SniperGame.LEVEL_HEIGHT;
+		boundX1 = 0;
+		boundX2 = SniperGame.LEVEL_WIDTH;
 	}
 
 	public Hittable(boolean isTgt, Image img) 

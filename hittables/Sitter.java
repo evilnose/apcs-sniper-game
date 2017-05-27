@@ -12,6 +12,7 @@ public class Sitter extends Hittable {
 	private final Image tgtImg = new Image("file:sprites/hittables/targets/sitter_right.png");
 	private final Image[] startledCivImgs = SniperGame.decodeGifToImages("file:sprites/hittables/civilians/startled_sitter_right.gif");
 	private final Image[] startledTgtImgs = SniperGame.decodeGifToImages("file:sprites/hittables/targets/startled_sitter_right.gif");
+	private double scale;
 	
 	public Sitter(boolean isTarget)
 	{
@@ -25,6 +26,7 @@ public class Sitter extends Hittable {
 		this.setHitboxCircle(250, 100, 20);
 		if(!isTarget)
 			hitbox.setStroke(null);
+		scale = 1;
 	}
 	
 	public Sitter(boolean isTarget, double scale)
@@ -38,6 +40,7 @@ public class Sitter extends Hittable {
 		dy = 0;
 		this.setHitboxCircle(250, 112, 20);
 		setScale(scale);
+		this.scale = scale;
 		if(!isTarget)
 			hitbox.setStroke(null);
 	}
@@ -69,11 +72,8 @@ public class Sitter extends Hittable {
 	
 	@Override
 	public void initialStartle() {
-		Circle c = (Circle)hitbox;
-		double oldX = c.getCenterX();
-		double oldY = c.getCenterY();
 		displayStartledAnimation(this, startledTgtImgs, 100);
-		moveHitbox(13,20);
+		moveHitbox(12.2 * scale, 21 * scale);
 	}
 	
 }
