@@ -37,6 +37,16 @@ public class Runner extends Hittable
 		if(random < 0)
 		{
 			dx = -dx;
+			if(dx>0)
+			{
+				this.setGraphics(new Image("file:sprites/hittables/civilians/runner_right.gif"));
+				this.faceRight();
+			}
+			else
+			{
+				this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
+				this.faceLeft();
+			}
 		}
 		this.move(dx,dy);
 		if(this.isWithinBounds()==false)

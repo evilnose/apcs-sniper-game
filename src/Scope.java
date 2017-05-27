@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Circle;
 
 public class Scope extends ImageView {
 	// Use Circle method getCenterX() and getCenterY() to get coordinates of crosshair.
@@ -47,6 +48,7 @@ public class Scope extends ImageView {
 			gunShotPlayer.stop();
 			gunShotPlayer.play();
 			displayRecoil();
+
 			
 			Hittable victim = getOneShotHittable(this.getX() + thisScope.getImage().getWidth() / 2, this.getY() + thisScope.getImage().getHeight() / 2);
 			if (victim != null)

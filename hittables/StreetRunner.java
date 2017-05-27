@@ -7,37 +7,32 @@ public class StreetRunner extends Runner
 	private static Image img = new Image("file:sprites/stick man.gif");
 	public StreetRunner(boolean isTarget, double scale)
 	{
-		//Line l = new Line()
 		super(isTarget, scale);
 		this.scale = scale;
-		dx = 1.8;
-		dy = -0.9;
+		dx = 0;
+		dy = 0;
 	}
 
 	@Override
-	public void act(long now) 
+	public void act(long now)
 	{ 
-		this.move(dx,dy);
+		if(isStartled==true)
+			this.move(dx,dy);
 		if(this.isWithinBounds()==false)
 		{
 			Level lev = (Level) this.getParent();
 			lev.removeHittable(this);
 		}
-//		count++;
-//		if(count%100==0)
-		scale-=0.00002;
-			this.setScale(scale);
 	}
 
 	@Override
-	public void startle() {
+	public void startle() 
+	{
 		if (!isStartled && isAlive)
 		{
 			isStartled = true;
-			dx*=2;
-			dy*=2;
+			dx = 2;
+			dy = 2;
 		}
 	}
-	
-
 }

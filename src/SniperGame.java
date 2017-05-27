@@ -88,15 +88,15 @@ public class SniperGame extends Application
 		levels = new ArrayList<Level>();
 		// Note: there cannot be two levels with the same level numbers
 		levels.add(new LevelOne(1));
-//		levels.add(new LevelTwo(2));
-//		levels.add(new LevelThree(3));
-//		levels.add(new LevelFour(4));
-//		levels.add(new LevelFive(5));
-//		levels.add(new LevelSix(6));
-//		levels.add(new LevelSeven(7));
-//		levels.add(new LevelEight(8));
-//		levels.add(new LevelNine(9));
-//		levels.add(new LevelTen(10));
+		levels.add(new LevelTwo(2));
+		//		levels.add(new LevelThree(3));
+		//		levels.add(new LevelFour(4));
+		//		levels.add(new LevelFive(5));
+		//		levels.add(new LevelSix(6));
+		//		levels.add(new LevelSeven(7));
+		//		levels.add(new LevelEight(8));
+		//		levels.add(new LevelNine(9));
+		//		levels.add(new LevelTen(10));
 	}
 
 	public static void displayLevelMessage(int lvlNum)
@@ -179,7 +179,7 @@ public class SniperGame extends Application
 				}
 			}
 		};
-		
+
 		// click to skip message animation
 		scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -191,7 +191,7 @@ public class SniperGame extends Application
 					timer.stop();
 				}
 			}
-			
+
 		});
 
 		BorderPane.setMargin(t, new Insets(10,10,10,10));
@@ -206,8 +206,13 @@ public class SniperGame extends Application
 
 	public static void startLevel(int lvlNum) 
 	{
-		currLevel = levels.get(lvlNum);
-		displayLevelMessage(lvlNum);
+		if(lvlNum>=levels.size())
+			gamePassed();
+		else
+		{
+			currLevel = levels.get(lvlNum);
+			displayLevelMessage(lvlNum);
+		}
 	}
 
 	private static void restart() {
@@ -309,20 +314,20 @@ public class SniperGame extends Application
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Image[] decodeGifToImages(String url) {
 		GifDecoder gd = new GifDecoder();
 		gd.read(url);
 		Image[] imgs = new Image[gd.getFrameCount()];
-        for(int i=0; i < gd.getFrameCount(); i++) {
+		for(int i=0; i < gd.getFrameCount(); i++) {
 
-            WritableImage wimg = null;
-            BufferedImage bimg = gd.getFrame(i);
-            imgs[i] = SwingFXUtils.toFXImage(bimg, wimg);
-        }
-        return imgs;
+			WritableImage wimg = null;
+			BufferedImage bimg = gd.getFrame(i);
+			imgs[i] = SwingFXUtils.toFXImage(bimg, wimg);
+		}
+		return imgs;
 	}
-	
+
 	public static void gamePassed() {
 		// TODO The game is WON
 	}

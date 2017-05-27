@@ -153,12 +153,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			thisLevel.stop();
 			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
 			thisLevel.setOnMouseMoved(null);
+			thisLevel.setOnMousePressed(null);
 			thisLevel.displayWinMessage();
 		}
 		if (isLost()) {
 			thisLevel.stop();
 			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
 			thisLevel.setOnMouseMoved(null);
+			thisLevel.setOnMousePressed(null);
 			thisLevel.displayLostMessage();
 		}
 	}
@@ -453,6 +455,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
+					System.out.println(event.getX()+" "+event.getY());
 					if (numRemainingBullets > 0) {
 						if (numAvailableBullets > 0) {
 							scope.shoot();

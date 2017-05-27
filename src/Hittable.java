@@ -1,4 +1,6 @@
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,7 +14,7 @@ public abstract class Hittable extends Group
 {
 	protected ImageView graphics;
 	protected Shape hitbox;
-	
+
 	protected boolean isTarget;
 	protected boolean isAlive;
 	protected boolean isStartled;
@@ -23,13 +25,16 @@ public abstract class Hittable extends Group
 	protected double dy;
 	protected int num = 1;
 
+	protected static double boundX1;
+	protected static double boundX2;
+
 	private boolean isFacingRight;
-	
+
 	private final Image leftRunnerCiv = new Image("file:sprites/hittables/civilians/runner_left.gif");
 	private final Image rightRunnerCiv = new Image("file:sprites/hittables/civilians/runner_right.gif");
 	private final Image leftRunnerTgt = new Image("file:sprites/hittables/targets/runner_left.gif");
 	private final Image rightRunnerTgt = new Image("file:sprites/hittables/targets/runner_right.gif");
-	
+
 	public Hittable(boolean isTgt)
 	{
 		super();
@@ -40,6 +45,8 @@ public abstract class Hittable extends Group
 		isStartled = false;
 		isFacingRight = true;
 		this.getChildren().addAll(hitbox, graphics);
+		boundX1 = SniperGame.LEVEL_WIDTH;
+		boundX2 = SniperGame.LEVEL_HEIGHT;
 	}
 
 	public Hittable(boolean isTgt, Image img) 
@@ -55,12 +62,18 @@ public abstract class Hittable extends Group
 	}
 
 	public abstract void act(long now);
-	
+
 	protected void setGraphics(Image img)
 	{
 		graphics.setImage(img);
 	}
-	
+
+	public static void setBounds(double x,double y)
+	{
+		boundX1 = x;
+		boundX2 = y;
+	}
+
 	protected void setScale(double scale)
 	{
 		// assume hitbox is circle
@@ -72,31 +85,29 @@ public abstract class Hittable extends Group
 		hitbox.setScaleX(scale);
 		hitbox.setScaleY(scale);
 		this.setHitboxPos(getPivotX() + dx * scale, getPivotY() + dy * scale);
-		
 	}
-	
+
 	private double getPivotX() {
 		return graphics.getX() + graphics.getImage().getWidth()/2;
 	}
-	
+
 	private double getPivotY() {
 		return graphics.getY() + graphics.getImage().getHeight()/2;
 	}
-	
+
 	protected void setHitboxRect(double x, double y, double width, double height) {
 		hitbox = new Rectangle(x, y, width, height);
 		this.getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 		hitbox.setStroke(Color.RED);
 	}
-	
+
 	protected void setHitboxCircle(double x, double y, double radius) {
 		hitbox = new Circle(x, y, radius);
-		this.getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 		hitbox.setStroke(Color.RED);
 	}
-	
+
 	private void setHitboxPos(double x, double y) {
 		if (Circle.class.isInstance(hitbox)) {
 			Circle circle = Circle.class.cast(hitbox);
@@ -108,7 +119,7 @@ public abstract class Hittable extends Group
 			rect.setY(y);
 		}
 	}
-	
+
 	protected void moveHitbox(double dx, double dy) {
 		if (Circle.class.isInstance(hitbox)) {
 			Circle circle = Circle.class.cast(hitbox);
@@ -128,17 +139,23 @@ public abstract class Hittable extends Group
 	public boolean isTarget() {
 		return isTarget;
 	}
-	
+
 	protected void faceLeft() {
 		isFacingRight = false;
 		double dx = ((Circle)hitbox).getCenterX() - graphics.getX();
-		this.moveHitbox(graphics.getImage().getWidth() - dx * 2, 0); // calibrate hitbox
+		this.moveHitbox(graphics.getImage().getWidth() - dx , 0); // calibrate hitbox
 	}
 
+	protected void faceRight() {
+		isFacingRight = true;
+		double dx = ((Circle)hitbox).getCenterX() - graphics.getX();
+		this.moveHitbox(graphics.getImage().getWidth() + dx, 0); // calibrate hitbox
+	}
+	
 	protected boolean isFacingRight() {
 		return isFacingRight;
 	}
-	
+
 	public void startle() {
 		if (!isStartled && isAlive)
 		{
@@ -147,7 +164,8 @@ public abstract class Hittable extends Group
 		}
 	}
 
-	public void shot() {
+	public void shot() 
+	{
 		if(isAlive)
 			isAlive = !isAlive;
 	}
@@ -164,7 +182,7 @@ public abstract class Hittable extends Group
 			rect.setX(rect.getX() + dx);
 			rect.setY(rect.getY() + dy);
 		}
-		
+
 	}
 
 	public void setPos(int x, int y)
@@ -182,8 +200,11 @@ public abstract class Hittable extends Group
 			x = circle.getCenterX();
 			y = circle.getCenterY();
 			double r = circle.getRadius();
-			if (x + r < 0 || x - r > SniperGame.LEVEL_WIDTH|| y + r < 0 || y - r > SniperGame.LEVEL_HEIGHT) {
+			if (x + r < 0 || x - r > SniperGame.LEVEL_WIDTH|| y + r < 0 || y - r > SniperGame.LEVEL_HEIGHT) 
 				return false;
+			else if (x + r < boundX1 || x - r > boundX2|| y + r < 0 || y - r > SniperGame.LEVEL_HEIGHT) {
+				dx = -dx;
+				return true;
 			}
 			return true;
 		} else if (Rectangle.class.isInstance(hitbox)) {
@@ -192,17 +213,17 @@ public abstract class Hittable extends Group
 			y = rect.getY();
 			double w = rect.getWidth();
 			double h = rect.getHeight();
-			if (x + w < 0 || x > SniperGame.LEVEL_WIDTH || y + h < 0 || y > SniperGame.LEVEL_HEIGHT)
+			if (x + w < boundX1 || x > boundX2 || y + h < 0 || y > SniperGame.LEVEL_HEIGHT)
 				return false;
 			return true;
 		}
 		return false;
 	}
-	
+
 	protected void initialStartle() {
 		isStartled = true;
 	}
-	
+
 	protected void changeToStartledAnimation() {
 		if (isTarget) {
 			if (isFacingRight)
@@ -213,12 +234,12 @@ public abstract class Hittable extends Group
 		} else {
 			if (isFacingRight)
 				this.setGraphics(rightRunnerCiv);
-		
+
 			else
 				this.setGraphics(leftRunnerCiv);
 		}
 	}
-	
+
 	protected void displayStartledAnimation(Hittable hittable, Image[] sequence, double delay) {
 		final int TOTAL_FRAMES = sequence.length;
 		AnimationTimer timer = new AnimationTimer() {
@@ -237,10 +258,10 @@ public abstract class Hittable extends Group
 					this.stop();
 				}
 			}
-			
+
 		};
 		timer.start();
-		
+
 	}
 
 }

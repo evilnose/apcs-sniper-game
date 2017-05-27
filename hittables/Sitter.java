@@ -41,11 +41,10 @@ public class Sitter extends Hittable {
 			hitbox.setStroke(Color.BLACK);
 	}
 	
-	public void shot() {
+	public void shot() 
+	{
 		super.shot();
-		
 		Level lvl = (Level)getParent();
-
 		lvl.removeHittable(this);
 	}
 	
