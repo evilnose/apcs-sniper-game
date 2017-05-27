@@ -18,7 +18,7 @@ public class LevelTwo extends Level
 		Runner runner = new Runner(true, 0.5);
 		this.addHittable(runner);
 		runner.setPos(165, 190);
-		runner.setBounds(163, 483);
+		runner.setBounds(175, 470);
 
 		this.addHittable(sitter);
 	}

@@ -201,9 +201,10 @@ public abstract class Hittable extends Group
 			x = circle.getCenterX();
 			y = circle.getCenterY();
 			double r = circle.getRadius();
-			if (graphics.getX()+graphics.getFitWidth() < 0 || graphics.getX() > SniperGame.LEVEL_WIDTH|| graphics.getY()+graphics.getFitHeight() < 0 || graphics.getY()> SniperGame.LEVEL_HEIGHT) 
+			if (graphics.getX()+graphics.getImage().getWidth() < 0 || graphics.getX() > SniperGame.LEVEL_WIDTH|| graphics.getY()+graphics.getImage().getHeight() < 0 || graphics.getY()> SniperGame.LEVEL_HEIGHT) 
 				return false;
-			else if (x + r < boundX1 || x - r > boundX2|| y + r < 0 || y - r > SniperGame.LEVEL_HEIGHT) {
+			else if (x + r < boundX1 || x - r > boundX2|| y + r < 0 || y - r > SniperGame.LEVEL_HEIGHT) 
+			{
 				dx = -dx;
 				return true;
 			}
