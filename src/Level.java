@@ -26,6 +26,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -79,7 +80,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Media lost= new Media(new File("sounds/lost_sound2.wav").toURI().toString());
 	private MediaPlayer lostPlayer= new MediaPlayer(lost);
 	
+	private Media reload= new Media(new File("sounds/reload_sound.wav").toURI().toString());
+	private MediaPlayer reloadPlayer= new MediaPlayer(reload);
+	
+	
 	protected String levelMessage="";
+	
 	
 	public Level(Integer numLevel) 
 	{
@@ -353,6 +359,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			numAvailableBullets = cartridgeSize;
 			numRemainingCartridges--;
 			updateBulletLabel();
+			reloadPlayer.stop();
+			reloadPlayer.play();
+			
 		}
 	}
 
@@ -498,7 +507,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			}
 			else if(event.getSource().equals(next))
 			{
-				SniperGame.setLevelPassed(levelNumber);
+				SniperGame.setLevelPassed(levelNumber-1);
 				Stage s = (Stage) thisLevel.getScene().getWindow();
 				s.close();
 				winScreen.close();
