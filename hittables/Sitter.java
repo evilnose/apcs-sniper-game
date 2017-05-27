@@ -1,6 +1,7 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class Sitter extends Hittable {
 	
@@ -23,7 +24,7 @@ public class Sitter extends Hittable {
 		dy = 0;
 		this.setHitboxCircle(250, 100, 20);
 		if(!isTarget)
-			hitbox.setStroke(Color.BLACK);
+			hitbox.setStroke(null);
 	}
 	
 	public Sitter(boolean isTarget, double scale)
@@ -38,7 +39,7 @@ public class Sitter extends Hittable {
 		this.setHitboxCircle(250, 112, 20);
 		setScale(scale);
 		if(!isTarget)
-			hitbox.setStroke(Color.BLACK);
+			hitbox.setStroke(null);
 	}
 	
 	public void shot() 
@@ -68,8 +69,11 @@ public class Sitter extends Hittable {
 	
 	@Override
 	public void initialStartle() {
+		Circle c = (Circle)hitbox;
+		double oldX = c.getCenterX();
+		double oldY = c.getCenterY();
 		displayStartledAnimation(this, startledTgtImgs, 100);
-		moveHitbox(4.8, 8.8);
+		moveHitbox(13,20);
 	}
 	
 }

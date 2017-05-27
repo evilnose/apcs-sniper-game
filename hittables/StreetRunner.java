@@ -1,16 +1,25 @@
 import javafx.scene.image.Image;
 
-public class StreetRunner extends Runner
+public class StreetRunner extends Hittable
 {
 	private double scale;
 	int count = 0;
-	private static Image img = new Image("file:sprites/stick man.gif");
+	private static Image tgtImg = new Image("file:sprites/hittables/civilians/sitter_right.png");
+	private final Image civImg = new Image("file:sprites/hittables/civilians/sitter_right.png");
+	private final Image startledImage = new Image("file:sprites/hittables/targets/runner_right.gif");
+	
 	public StreetRunner(boolean isTarget, double scale)
 	{
-		super(isTarget, scale);
-		this.scale = scale;
+		super(isTarget);
+		if (isTarget)
+			setGraphics(tgtImg);
+		else
+			setGraphics(civImg);
 		dx = 0;
 		dy = 0;
+		this.setHitboxCircle(250, 100, 20);
+		if(!isTarget)
+			hitbox.setStroke(null);
 	}
 
 	@Override
@@ -30,9 +39,10 @@ public class StreetRunner extends Runner
 	{
 		if (!isStartled && isAlive)
 		{
+			this.setGraphics(startledImage);
 			isStartled = true;
 			dx = 2;
-			dy = 2;
+			dy = 3;
 		}
 	}
 }

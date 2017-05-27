@@ -120,7 +120,8 @@ public abstract class Hittable extends Group
 		}
 	}
 
-	protected void moveHitbox(double dx, double dy) {
+	protected void moveHitbox(double dx, double dy) 
+	{
 		if (Circle.class.isInstance(hitbox)) {
 			Circle circle = Circle.class.cast(hitbox);
 			circle.setCenterX(circle.getCenterX() + dx);
@@ -143,13 +144,13 @@ public abstract class Hittable extends Group
 	protected void faceLeft() {
 		isFacingRight = false;
 		double dx = ((Circle)hitbox).getCenterX() - graphics.getX();
-		this.moveHitbox(graphics.getImage().getWidth() - dx , 0); // calibrate hitbox
+		this.moveHitbox(graphics.getImage().getWidth() - 2*dx , 0); // calibrate hitbox
 	}
 
 	protected void faceRight() {
 		isFacingRight = true;
 		double dx = ((Circle)hitbox).getCenterX() - graphics.getX();
-		this.moveHitbox(graphics.getImage().getWidth() + dx, 0); // calibrate hitbox
+		this.moveHitbox(graphics.getImage().getWidth() + 2*dx, 0); // calibrate hitbox
 	}
 	
 	protected boolean isFacingRight() {
@@ -200,7 +201,7 @@ public abstract class Hittable extends Group
 			x = circle.getCenterX();
 			y = circle.getCenterY();
 			double r = circle.getRadius();
-			if (x + r < 0 || x - r > SniperGame.LEVEL_WIDTH|| y + r < 0 || y - r > SniperGame.LEVEL_HEIGHT) 
+			if (graphics.getX()+graphics.getFitWidth() < 0 || graphics.getX() > SniperGame.LEVEL_WIDTH|| graphics.getY()+graphics.getFitHeight() < 0 || graphics.getY()> SniperGame.LEVEL_HEIGHT) 
 				return false;
 			else if (x + r < boundX1 || x - r > boundX2|| y + r < 0 || y - r > SniperGame.LEVEL_HEIGHT) {
 				dx = -dx;

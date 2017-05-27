@@ -6,18 +6,18 @@ public class LevelTwo extends Level
 	public LevelTwo(int numLevel) 
 	{
 		super(numLevel);
-		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
+		levelMessage = "AN ALIEN IS TRYING TO RECRUIT THIS INNOCENT CITIZEN TO HIS ORGANIZATION IN THIS DARK ALLEY. KILL HIM BEFORE THE CIVILIAN MAKES A DECISION.";	
 	}
 	
 	@Override
 	protected void addAllHittables()
 	{
-		Sitter sitter = new Sitter(true, 1);
+		StreetRunner sitter = new StreetRunner(false, 1);
 		sitter.setPos(175, 220);
 		
 		Runner runner = new Runner(true, 0.5);
 		this.addHittable(runner);
-		runner.setPos(170, 190);
+		runner.setPos(165, 190);
 		runner.setBounds(163, 483);
 
 		this.addHittable(sitter);
@@ -25,13 +25,14 @@ public class LevelTwo extends Level
 	
 	@Override
 	protected String getDescription() {
-		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
-				" before it gets away.";
+		
+		return "Hey! You got through the first level! Let's see if you can deal with this alien trying to trap the citizens of Tatooine.";
+	
 	}
 
 	@Override
 	protected String getName() {
-		return "Tutorial";
+		return "Two";
 	}
 
 }

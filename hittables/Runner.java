@@ -1,6 +1,7 @@
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
 
 public class Runner extends Hittable 
@@ -33,19 +34,24 @@ public class Runner extends Hittable
 	@Override
 	public void act(long now) 
 	{ 
-		int random = (int)(Math.random()*35)-1;
+		Circle c = (Circle)hitbox;
+		int random = (int)(Math.random()*100)-1;
 		if(random < 0)
 		{
 			dx = -dx;
 			if(dx>0)
 			{
 				this.setGraphics(new Image("file:sprites/hittables/civilians/runner_right.gif"));
-				this.faceRight();
+				
+				this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
+				
 			}
 			else
 			{
 				this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
-				this.faceLeft();
+				
+				this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
+				
 			}
 		}
 		this.move(dx,dy);
@@ -56,7 +62,7 @@ public class Runner extends Hittable
 			lev.getChildren().remove(this);
 		}
 	}
-	
+
 	@Override
 	protected void initialStartle() {
 		isStartled = true;

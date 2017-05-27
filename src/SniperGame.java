@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,6 +28,8 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -74,9 +78,22 @@ public class SniperGame extends Application
 		startGameButton.setFont(new Font("Monospaced Bold",30));
 		startGameButton.setStyle("-fx-background-color: transparent;");
 		startGameButton.setOnAction(new startGameHandler());
+		
+		
+		Button howToPlay = new Button();
+		howToPlay.setText("Instructions");
+		howToPlay.setFont(new Font("Monospaced Bold",30));
+		howToPlay.setStyle("-fx-background-color: transparent;");
+		howToPlay.setOnAction(new startGameHandler());
+		
+		VBox contents = new VBox();
+		contents.getChildren().addAll(startGameButton,howToPlay);
 
-		BorderPane.setMargin(startGameButton,new Insets(100,250,50,50));
-		root.setRight(startGameButton);
+		VBox.setMargin(startGameButton,new Insets(100,300,10,400));
+		VBox.setMargin(howToPlay,new Insets(10,300,10,400));
+		
+		root.setRight(contents);
+		
 
 
 		homeScreen.setScene(scene);
@@ -111,13 +128,18 @@ public class SniperGame extends Application
 		Scene scene = new Scene(root,960,540);
 
 		Text t = new Text();
-		t.setFont(new Font("American Typewriter", 27));
-		t.wrappingWidthProperty().bind(scene.widthProperty());
+		t.setFont(new Font("American Typewriter", 25));
+		
+		DoubleProperty maxX = new SimpleDoubleProperty(900);
+		t.wrappingWidthProperty().bind(maxX);
+		t.setLineSpacing(10);
 
 		Button b = new Button("CONTINUE");	
-		b.setFont(new Font("American Typewriter", 30));
+		b.setFont(new Font("American Typewriter", 20));
 		b.setStyle("-fx-background-color: transparent;");
 		b.setTextFill(Color.BLACK);
+		
+		
 		b.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
 
@@ -193,12 +215,15 @@ public class SniperGame extends Application
 			}
 
 		});
-
+		
 		BorderPane.setMargin(t, new Insets(10,10,10,10));
 		BorderPane.setMargin(b, new Insets(20,300,20,400));
+		
 		root.setBackground(new Background(new BackgroundImage(new Image("file:sprites/backgrounds/mission_screen.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT)));
+		
 		root.setCenter(t);
+		
 		missionScreen.setScene(scene);
 		missionScreen.show();
 		timer.start();
