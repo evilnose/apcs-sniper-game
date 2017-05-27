@@ -134,7 +134,7 @@ public abstract class Hittable extends Group
 		double dx = ((Circle)hitbox).getCenterX() - graphics.getX();
 		this.moveHitbox(graphics.getImage().getWidth() - dx * 2, 0); // calibrate hitbox
 	}
-
+	
 	protected boolean isFacingRight() {
 		return isFacingRight;
 	}
