@@ -17,7 +17,7 @@ public class StreetRunner extends Hittable
 			setGraphics(civImg);
 		dx = 0;
 		dy = 0;
-		this.setHitboxCircle(250, 100, 20);
+		this.setHitboxCircle(250, 114, 20);
 		if(!isTarget)
 			hitbox.setStroke(null);
 	}
@@ -45,6 +45,7 @@ public class StreetRunner extends Hittable
 			isStartled = true;
 			dx = 2;
 			dy = 3;
+			this.moveHitbox(10, 20);
 		}
 	}
 }

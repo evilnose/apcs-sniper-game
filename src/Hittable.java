@@ -37,11 +37,14 @@ public abstract class Hittable extends Group
 		
 
 		graphics = new ImageView();
+		hitbox = new Circle();
+		
+		this.getChildren().add(graphics);
+		
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
 		isFacingRight = true;
-
 		boundX1 = 0;
 		boundX2 = SniperGame.LEVEL_WIDTH;
 	}
@@ -51,6 +54,10 @@ public abstract class Hittable extends Group
 		super();
 
 		graphics = new ImageView(img);
+		hitbox = new Circle();
+
+		this.getChildren().add(graphics);
+		
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
@@ -99,14 +106,16 @@ public abstract class Hittable extends Group
 	protected void setHitboxRect(double x, double y, double width, double height) {
 		hitbox = new Rectangle(x, y, width, height);
 		hitbox.setFill(Color.TRANSPARENT);
-		hitbox.setStroke(Color.RED);
+		hitbox.setStroke(Color.RED);	
+		this.getChildren().add(hitbox);	
 	}
 
 	protected void setHitboxCircle(double x, double y, double radius) 
 	{
-		hitbox = new Circle(x,y, radius);
+		hitbox = new Circle(x , y, radius);
 		hitbox.setFill(Color.TRANSPARENT);
 		hitbox.setStroke(Color.RED);
+		this.getChildren().add(hitbox);
 	}
 
 	private void setHitboxPos(double x, double y) 

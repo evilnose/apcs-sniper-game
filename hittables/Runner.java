@@ -7,27 +7,23 @@ import javafx.scene.transform.Rotate;
 public class Runner extends Hittable 
 {
 	private final Image img;
-	private Runner thisRunner;
-	private static long start;
-	private long delay;
 
 	public Runner(boolean isTarget,double scale)
 	{
 		super(isTarget);
-		thisRunner = this;
-		if (isTarget)
+		if (!isTarget)
 		{
 			img = new Image("file:sprites/hittables/targets/runner_left.gif");
-			setHitboxCircle(0,0, 20);
+			setHitboxCircle(260,133, 20);
 		}
 		else
 		{
 			img = new Image("file:sprites/hittables/civilians/runner_right.gif");
-			setHitboxCircle(260,135,20);
+			setHitboxCircle(240,135,20);
 		}
 		setGraphics(img);
 		setScale(scale);
-		//dx = 2;
+		dx = 2;
 		dy = 0;
 		if(!isTarget)
 			hitbox.setStroke(Color.BLACK);
@@ -36,39 +32,48 @@ public class Runner extends Hittable
 	@Override
 	public void act(long now) 
 	{ 
+		
 		Circle c = (Circle)hitbox;
 
-		if(graphics.getX()<=boundX1)
+		if(graphics.getX()+185<=boundX1)
 		{
 			dx = Math.abs(dx);
-			while(graphics.getX()<=boundX1)
+			
+			this.setGraphics(new Image("file:sprites/hittables/targets/runner_right.gif"));
+			this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
+			
+			while(graphics.getX()+185<=boundX1)
 				this.move(dx, dy);
 		}
 
-		else if(graphics.getX() >= boundX2)
+		else if(graphics.getX()+graphics.getImage().getWidth()-185 >= boundX2)
 		{
 			dx = -1*Math.abs(dx);
-			while(graphics.getX()>=boundX2)
+			
+			this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
+			this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
+			
+			while(graphics.getX()+graphics.getImage().getWidth()-185>=boundX2)
 				this.move(dx, dy);
 		}
 
-		int random = (int)(Math.random()*100)-5;
+		int random = (int)(Math.random()*200)-5;
 		if(random<0)
 		{
 			dx = -dx;
+			
+			if(dx>0)
+			{
+				this.setGraphics(new Image("file:sprites/hittables/targets/runner_right.gif"));
+				this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
+			}
+			else
+			{
+				this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
+				this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
+			}
 		}
 		
-		if(dx>0)
-		{
-			this.setGraphics(new Image("file:sprites/hittables/targets/runner_right.gif"));
-			this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
-		}
-		else
-		{
-			this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
-			this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
-		}
-
 		this.move(dx,dy);
 
 		if(this.isWithinBounds()==false)
@@ -84,12 +89,6 @@ public class Runner extends Hittable
 		isStartled = true;
 		// TODO set animation
 	}
-
-	public void startDelay()
-	{
-		delay = (long) (5*Math.pow(10, 9));
-	}
-
 
 	@Override
 	public void shot() {
