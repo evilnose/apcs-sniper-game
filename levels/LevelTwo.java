@@ -12,13 +12,13 @@ public class LevelTwo extends Level
 	@Override
 	protected void addAllHittables()
 	{
-		StreetRunner sitter = new StreetRunner(false, 1);
+		StreetRunner sitter = new StreetRunner(true, 1);
 		sitter.setPos(175, 220);
 		
 		Runner runner = new Runner(true, 0.5);
-		this.addHittable(runner);
+		runner.setBounds(175, 400);
 		runner.setPos(165, 190);
-		runner.setBounds(175, 470);
+		this.addHittable(runner);
 
 		this.addHittable(sitter);
 	}

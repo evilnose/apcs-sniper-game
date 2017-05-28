@@ -8,6 +8,8 @@ public class Runner extends Hittable
 {
 	private final Image img;
 	private Runner thisRunner;
+	private static long start;
+	private long delay;
 
 	public Runner(boolean isTarget,double scale)
 	{
@@ -16,7 +18,7 @@ public class Runner extends Hittable
 		if (isTarget)
 		{
 			img = new Image("file:sprites/hittables/targets/runner_left.gif");
-			setHitboxCircle(240,135, 20);
+			setHitboxCircle(0,0, 20);
 		}
 		else
 		{
@@ -25,7 +27,7 @@ public class Runner extends Hittable
 		}
 		setGraphics(img);
 		setScale(scale);
-		dx = 2;
+		//dx = 2;
 		dy = 0;
 		if(!isTarget)
 			hitbox.setStroke(Color.BLACK);
@@ -35,26 +37,40 @@ public class Runner extends Hittable
 	public void act(long now) 
 	{ 
 		Circle c = (Circle)hitbox;
-		int random = (int)(Math.random()*100)-1;
-		if(random < 0)
+
+		if(graphics.getX()<=boundX1)
+		{
+			dx = Math.abs(dx);
+			while(graphics.getX()<=boundX1)
+				this.move(dx, dy);
+		}
+
+		else if(graphics.getX() >= boundX2)
+		{
+			dx = -1*Math.abs(dx);
+			while(graphics.getX()>=boundX2)
+				this.move(dx, dy);
+		}
+
+		int random = (int)(Math.random()*100)-5;
+		if(random<0)
 		{
 			dx = -dx;
-			if(dx>0)
-			{
-				this.setGraphics(new Image("file:sprites/hittables/civilians/runner_right.gif"));
-				
-				this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
-				
-			}
-			else
-			{
-				this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
-				
-				this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
-				
-			}
 		}
+		
+		if(dx>0)
+		{
+			this.setGraphics(new Image("file:sprites/hittables/targets/runner_right.gif"));
+			this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
+		}
+		else
+		{
+			this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
+			this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
+		}
+
 		this.move(dx,dy);
+
 		if(this.isWithinBounds()==false)
 		{
 			dx = 0;
@@ -68,6 +84,12 @@ public class Runner extends Hittable
 		isStartled = true;
 		// TODO set animation
 	}
+
+	public void startDelay()
+	{
+		delay = (long) (5*Math.pow(10, 9));
+	}
+
 
 	@Override
 	public void shot() {

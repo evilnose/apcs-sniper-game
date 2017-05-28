@@ -1,4 +1,5 @@
 import javafx.scene.image.Image;
+import javafx.scene.shape.Circle;
 
 public class LevelThree extends Level 
 {
@@ -13,11 +14,12 @@ public class LevelThree extends Level
 	protected void addAllHittables()
 	{
 
-		Sitter sitter = new Sitter(true, 0.4);
-		this.addHittable(sitter);
-		sitter.setPos(175, 220);
-		
-		
+		Runner r1 = new Runner(false, 1);
+		r1.setPos(375, 320);
+		this.addHittable(r1);
+//		Circle c = (Circle)(r1.getHitbox());
+//		System.out.println(c.getCenterX()+" "+c.getCenterY());
+//		System.out.println(r1.getX()+" "+r1.getY());
 	}
 	
 	@Override

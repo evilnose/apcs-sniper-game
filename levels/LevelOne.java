@@ -16,7 +16,6 @@ public class LevelOne extends Level
 		Sitter sitter = new Sitter(true, 0.4);
 		this.addHittable(sitter);
 		sitter.setPos(175, 220);
-		
 	}
 	
 	@Override

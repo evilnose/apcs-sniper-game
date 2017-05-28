@@ -75,5 +75,6 @@ public class Sitter extends Hittable {
 		displayStartledAnimation(this, startledTgtImgs, 100);
 		moveHitbox(13,20);
 	}
+
 	
 }

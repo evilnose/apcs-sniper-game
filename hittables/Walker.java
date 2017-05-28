@@ -10,5 +10,4 @@ public class Walker extends Hittable {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

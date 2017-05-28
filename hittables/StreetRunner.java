@@ -29,8 +29,10 @@ public class StreetRunner extends Hittable
 			this.move(dx,dy);
 		if(this.isWithinBounds()==false)
 		{
+			dx = 0;
+			dy = 0;
 			Level lev = (Level) this.getParent();
-			lev.removeHittable(this);
+			lev.getChildren().remove(this);
 		}
 	}
 
