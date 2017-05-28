@@ -9,7 +9,7 @@ public class Sitter extends Hittable {
 	private double dy;
 	
 	private final Image civImg = new Image("file:sprites/hittables/civilians/sitter_right.png");
-	private final Image tgtImg = new Image("file:sprites/hittables/targets/sitter_right.png");
+	private final Image tgtImg = new Image("file:sprites/hittables/targets/sitter_left.png");
 	private final Image[] startledCivImgs = SniperGame.decodeGifToImages("file:sprites/hittables/civilians/startled_sitter_right.gif");
 	private final Image[] startledTgtImgs = SniperGame.decodeGifToImages("file:sprites/hittables/targets/startled_sitter_right.gif");
 	private double scale;

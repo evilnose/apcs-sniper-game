@@ -7,11 +7,14 @@ import javafx.scene.transform.Rotate;
 public class Runner extends Hittable 
 {
 	private final Image img;
+	private double scale;
 
 	public Runner(boolean isTarget,double scale)
 	{
 		super(isTarget);
-		if (!isTarget)
+		
+		this.scale = scale;
+		if (isTarget)
 		{
 			img = new Image("file:sprites/hittables/targets/runner_left.gif");
 			setHitboxCircle(260,133, 20);
@@ -61,16 +64,18 @@ public class Runner extends Hittable
 		if(random<0)
 		{
 			dx = -dx;
+			double deltaX = (1-scale)*10;
+			
 			
 			if(dx>0)
 			{
 				this.setGraphics(new Image("file:sprites/hittables/targets/runner_right.gif"));
-				this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
+				this.moveHitbox(graphics.getX()+260-deltaX-c.getCenterX(),0);
 			}
 			else
 			{
 				this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
-				this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
+				this.moveHitbox(graphics.getX()+240+deltaX-c.getCenterX(),0);
 			}
 		}
 		
@@ -87,7 +92,7 @@ public class Runner extends Hittable
 	@Override
 	protected void initialStartle() {
 		isStartled = true;
-		// TODO set animation
+		dx = 2*dx;
 	}
 
 	@Override
