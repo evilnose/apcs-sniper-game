@@ -1,6 +1,7 @@
 import javafx.scene.paint.Color;
 
-public class SimpleRunner extends Hittable {
+public class SimpleRunner extends Hittable
+{
 
 	private double scale;
 	private double dx;
@@ -30,7 +31,13 @@ public class SimpleRunner extends Hittable {
 			hitbox.setStroke(Color.BLACK);
 	}
 	
-
+	public void shot() 
+	{
+		super.shot();
+		Level lvl = (Level)getParent();
+		lvl.removeHittable(this);
+	}
+	
 	@Override
 	public void act(long now) {
 		move(dx, dy);

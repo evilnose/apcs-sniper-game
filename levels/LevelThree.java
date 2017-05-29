@@ -31,9 +31,8 @@ public class LevelThree extends Level
 		this.addHittable(s2);
 		s2.setPos(550, 250);
 		
-		Runner s3 = new Runner(true,0.3);
+		Sleeper s3 = new Sleeper(true,0.3);
 		this.addHittable(s3);
-		s3.setBounds(630, 910);
 		s3.setPos(465, 190);
 	}
 	
