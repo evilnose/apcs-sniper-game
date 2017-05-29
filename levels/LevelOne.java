@@ -1,3 +1,6 @@
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
 public class LevelOne extends Level 
 {
 	
@@ -11,11 +14,11 @@ public class LevelOne extends Level
 	@Override
 	protected void addAllHittables()
 	{
-
 		Sitter sitter = new Sitter(true, 0.5);
 		this.addHittable(sitter);
-		sitter.setPos(175, 220);		
+		sitter.setPos(175, 220);
 	}
+	
 	
 	@Override
 	protected String getDescription() {

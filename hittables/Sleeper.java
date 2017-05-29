@@ -41,13 +41,4 @@ public class Sleeper extends Hittable {
 	public void act(long now) {
 		// TODO this dude is sleeping so he does absolutely nothing lol
 	}
-	
-	@Override
-	protected void faceLeft() {
-		super.faceLeft();
-		if (isTarget)
-			setGraphics(tgtImgL);
-		else 
-			setGraphics(civImgL);
-	}
 }

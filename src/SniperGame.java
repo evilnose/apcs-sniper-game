@@ -28,6 +28,8 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -47,8 +49,13 @@ public class SniperGame extends Application
 	private static Scene levelScene;
 	private static Level currLevel;
 	private static ArrayList<Boolean> levelsPassed;
-
-
+    
+	public final static Media victory = new Media(new File("sounds/victory_sound.wav").toURI().toString());
+	public final static MediaPlayer victoryPlayer = new MediaPlayer(victory);
+	public final static Media lost = new Media(new File("sounds/lost_sound2.wav").toURI().toString());
+	public final static MediaPlayer lostPlayer = new MediaPlayer(lost);
+	public final static Media reload = new Media(new File("sounds/reload_sound.wav").toURI().toString());
+	public final static MediaPlayer reloadPlayer = new MediaPlayer(reload);
 
 	public static void main(String args[]) {
 		launch(); 
@@ -76,22 +83,22 @@ public class SniperGame extends Application
 		startGameButton.setFont(new Font("Monospaced Bold",30));
 		startGameButton.setStyle("-fx-background-color: transparent;");
 		startGameButton.setOnAction(new startGameHandler());
-		
-		
+
+
 		Button howToPlay = new Button();
 		howToPlay.setText("Instructions");
 		howToPlay.setFont(new Font("Monospaced Bold",30));
 		howToPlay.setStyle("-fx-background-color: transparent;");
 		howToPlay.setOnAction(new startGameHandler());
-		
+
 		VBox contents = new VBox();
 		contents.getChildren().addAll(startGameButton,howToPlay);
 
 		VBox.setMargin(startGameButton,new Insets(100,300,10,400));
 		VBox.setMargin(howToPlay,new Insets(10,300,10,400));
-		
+
 		root.setRight(contents);
-		
+
 
 
 		homeScreen.setScene(scene);
@@ -104,7 +111,7 @@ public class SniperGame extends Application
 		// Note: there cannot be two levels with the same level numbers
 		levels.add(new LevelOne(1));
 		levels.add(new LevelTwo(2));
-		//		levels.add(new LevelThree(3));
+		levels.add(new LevelThree(3));
 		//		levels.add(new LevelFour(4));
 		//		levels.add(new LevelFive(5));
 		//		levels.add(new LevelSix(6));
@@ -127,7 +134,7 @@ public class SniperGame extends Application
 
 		Text t = new Text();
 		t.setFont(new Font("American Typewriter", 25));
-		
+
 		DoubleProperty maxX = new SimpleDoubleProperty(900);
 		t.wrappingWidthProperty().bind(maxX);
 		t.setLineSpacing(10);
@@ -136,8 +143,8 @@ public class SniperGame extends Application
 		b.setFont(new Font("American Typewriter", 20));
 		b.setStyle("-fx-background-color: transparent;");
 		b.setTextFill(Color.BLACK);
-		
-		
+
+
 		b.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
 
@@ -213,15 +220,15 @@ public class SniperGame extends Application
 			}
 
 		});
-		
+
 		BorderPane.setMargin(t, new Insets(10,10,10,10));
 		BorderPane.setMargin(b, new Insets(20,300,20,400));
-		
+
 		root.setBackground(new Background(new BackgroundImage(new Image("file:sprites/backgrounds/mission_screen.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT)));
-		
+
 		root.setCenter(t);
-		
+
 		missionScreen.setScene(scene);
 		missionScreen.show();
 		timer.start();

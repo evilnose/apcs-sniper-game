@@ -72,17 +72,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private Label bulletLabel,cartridgeLabel;
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
-	private int numAvailableBullets;
-    
-	private Media victory= new Media(new File("sounds/victory_sound.wav").toURI().toString());
-	private MediaPlayer victoryPlayer= new MediaPlayer(victory);
-	
-	private Media lost= new Media(new File("sounds/lost_sound2.wav").toURI().toString());
-	private MediaPlayer lostPlayer= new MediaPlayer(lost);
-	
-	private Media reload= new Media(new File("sounds/reload_sound.wav").toURI().toString());
-	private MediaPlayer reloadPlayer= new MediaPlayer(reload);
-	
+	private int numAvailableBullets;	
 	
 	protected String levelMessage="";
 	
@@ -290,8 +280,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		winScreen.setScene(scene);
 		HBox.setMargin(next, new Insets(0,0,next.getScene().getHeight() / 5,(next.getScene().getWidth() - next.getPrefWidth()) / 2));
 		winScreen.setAlwaysOnTop(true);
-		victoryPlayer.stop();
-		victoryPlayer.play();
+		//victoryPlayer.stop();
+		//victoryPlayer.play();
 		winScreen.show();
 	}
 
@@ -356,8 +346,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		if (numRemainingCartridges > 0 && numAvailableBullets == 0) {
 			numAvailableBullets = cartridgeSize;
 			numRemainingCartridges--;
-			updateBulletLabel();
-			
+			updateBulletLabel();			
 		}
 	}
 
@@ -390,7 +379,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	}
 
 	protected void addHittable(Hittable h) {
-		getChildren().addAll(h, h.getHitbox());
+		getChildren().add(h);
 
 		if (h.isTarget()) {
 			targets.add(h);
@@ -460,6 +449,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
+					System.out.println(event.getX()+" "+event.getY());
 					if (numRemainingBullets > 0) {
 						if (numAvailableBullets > 0) {
 							scope.shoot();
@@ -570,8 +560,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				}
 			} else if (event.getCode() == KeyCode.R) {
 				reloadBulletLabel();
-				reloadPlayer.stop();
-				reloadPlayer.play();
+				SniperGame.reloadPlayer.stop();
+				SniperGame.reloadPlayer.play();
 			}
 		}
 	}
