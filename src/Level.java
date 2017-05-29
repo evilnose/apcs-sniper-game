@@ -341,8 +341,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
         cartridgeLabel = new Label();
         cartridgeLabel.setFont(new Font(12));
         cartridgeLabel.setTextFill(Color.WHITE);
-		reloadBulletLabel();
-		updateBulletLabel();
 		HBox.setMargin(magazines, new Insets(10, 10, 10, 10));
 		HBox.setMargin(cartridgeLabel, new Insets(10, 10, 10, 10));
 		h1.getChildren().addAll(magazines, cartridgeLabel);
@@ -359,8 +357,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			numAvailableBullets = cartridgeSize;
 			numRemainingCartridges--;
 			updateBulletLabel();
-			reloadPlayer.stop();
-			reloadPlayer.play();
 			
 		}
 	}
@@ -574,6 +570,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				}
 			} else if (event.getCode() == KeyCode.R) {
 				reloadBulletLabel();
+				reloadPlayer.stop();
+				reloadPlayer.play();
 			}
 		}
 	}
