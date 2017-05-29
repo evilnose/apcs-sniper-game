@@ -2,7 +2,6 @@
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.transform.Rotate;
 
 public class Runner extends Hittable 
 {
@@ -16,12 +15,12 @@ public class Runner extends Hittable
 		this.scale = scale;
 		if (isTarget)
 		{
-			img = new Image("file:sprites/hittables/targets/runner_left.gif");
+			img = SniperGame.runnerTgtR;
 			setHitboxCircle(260,133, 20);
 		}
 		else
 		{
-			img = new Image("file:sprites/hittables/civilians/runner_right.gif");
+			img = SniperGame.runnerCivR;
 			setHitboxCircle(240,135,20);
 		}
 		setGraphics(img);
@@ -69,12 +68,18 @@ public class Runner extends Hittable
 			
 			if(dx>0)
 			{
-				this.setGraphics(new Image("file:sprites/hittables/targets/runner_right.gif"));
+				if (isTarget)
+					this.setGraphics(SniperGame.runnerTgtR);
+				else
+					this.setGraphics(SniperGame.runnerCivR);
 				this.moveHitbox(graphics.getX()+260-deltaX-c.getCenterX(),0);
 			}
 			else
 			{
-				this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
+				if (isTarget)
+					this.setGraphics(SniperGame.runnerTgtL);
+				else 
+					this.setGraphics(SniperGame.runnerCivL);
 				this.moveHitbox(graphics.getX()+240+deltaX-c.getCenterX(),0);
 			}
 		}

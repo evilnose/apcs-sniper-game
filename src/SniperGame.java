@@ -56,6 +56,21 @@ public class SniperGame extends Application
 	public final static MediaPlayer lostPlayer = new MediaPlayer(lost);
 	public final static Media reload = new Media(new File("sounds/reload_sound.wav").toURI().toString());
 	public final static MediaPlayer reloadPlayer = new MediaPlayer(reload);
+	
+	public final static Image sleeperCivR = new Image("file:sprites/hittables/civilians/sleeper_right.png");
+	public final static Image sleeperCivL = new Image("file:sprites/hittables/civilians/sleeper_left.png");
+	public final static Image sleeperTgtR = new Image("file:sprites/hittables/targets/sleeper_right.png");
+	public final static Image sleeperTgtL = new Image("file:sprites/hittables/targets/sleeper_left.png");
+	public final static Image sitterCivR = new Image("file:sprites/hittables/civilians/sitter_right.png");
+	public final static Image sitterTgtR = new Image("file:sprites/hittables/targets/sitter_left.png");
+	public final static Image[] startledSitterCivR = decodeGifToImages("file:sprites/hittables/civilians/startled_sitter_right.gif");
+	public final static Image[] startledSitterTgtR = decodeGifToImages("file:sprites/hittables/targets/startled_sitter_right.gif");
+	public final static Image runnerCivR = new Image("file:sprites/hittables/civilians/runner_right.gif");
+	public final static Image runnerCivL = new Image("file:sprites/hittables/civilians/runner_left.gif");
+	public final static Image runnerTgtR = new Image("file:sprites/hittables/targets/runner_right.gif");
+	public final static Image runnerTgtL = new Image("file:sprites/hittables/targets/runner_left.gif");
+	public final static Image walkerCivR = new Image("file:sprites/hittables/civilians/walker_right.gif");
+	public final static Image walkerTgtR = new Image("file:sprites/hittables/targets/walker_left.gif");
 
 	public static void main(String args[]) {
 		launch(); 

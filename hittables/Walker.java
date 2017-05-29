@@ -1,8 +1,21 @@
 
 public class Walker extends Hittable {
 
-	public Walker(boolean isTgt) {
+	private double scale;	
+	
+	public Walker(boolean isTgt, double scale) {
 		super(isTgt);
+		this.scale = scale;
+		if (isTarget)
+		{
+			setGraphics(SniperGame.walkerTgtR);
+			setHitboxCircle(260,133, 20);
+		}
+		else
+		{
+			setGraphics(SniperGame.walkerCivR);
+			setHitboxCircle(240,135,20);
+		}
 	}
 
 	@Override

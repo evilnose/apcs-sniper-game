@@ -1,26 +1,17 @@
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-
 public class Sitter extends Hittable {
 	
 	private double dx;
 	private double dy;
-	
-	private final Image civImg = new Image("file:sprites/hittables/civilians/sitter_right.png");
-	private final Image tgtImg = new Image("file:sprites/hittables/targets/sitter_left.png");
-	private final Image[] startledCivImgs = SniperGame.decodeGifToImages("file:sprites/hittables/civilians/startled_sitter_right.gif");
-	private final Image[] startledTgtImgs = SniperGame.decodeGifToImages("file:sprites/hittables/targets/startled_sitter_right.gif");
+
 	private double scale;
 	
 	public Sitter(boolean isTarget)
 	{
 		super(isTarget);
 		if (isTarget)
-			setGraphics(tgtImg);
+			setGraphics(SniperGame.sitterTgtR);
 		else
-			setGraphics(civImg);
+			setGraphics(SniperGame.sitterCivR);
 		dx = 0;
 		dy = 0;
 		this.setHitboxCircle(250, 100, 20);
@@ -33,9 +24,9 @@ public class Sitter extends Hittable {
 	{
 		super(isTarget);
 		if (isTarget)
-			setGraphics(tgtImg);
+			setGraphics(SniperGame.sitterTgtR);
 		else
-			setGraphics(civImg);
+			setGraphics(SniperGame.sitterCivR);
 		dx = 0;
 		dy = 0;
 		this.setHitboxCircle(250, 112, 20);
@@ -72,7 +63,10 @@ public class Sitter extends Hittable {
 	
 	@Override
 	public void initialStartle() {
-		displayStartledAnimation(this, startledTgtImgs, 100);
+		if (isTarget)
+			displayStartledAnimation(this, SniperGame.startledSitterTgtR, 100);
+		else
+			displayStartledAnimation(this, SniperGame.startledSitterCivR, 100);
 		moveHitbox(12.2 * scale, 21 * scale);
 	}
 
