@@ -1,12 +1,21 @@
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 
 public class LevelSeven extends Level 
 {
 	
 	public LevelSeven(int numLevel) 
 	{
-		super(numLevel);
-		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
+		super(numLevel);		
+		levelMessage = "AN ALIEN SUSPECT IS SEEN IN THE MOVIE THEATER. PROTECT THE MOVIEGOERS AND ELIMINATE THE ALIEN"
+				+ " THE SUSPECT BEFORE IT ESCAPES THE SCENE.";	
+		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/level_7.jpeg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		this.setBackground(new Background(myBI));
 	}
 	
 	@Override
@@ -15,20 +24,19 @@ public class LevelSeven extends Level
 
 		Sitter sitter = new Sitter(true, 0.4);
 		this.addHittable(sitter);
-		sitter.setPos(175, 220);
+		sitter.setPos(400, 100);
 	
 		
 	}
 	
 	@Override
 	protected String getDescription() {
-		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
-				" before it gets away.";
+		return "This is level seven";
 	}
 
 	@Override
 	protected String getName() {
-		return "Tutorial";
+		return "Level 7";
 	}
 
 }
