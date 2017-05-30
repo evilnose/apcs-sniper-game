@@ -52,7 +52,7 @@ public class Walker extends Hittable {
 					setGraphics(SniperGame.runnerTgtL);
 				else
 					setGraphics(SniperGame.runnerCivL);
-				this.moveHitbox(-3.8, 4.8);
+				this.moveHitbox(-6.0, 14.8);
 				dx = -5;
 			}
 		}

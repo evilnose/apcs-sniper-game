@@ -132,7 +132,7 @@ public class SniperGame extends Application
 		levels.add(new LevelOne(1));
 		levels.add(new LevelTwo(2));
 		levels.add(new LevelThree(3));
-		//		levels.add(new LevelFour(4));
+		levels.add(new LevelFour(4));
 		levels.add(new LevelFive(5));
 		//		levels.add(new LevelSix(6));
 		//		levels.add(new LevelSeven(7));
@@ -191,8 +191,6 @@ public class SniperGame extends Application
 
 				levelScreen.setScene(levelScene);
 				levelScreen.show();
-
-				//currLevel.activateDefaultBackground();
 				currLevel.start();
 
 				missionScreen.close();

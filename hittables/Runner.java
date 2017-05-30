@@ -11,7 +11,7 @@ public class Runner extends Hittable
 	public Runner(boolean isTarget,double scale)
 	{
 		super(isTarget);
-		
+
 		this.scale = scale;
 		if (isTarget)
 		{
@@ -21,7 +21,7 @@ public class Runner extends Hittable
 		else
 		{
 			img = SniperGame.runnerCivR;
-			setHitboxCircle(240,135,20);
+			setHitboxCircle(260,135,20);
 		}
 		setGraphics(img);
 		setScale(scale);
@@ -34,16 +34,16 @@ public class Runner extends Hittable
 	@Override
 	public void act(long now) 
 	{ 
-		
+
 		Circle c = (Circle)hitbox;
 
 		if(graphics.getX()+185<=boundX1)
 		{
 			dx = Math.abs(dx);
-			
+
 			this.setGraphics(SniperGame.runnerTgtR);
 			this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
-			
+
 			while(graphics.getX()+185<=boundX1)
 				this.move(dx, dy);
 		}
@@ -51,10 +51,10 @@ public class Runner extends Hittable
 		else if(graphics.getX()+graphics.getImage().getWidth()-185 >= boundX2)
 		{
 			dx = -1*Math.abs(dx);
-			
+
 			this.setGraphics(SniperGame.runnerTgtL);
 			this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
-			
+
 			while(graphics.getX()+graphics.getImage().getWidth()-185>=boundX2)
 				this.move(dx, dy);
 		}
@@ -64,8 +64,8 @@ public class Runner extends Hittable
 		{
 			dx = -dx;
 			double deltaX = (1-scale)*10;
-			
-			
+
+
 			if(dx>0)
 			{
 				if (isTarget)
@@ -83,7 +83,7 @@ public class Runner extends Hittable
 				this.moveHitbox(graphics.getX()+240+deltaX-c.getCenterX(),0);
 			}
 		}
-		
+
 		this.move(dx,dy);
 
 		if(this.isWithinBounds()==false)
