@@ -17,13 +17,6 @@ public class Walker extends Hittable {
 			setHitboxCircle(240,135,20);
 		}
 	}
-
-	public void shot() 
-	{
-		super.shot();
-		Level lvl = (Level)getParent();
-		lvl.removeHittable(this);
-	}
 	
 	@Override
 	public void act(long now) {

@@ -41,7 +41,7 @@ public class Runner extends Hittable
 		{
 			dx = Math.abs(dx);
 			
-			this.setGraphics(new Image("file:sprites/hittables/targets/runner_right.gif"));
+			this.setGraphics(SniperGame.runnerTgtR);
 			this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
 			
 			while(graphics.getX()+185<=boundX1)
@@ -52,7 +52,7 @@ public class Runner extends Hittable
 		{
 			dx = -1*Math.abs(dx);
 			
-			this.setGraphics(new Image("file:sprites/hittables/targets/runner_left.gif"));
+			this.setGraphics(SniperGame.runnerTgtL);
 			this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
 			
 			while(graphics.getX()+graphics.getImage().getWidth()-185>=boundX2)
@@ -98,13 +98,5 @@ public class Runner extends Hittable
 	protected void initialStartle() {
 		isStartled = true;
 		dx = 2*dx;
-	}
-
-	@Override
-	public void shot() {
-		super.shot();
-
-		Level lvl = (Level)getParent();
-		lvl.removeHittable(this);
 	}
 }
