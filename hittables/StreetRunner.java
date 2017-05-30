@@ -6,12 +6,6 @@ public class StreetRunner extends Hittable
 	private double scale,quadrant;
 	int count = 0;
 	private double slope;
-	private static Image tgtImgRight = new Image("file:sprites/hittables/targets/sitter_right.png");
-	private static Image tgtImgLeft = new Image("file:sprites/hittables/targets/sitter_left.png");
-	private final Image civImgRight = new Image("file:sprites/hittables/civilians/sitter_right.png");
-	private final Image civImgLeft = new Image("file:sprites/hittables/civilians/sitter_left.png");
-	private final Image startledImageRight = new Image("file:sprites/hittables/targets/runner_right.gif");
-	private final Image startledImageLeft = new Image("file:sprites/hittables/targets/runner_left.gif");
 	
 	public StreetRunner(boolean isTarget, double scale,double slope,double q)
 	{
@@ -22,17 +16,17 @@ public class StreetRunner extends Hittable
 		if (isTarget)
 		{
 			if(q>0)
-				setGraphics(tgtImgRight);
+				setGraphics(SniperGame.sitterTgtR);
 			else
-				setGraphics(tgtImgLeft);
+				setGraphics(SniperGame.sitterTgtL);
 			this.setHitboxCircle(250, 114, 20);
 		}
 		else
 		{
 			if(q>0)
-				setGraphics(civImgRight);
+				setGraphics(SniperGame.sitterCivR);
 			else
-				setGraphics(civImgLeft);
+				setGraphics(SniperGame.sitterCivL);
 
 			this.setHitboxCircle(250, 114, 20);
 		}
@@ -59,13 +53,6 @@ public class StreetRunner extends Hittable
 			lev.getChildren().remove(this);
 		}
 	}
-
-	public void shot() 
-	{
-		super.shot();
-		Level lvl = (Level)getParent();
-		lvl.removeHittable(this);
-	}
 	
 	@Override
 	public void startle() 
@@ -77,12 +64,12 @@ public class StreetRunner extends Hittable
 			double deltaX = (1-scale)*10;
 			if(quadrant>0)
 			{
-				this.setGraphics(startledImageRight);
+				this.setGraphics(SniperGame.runnerTgtR);
 				this.moveHitbox(scale*10-10,scale*19-20);
 			}
 			else
 			{
-				this.setGraphics(startledImageLeft);
+				this.setGraphics(SniperGame.runnerTgtL);
 				this.moveHitbox(scale*10-25,scale*19-20);
 			}
 			isStartled = true;

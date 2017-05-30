@@ -69,10 +69,10 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
 	private int numAvailableBullets;	
-	
+
 	protected String levelMessage="";
-	
-	
+
+
 	public Level(Integer numLevel) 
 	{
 		// Use the "super" keyword in subclass constructors to invoke this.
@@ -94,21 +94,21 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		locImage = new ImageView(new Image("file:sprites/level_" + levelNumber+ "_loc.png"));
 		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/level_"+levelNumber+".png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
-		this.setBackground(new Background(myBI));
-		
+			this.setBackground(new Background(myBI));
+
 		addAllHittables();
 		scope = new Scope();
 		addScope(scope);
-		
-		 
+
+
 		this.setCursor(SCOPE_CURSOR);
-		
+
 		this.setCursor(SCOPE_CURSOR);
 		addBulletLabel();
 		initReloadLabel();
 
 		timer = new AnimationTimer() {
-			
+
 			@Override
 			public void handle(long now) 
 			{
@@ -132,12 +132,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		isZoomedIn = false;
 		zoomer = new KeyHandler();
 	}
-	 
-  public String getLevelMessage()
+
+	public String getLevelMessage()
 	{
 		return this.levelMessage;
 	}
-	
+
 	private void act(long now) 
 	{
 		if(isWon())
@@ -156,9 +156,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			thisLevel.displayLostMessage();
 		}
 	}
-	
+
 	protected abstract void addAllHittables();
-	
+
 	public void activateCustomBackground(Image background) {
 		BackgroundImage myBI = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
@@ -176,16 +176,16 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		numCivilians = civilians.size();
 		timer.start();
 	}
-	
+
 	public boolean isStarted() {
 		return isStarted;
 	}
 
 	public void stop() {
 		timer.stop();
-//		removeEventHandler(MouseEvent.MOUSE_PRESSED, evHan);
-//		removeEventHandler(MouseEvent.MOUSE_MOVED, evHan);
-//		removeEventHandler(KeyEvent.KEY_PRESSED, zoomer);
+		//		removeEventHandler(MouseEvent.MOUSE_PRESSED, evHan);
+		//		removeEventHandler(MouseEvent.MOUSE_MOVED, evHan);
+		//		removeEventHandler(KeyEvent.KEY_PRESSED, zoomer);
 	}
 
 	private boolean isWon() 
@@ -242,8 +242,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		HBox.setMargin(exit, new Insets(0,0,exit.getScene().getHeight() / 5,(exit.getScene().getWidth() - exit.getPrefWidth()) / 2));
 		HBox.setMargin(restart, new Insets(0,0,restart.getScene().getHeight() / 5,(restart.getScene().getWidth() - restart.getPrefWidth()) / 2));
 		loseScreen.setAlwaysOnTop(true);
-//		lostPlayer.stop();
-//		lostPlayer.play();
+		//		lostPlayer.stop();
+		//		lostPlayer.play();
 		loseScreen.show();
 	}
 
@@ -288,7 +288,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public void setWindSpeed(double speed){
 		windSpeed = speed;
 	}
-	
+
 	public void reduceNumBullets() {
 		if (numRemainingBullets > 0) {
 			if (numAvailableBullets == 0) {
@@ -302,9 +302,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			// game is lost
 		}
 	}
-	
+
 	private void updateBulletLabel() {
-		
+
 		bulletLabel.setText(":   "+numAvailableBullets);
 		cartridgeLabel.setText(":   "+numRemainingCartridges);
 	}
@@ -312,32 +312,32 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	private void addBulletLabel()
 	{
 		VBox v = new VBox();
-		
+
 		HBox h = new HBox();
 		ImageView bullets = new ImageView(new Image("file:sprites/bullet.png"));
-        bulletLabel = new Label();
+		bulletLabel = new Label();
 		bulletLabel.setFont(new Font(12));
 		bulletLabel.setTextFill(Color.WHITE);
 		HBox.setMargin(bullets, new Insets(10, 10, 10, 10));
 		HBox.setMargin(bulletLabel, new Insets(10, 10, 10, 10));
 		h.getChildren().addAll(bullets,bulletLabel);
-		
+
 		HBox h1 = new HBox();
 		ImageView magazines = new ImageView(new Image("file:sprites/magazine.png"));
-        cartridgeLabel = new Label();
-        cartridgeLabel.setFont(new Font(12));
-        cartridgeLabel.setTextFill(Color.WHITE);
+		cartridgeLabel = new Label();
+		cartridgeLabel.setFont(new Font(12));
+		cartridgeLabel.setTextFill(Color.WHITE);
 		HBox.setMargin(magazines, new Insets(10, 10, 10, 10));
 		HBox.setMargin(cartridgeLabel, new Insets(10, 10, 10, 10));
 		h1.getChildren().addAll(magazines, cartridgeLabel);
-		
+
 		reloadBulletLabel();
 		updateBulletLabel();
-		
+
 		v.getChildren().addAll(h,h1);
 		this.getChildren().addAll(v);
 	}
-	
+
 	public void reloadBulletLabel() {
 		if (numRemainingCartridges > 0 && numAvailableBullets == 0) {
 			numAvailableBullets = cartridgeSize;
@@ -353,7 +353,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public int getNumRemainingBullets() {
 		return numRemainingBullets;
 	}
-	
+
 	public int getNumMaxBullets(){
 		return numMaxBullets;
 	}
@@ -365,11 +365,11 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public int getLevelNumber(){
 		return levelNumber;
 	}
-	
+
 	public double getMouseX() {
 		return currX;
 	}
-	
+
 	public double getMouseY() {
 		return currY;
 	}
@@ -418,7 +418,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	public int compareTo(Level other) {
 		return this.getLevelNumber() - other.getLevelNumber();
 	}
-	
+
 	private void initReloadLabel() {
 		reloadLabel.setText("Press R to Reload");
 		reloadLabel.setTextFill(Color.RED);
@@ -456,7 +456,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					}
 
 				}	
-				
+
 			}
 			else if (event.getEventType() == MouseEvent.MOUSE_MOVED)
 			{
@@ -495,14 +495,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				SniperGame.startLevel(levelNumber); // Same reason as above
 			}
 		}
-		
+
 	}
-	
+
 	public ImageView getLocationImage()
 	{
 		return this.locImage;
 	}
-	
+
 	private class KeyHandler implements EventHandler<KeyEvent> 
 	{
 
@@ -519,12 +519,12 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					ZOOM_IN_SCALE.setPivotX(lastPivotX);
 					ZOOM_IN_SCALE.setPivotY(lastPivotY);
 					thisLevel.getTransforms().add(ZOOM_IN_SCALE);
-					
+
 					scope.setScaleX(0.5);
 					scope.setScaleY(0.5);
 					lastPivotX = scope.getX()+scope.getImage().getWidth()/2;
 					lastPivotY = scope.getY()+scope.getImage().getHeight()/2;
-					
+
 				}
 				else
 				{
