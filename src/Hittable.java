@@ -24,7 +24,7 @@ public abstract class Hittable extends Group
 	protected double boundX1;
 	protected double boundX2;
 
-	private boolean isFacingRight;
+	protected boolean isFacingRight;
 
 	private final Image leftRunnerCiv = new Image("file:sprites/hittables/civilians/runner_left.gif");
 	private final Image rightRunnerCiv = new Image("file:sprites/hittables/civilians/runner_right.gif");
@@ -171,6 +171,8 @@ public abstract class Hittable extends Group
 	{
 		if(isAlive)
 			isAlive = !isAlive;
+		Level lvl = (Level)getParent();
+		lvl.removeHittable(this);
 	}
 
 	protected void move(double dx, double dy) 
@@ -227,6 +229,10 @@ public abstract class Hittable extends Group
 		isStartled = true;
 	}
 
+	protected void flipHitboxPos() {
+		double toCenter = graphics.getX() + graphics.getImage().getWidth()/2 - ((Circle)hitbox).getCenterX();
+		this.moveHitbox(toCenter * 2, 0);
+	}
 
 	protected void changeToStartledAnimation() {
 		if (isTarget) {

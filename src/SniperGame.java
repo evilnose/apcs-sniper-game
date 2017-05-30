@@ -62,9 +62,13 @@ public class SniperGame extends Application
 	public final static Image sleeperTgtR = new Image("file:sprites/hittables/targets/sleeper_right.png");
 	public final static Image sleeperTgtL = new Image("file:sprites/hittables/targets/sleeper_left.png");
 	public final static Image sitterCivR = new Image("file:sprites/hittables/civilians/sitter_right.png");
-	public final static Image sitterTgtR = new Image("file:sprites/hittables/targets/sitter_left.png");
+	public final static Image sitterTgtR = new Image("file:sprites/hittables/targets/sitter_right.png");
+	public final static Image sitterCivL = new Image("file:sprites/hittables/civilians/sitter_left.png");
+	public final static Image sitterTgtL = new Image("file:sprites/hittables/targets/sitter_left.png");
 	public final static Image[] startledSitterCivR = decodeGifToImages("file:sprites/hittables/civilians/startled_sitter_right.gif");
 	public final static Image[] startledSitterTgtR = decodeGifToImages("file:sprites/hittables/targets/startled_sitter_right.gif");
+	public final static Image[] startledSitterCivL = decodeGifToImages("file:sprites/hittables/civilians/startled_sitter_left.gif");
+	public final static Image[] startledSitterTgtL = decodeGifToImages("file:sprites/hittables/targets/startled_sitter_left.gif");
 	public final static Image runnerCivR = new Image("file:sprites/hittables/civilians/runner_right.gif");
 	public final static Image runnerCivL = new Image("file:sprites/hittables/civilians/runner_left.gif");
 	public final static Image runnerTgtR = new Image("file:sprites/hittables/targets/runner_right.gif");
@@ -124,11 +128,11 @@ public class SniperGame extends Application
 	{
 		levels = new ArrayList<Level>();
 		// Note: there cannot be two levels with the same level numbers
-		levels.add(new LevelOne(1));
-		levels.add(new LevelTwo(2));
-		levels.add(new LevelThree(3));
+//		levels.add(new LevelOne(1));
+//		levels.add(new LevelTwo(2));
+//		levels.add(new LevelThree(3));
 		//		levels.add(new LevelFour(4));
-		//		levels.add(new LevelFive(5));
+				levels.add(new LevelFive(5));
 		//		levels.add(new LevelSix(6));
 		//		levels.add(new LevelSeven(7));
 		//		levels.add(new LevelEight(8));
@@ -178,9 +182,6 @@ public class SniperGame extends Application
 				levelScreen = new Stage();
 				levelScreen.setTitle(currLevel.getName());
 				levelScreen.setResizable(false);
-
-
-
 
 				if (levelScene == null)
 					levelScene = new Scene(currLevel,LEVEL_WIDTH,LEVEL_HEIGHT);
@@ -260,7 +261,7 @@ public class SniperGame extends Application
 		}
 	}
 
-	private static void restart() {
+	public static void restart() {
 		for (Level lvl : levels) {
 			if (lvl == currLevel) {
 				String className = currLevel.getClass().getName();

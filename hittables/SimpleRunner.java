@@ -9,31 +9,30 @@ public class SimpleRunner extends Hittable {
 		super(isTarget);
 		
 		this.scale = scale;
+		this.setHitboxCircle(262.2, 133, 20);
 		if (isFacingRight) {
 			if (isTarget)
 				setGraphics(SniperGame.runnerTgtR);
 			else
 				setGraphics(SniperGame.runnerCivR);
+			dx = 5;
 		} else {
 			if (isTarget)
 				setGraphics(SniperGame.runnerTgtL);
 			else
 				setGraphics(SniperGame.runnerCivL);
+			dx = -5;
+			this.flipHitboxPos();
 		}
 		setScale(scale);
-		if (isFacingRight)
-			dx = 1;
-		else
-			dx = -1;
 		dy = 0;
 		if(!isTarget)
-			hitbox.setStroke(Color.BLACK);
+			hitbox.setStroke(Color.GREEN);
 	}
 	
-
 	@Override
 	public void act(long now) {
-		move(dx, dy);
+		move(dx * scale, dy);
 	}
 
 	public double getScale() {
