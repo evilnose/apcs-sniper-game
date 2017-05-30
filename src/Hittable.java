@@ -172,7 +172,8 @@ public abstract class Hittable extends Group
 		if(isAlive)
 			isAlive = !isAlive;
 		Level lvl = (Level)getParent();
-		lvl.removeHittable(this);
+		if (lvl != null && this != null)
+			lvl.removeHittable(this);
 	}
 
 	protected void move(double dx, double dy) 

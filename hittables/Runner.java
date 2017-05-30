@@ -100,11 +100,4 @@ public class Runner extends Hittable
 		dx = 2*dx;
 	}
 
-	@Override
-	public void shot() {
-		super.shot();
-
-		Level lvl = (Level)getParent();
-		lvl.removeHittable(this);
-	}
 }

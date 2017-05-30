@@ -22,8 +22,8 @@ public class LevelFive extends Level
 	public LevelFive(int numLevel) 
 	{
 		super(numLevel);
-		levelMessage = "AN ALIEN SUSPECT IS LAST SEEN RUNNING TOWARDS A BEACH PARTY. GET TO THE WEST BEACH QUICKLY; THEN LOCATE AND ELIMINATE"
-				+ " THE SUSPECT BEFORE IT ESCAPES THE SCENE.";	
+		levelMessage = "THREE ALIEN SUSPECTS ARE LAST SEEN RUNNING TOWARDS A BEACH PARTY. GET TO THE WEST BEACH QUICKLY; THEN LOCATE AND ELIMINATE"
+				+ " THE SUSPECTS BEFORE THEY ESCAPES THE SCENE.";	
 		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/level_5.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
 		this.setBackground(new Background(myBI));
@@ -45,6 +45,10 @@ public class LevelFive extends Level
 		SimpleRunner target = new SimpleRunner(true, 0.3, false);
 		this.addHittable(target);
 		target.setPos(1000, 240);
+		
+		Walker walker = new Walker(true, 0.3, false);
+		this.addHittable(walker);
+		walker.setPos(555, 240);
 		
 	}
 	

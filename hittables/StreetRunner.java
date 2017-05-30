@@ -64,7 +64,8 @@ public class StreetRunner extends Hittable
 	{
 		super.shot();
 		Level lvl = (Level)getParent();
-		lvl.removeHittable(this);
+		if (lvl != null && this != null)
+			lvl.removeHittable(this);
 	}
 	
 	@Override

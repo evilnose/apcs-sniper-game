@@ -74,7 +74,9 @@ public class SniperGame extends Application
 	public final static Image runnerTgtR = new Image("file:sprites/hittables/targets/runner_right.gif");
 	public final static Image runnerTgtL = new Image("file:sprites/hittables/targets/runner_left.gif");
 	public final static Image walkerCivR = new Image("file:sprites/hittables/civilians/walker_right.gif");
-	public final static Image walkerTgtR = new Image("file:sprites/hittables/targets/walker_left.gif");
+	public final static Image walkerCivL = new Image("file:sprites/hittables/civilians/walker_left.gif");
+	public final static Image walkerTgtR = new Image("file:sprites/hittables/targets/walker_right.gif");
+	public final static Image walkerTgtL = new Image("file:sprites/hittables/targets/walker_left.gif");
 
 	public static void main(String args[]) {
 		launch(); 
@@ -131,13 +133,13 @@ public class SniperGame extends Application
 //		levels.add(new LevelOne(1));
 //		levels.add(new LevelTwo(2));
 //		levels.add(new LevelThree(3));
-		//		levels.add(new LevelFour(4));
-				levels.add(new LevelFive(5));
-		//		levels.add(new LevelSix(6));
-		//		levels.add(new LevelSeven(7));
-		//		levels.add(new LevelEight(8));
-		//		levels.add(new LevelNine(9));
-		//		levels.add(new LevelTen(10));
+//		levels.add(new LevelFour(4));
+		levels.add(new LevelFive(5));
+//		levels.add(new LevelSix(6));
+//		levels.add(new LevelSeven(7));
+//		levels.add(new LevelEight(8));
+//		levels.add(new LevelNine(9));
+//		levels.add(new LevelTen(10));
 	}
 
 	public static void displayLevelMessage(int lvlNum)
