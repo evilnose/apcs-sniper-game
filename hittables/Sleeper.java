@@ -31,6 +31,13 @@ public class Sleeper extends Hittable {
 		if(!isTarget)
 			hitbox.setStroke(Color.BLACK);
 	}
+	
+	public void shot() 
+	{
+		super.shot();
+		Level lvl = (Level)getParent();
+		lvl.removeHittable(this);
+	}
 
 	@Override
 	public void act(long now) {

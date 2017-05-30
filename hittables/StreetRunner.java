@@ -60,6 +60,13 @@ public class StreetRunner extends Hittable
 		}
 	}
 
+	public void shot() 
+	{
+		super.shot();
+		Level lvl = (Level)getParent();
+		lvl.removeHittable(this);
+	}
+	
 	@Override
 	public void startle() 
 	{

@@ -1,6 +1,7 @@
 import javafx.scene.paint.Color;
 
-public class SimpleRunner extends Hittable {
+public class SimpleRunner extends Hittable
+{
 
 	private double scale;
 	private double dx;

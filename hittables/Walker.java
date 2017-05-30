@@ -18,6 +18,13 @@ public class Walker extends Hittable {
 		}
 	}
 
+	public void shot() 
+	{
+		super.shot();
+		Level lvl = (Level)getParent();
+		lvl.removeHittable(this);
+	}
+	
 	@Override
 	public void act(long now) {
 		// TODO Auto-generated method stub
