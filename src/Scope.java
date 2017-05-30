@@ -28,7 +28,7 @@ public class Scope extends ImageView {
 	private double dy;
 	private AnimationTimer timer;
 
-	private Media gunShot= new Media(new File("sounds/gunshot_sound.wav").toURI().toString());
+	private Media gunShot = new Media(new File("sounds/gunshot_sound.wav").toURI().toString());
     private MediaPlayer gunShotPlayer= new MediaPlayer(gunShot);
 	
 	
