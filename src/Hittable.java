@@ -108,10 +108,7 @@ public abstract class Hittable extends Group
 	{
 		Circle c = new Circle(x , y, radius);
 		c.setFill(Color.TRANSPARENT);
-		if(isTarget)
-			c.setStroke(Color.RED);
-		else
-			c.setStroke(Color.BLACK);
+		c.setStroke(Color.TRANSPARENT);
 		hitbox.getChildren().remove(0);
 		hitbox.getChildren().add(c);
 		this.getChildren().add(hitbox);

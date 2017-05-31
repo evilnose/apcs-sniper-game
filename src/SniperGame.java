@@ -373,8 +373,8 @@ public class SniperGame extends Application
 
 				WebView  browser = new WebView();
 				WebEngine engine = browser.getEngine();
-				String url = getClass().getResource("HowToPlay.html").toExternalForm();
-				engine.load(url);
+				File f = new File("HowToPlay.html");
+				engine.load(f.toURI().toString());
 				BorderPane sp = new BorderPane();
 
 				Scene root = new Scene(sp);
@@ -393,10 +393,10 @@ public class SniperGame extends Application
 				}
 						);
 				sp.setStyle("-fx-background-color: white");
-				sp.setMargin(b1,new Insets(0,0,20,0));
+				BorderPane.setMargin(b1,new Insets(20,0,20,0));
 				sp.setCenter(browser);
 				sp.setBottom(b1);
-				sp.setAlignment(b1, Pos.CENTER);
+				BorderPane.setAlignment(b1, Pos.CENTER);
 				wv.setScene(root);
 				wv.show();
 			}
@@ -461,7 +461,6 @@ public class SniperGame extends Application
 
 		finalScreen.setScene(scene);
 		finalScreen.show();
-		System.out.println(javafx.scene.text.Font.getFamilies());
 	}
 
 }
