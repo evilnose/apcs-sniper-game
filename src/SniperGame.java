@@ -460,7 +460,7 @@ public class SniperGame extends Application
 		authors.setTextFill(Color.LIGHTGRAY);
 		authors.setPadding(new Insets(0, 0, 20, 260));
 		
-		Label tip = new Label("To reset the game - Go to level_info.txt and change line 1 to 0 and line 2 to 8 to 1.");
+		Label tip = new Label("To reset the game - Go to level_info.txt and change all the lines to 0");
 		tip.setTextFill(Color.LIGHTGRAY);
 		tip.setPadding(new Insets(0, 0, 0, 220));
 		vb.getChildren().addAll(tip, authors);
