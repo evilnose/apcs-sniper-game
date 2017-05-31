@@ -134,9 +134,9 @@ public class SniperGame extends Application
 		levels.add(new LevelThree(3));
 		levels.add(new LevelFour(4));
 		levels.add(new LevelFive(5));
-		//		levels.add(new LevelSix(6));
-		//		levels.add(new LevelSeven(7));
-		//		levels.add(new LevelEight(8));
+		levels.add(new LevelSix(6));
+		levels.add(new LevelSeven(7));
+		//levels.add(new LevelEight(8));
 		//		levels.add(new LevelNine(9));
 		//		levels.add(new LevelTen(10));
 	}
