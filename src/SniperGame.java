@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -33,6 +34,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -50,6 +52,7 @@ public class SniperGame extends Application
 	private static Scene levelScene;
 	private static Level currLevel;
 	private static ArrayList<Boolean> levelsPassed;
+	private static Stage finalScreen;
 
 	public final static Media victory = new Media(new File("sounds/victory_sound.wav").toURI().toString());
 	public final static MediaPlayer victoryPlayer = new MediaPlayer(victory);
@@ -82,6 +85,10 @@ public class SniperGame extends Application
 	public final static ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
 	public final static Image magazine = new Image("file:sprites/magazine.png");
 	public final static Image bullet = new Image("file:sprites/bullet.png");
+	private final static String gameWonFont = "Egyptian710 BT";
+	private final static String authorsFont = "Candara";
+	private final static BackgroundImage passedBackground = new BackgroundImage(new Image("file:sprites/backgrounds/passed_screen.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT);;
 
 	public static void main(String args[]) {
 		launch(); 
@@ -94,7 +101,7 @@ public class SniperGame extends Application
 		fillLevelsPassed();
 
 		mainScreen = homeScreen;
-		homeScreen.setTitle("Sniper Game Alpha"); // TODO This Name is tentative. Need a cooler one.
+		homeScreen.setTitle("THEY CAME FROM BEYOND MARS...");
 		homeScreen.setResizable(false);
 
 		BorderPane root = new BorderPane();
@@ -139,10 +146,10 @@ public class SniperGame extends Application
 //		levels.add(new LevelTwo(2));
 //		levels.add(new LevelThree(3));
 //		levels.add(new LevelFour(4));
-		levels.add(new LevelFive(5));
+//		levels.add(new LevelFive(5));
 //		levels.add(new LevelSix(6));
 //		levels.add(new LevelSeven(7));
-//		levels.add(new LevelEight(8));
+		levels.add(new LevelEight(8));
 //		levels.add(new LevelNine(9));
 //		levels.add(new LevelTen(10));
 
@@ -381,7 +388,55 @@ public class SniperGame extends Application
 	}
 
 	public static void gamePassed() {
-		// TODO The game is WON
+		
+		finalScreen = new Stage();
+		finalScreen.setTitle("CONGRATS DUDE");
+		finalScreen.setResizable(false);
+
+		BorderPane root = new BorderPane();
+		root.setBackground(new Background(passedBackground));
+		Scene scene = new Scene(root, 800, 500);
+		Label won = new Label("GAME WON");
+		won.setFont(Font.font(gameWonFont, FontWeight.BOLD, 60));
+		won.setTextFill(Color.GOLD);
+		won.setPadding(new Insets(0, 0, 0, 245));
+		root.setTop(won);
+		
+		VBox bot = new VBox();
+		Button reset = new Button("Restart Game");
+		bot.getChildren().add(reset);
+		VBox.setMargin(reset, new Insets(0, 0, 25, 370));
+		reset.setOnAction(e -> restartGame());
+		
+		Label authors = new Label("Ishani - Gary - Aditi");
+		authors.setFont(Font.font(authorsFont, FontWeight.BOLD, 36));
+		authors.setTextFill(Color.LIGHTGRAY);
+		authors.setPadding(new Insets(0, 0, 60, 260));
+		bot.getChildren().add(authors);
+		root.setBottom(bot);
+
+		finalScreen.setScene(scene);
+		finalScreen.show();
+		System.out.println(javafx.scene.text.Font.getFamilies());
+	}
+	
+	private static void restartGame() {
+		finalScreen.close();
+		FileWriter fw;
+		try 
+		{
+			fw = new FileWriter("level_info.txt");
+			fw.write(0);
+			for(int i = 1; i < levelsPassed.size(); i++)
+				fw.write(1);
+
+			fw.close();
+		} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		mainScreen.show();
 	}
 
 }

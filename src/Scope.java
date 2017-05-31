@@ -3,12 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.shape.Circle;
 
 public class Scope extends ImageView {
 	private final Scope thisScope;
@@ -16,7 +14,6 @@ public class Scope extends ImageView {
 	public static final double SCOPE_WIDTH = SCOPE.getWidth();
 	public static final double SCOPE_HEIGHT = SCOPE.getHeight();
 	private boolean isInCooldown;
-	private final long RELOAD_TIME = 2000;
 	private final double MAX_SHAKE_DISTANCE = 3;
 	private final double MAX_SHAKE_SPEED = 0.1;
 	private double shakeSpeed;
@@ -39,8 +36,8 @@ public class Scope extends ImageView {
 
 	}
 	
-	public void shoot() { {
-		if (!isInCooldown)
+	public void shoot() {
+		if (!isInCooldown) {
 			isInCooldown = true;
 			this.getLevel().reduceNumBullets();
 			displayRecoil();

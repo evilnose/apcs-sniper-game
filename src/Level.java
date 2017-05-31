@@ -47,10 +47,10 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	protected Scope scope;
 	private Level thisLevel;
 	private MyEventHandler evHan;
-	private final Cursor LEVEL_SCREEN_CURSOR = Cursor.DEFAULT;
-	private final Cursor SCOPE_CURSOR = Cursor.NONE;
-	private final String LEVEL_PASSED_FONT = "Accord Heavy SF";
-	private final String LEVEL_FAILED_FONT = "Candara";
+	private final Cursor levelScreenCursor = Cursor.DEFAULT;
+	private final Cursor scopeCursor = Cursor.NONE;
+	private final String levelPassedFont = "Accord Heavy SF";
+	private final String levelFailedFont = "Candara";
 	private KeyHandler zoomer;
 	private boolean isZoomedIn;
 	private double lastPivotX, lastPivotY;
@@ -101,9 +101,9 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		addScope(scope);
 
 
-		this.setCursor(SCOPE_CURSOR);
+		this.setCursor(scopeCursor);
 
-		this.setCursor(SCOPE_CURSOR);
+		this.setCursor(scopeCursor);
 		addBulletLabel();
 		initReloadLabel();
 
@@ -143,14 +143,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		if(isWon())
 		{
 			thisLevel.stop();
-			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
+			thisLevel.setCursor(levelScreenCursor);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.setOnMousePressed(null);
 			thisLevel.displayWinMessage();
 		}
 		if (isLost()) {
 			thisLevel.stop();
-			thisLevel.setCursor(LEVEL_SCREEN_CURSOR);
+			thisLevel.setCursor(levelScreenCursor);
 			thisLevel.setOnMouseMoved(null);
 			thisLevel.setOnMousePressed(null);
 			thisLevel.displayLostMessage();
@@ -222,7 +222,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 		Text t = new Text("MISSION\n       "+ getLevelNumber() + " \nFAILED");
 		t.setFill(Color.WHITE);
-		t.setFont(Font.font(LEVEL_FAILED_FONT, FontWeight.BOLD, 15));
+		t.setFont(Font.font(levelFailedFont, FontWeight.BOLD, 15));
 
 		ImageView img = new ImageView(new Image("file:sprites/indicators/lose.gif"));
 

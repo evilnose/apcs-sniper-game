@@ -5,16 +5,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 
-/*
- *  
-Beach with one target running and a few civilians walking/runner/sitting around
-To make the user git gud at shooting faster moving targets
-Two targets with one sleeper and one sitter next to a highway
-To introduce the idea of precedence of shooting
-A two-story mall with two targets, one sitter and one walker, each at a different story.
-To create a challenge by forcing the player to switch quickly between active targets
-
- */
 
 public class LevelFive extends Level 
 {
