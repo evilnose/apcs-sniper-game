@@ -129,19 +129,16 @@ public class SniperGame extends Application
 	private void loadLevels()
 	{
 		levels = new ArrayList<Level>();
-		levels.add(new LevelOne(1));
-		levels.add(new LevelTwo(2));
-		levels.add(new LevelThree(3));
-		levels.add(new LevelFour(4));
-		levels.add(new LevelFive(5));
-		levels.add(new LevelSix(6));
-		levels.add(new LevelSeven(7));
-
-		//		levels.add(new LevelEight(8));
-
-		//levels.add(new LevelEight(8));
-
-		//		levels.add(new LevelNine(9));
+		
+	//	levels.add(new LevelOne(1));
+	//	levels.add(new LevelTwo(2));
+	//	levels.add(new LevelThree(3));
+	//	levels.add(new LevelFour(4));
+	//	levels.add(new LevelFive(5));
+	//	levels.add(new LevelSix(6));
+	//	levels.add(new LevelSeven(7));
+	   levels.add(new LevelEight(8));
+     //	levels.add(new LevelNine(9));
 		//		levels.add(new LevelTen(10));
 	}
 
