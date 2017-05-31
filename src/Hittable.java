@@ -193,7 +193,7 @@ public abstract class Hittable extends Group
 
 	}
 
-	public void setPos(int x, int y)
+	public void setPos(double x, double y)
 	{
 		double dx = x - graphics.getX();
 		double dy = y - graphics.getY();

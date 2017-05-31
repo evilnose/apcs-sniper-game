@@ -16,7 +16,7 @@ public class Runner extends Hittable
 		if (isTarget)
 		{
 			img = SniperGame.runnerTgtR;
-			setHitboxCircle(260,133, 20);
+			setHitboxCircle(260,135, 20);
 		}
 		else
 		{

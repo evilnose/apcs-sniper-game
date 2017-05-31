@@ -1,10 +1,12 @@
+import javafx.scene.shape.Circle;
+
 public class Sitter extends Hittable {
-	
+
 	private double dx;
 	private double dy;
 
 	private double scale;
-	
+
 	public Sitter(boolean isTarget)
 	{
 		super(isTarget);
@@ -19,7 +21,7 @@ public class Sitter extends Hittable {
 			hitbox.setStroke(null);
 		scale = 1;
 	}
-	
+
 	public Sitter(boolean isTarget, double scale)
 	{
 		super(isTarget);
@@ -35,25 +37,27 @@ public class Sitter extends Hittable {
 		if(!isTarget)
 			hitbox.setStroke(null);
 	}
-	
+
 	@Override
 	public void act(long now) 
 	{
-		if (isStartled) {
+		if (isStartled) 
+		{
 			if (isFacingRight())
 				move(5 * scale, 0);
 			else
 				move(-5 * scale, 0);
+
 		}
 	}
-	
+
 	@Override
 	public void startle() {
 		if (!isStartled && isAlive) {
 			initialStartle();
 		}
 	}
-	
+
 	@Override
 	public void initialStartle() {
 		if (isFacingRight()) {
@@ -70,9 +74,9 @@ public class Sitter extends Hittable {
 				displayStartledAnimation(this, SniperGame.startledSitterCivL, 100);
 			moveHitbox(-12.2 * scale, 21 * scale);
 		}
-		
+
 	}
-	
+
 	public void faceLeft() {
 		this.isFacingRight = false;
 		if (isTarget)
@@ -81,5 +85,5 @@ public class Sitter extends Hittable {
 			this.setGraphics(SniperGame.sitterCivL);
 		this.flipHitboxPos();
 	}
-	
+
 }
