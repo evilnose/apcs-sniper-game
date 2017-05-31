@@ -15,6 +15,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -33,6 +34,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 /*
@@ -78,6 +81,8 @@ public class SniperGame extends Application
 	public final static Image walkerTgtR = new Image("file:sprites/hittables/targets/walker_right.gif");
 	public final static Image walkerTgtL = new Image("file:sprites/hittables/targets/walker_left.gif");
 
+	private Button startGameButton, howToPlay;
+
 	public static void main(String args[]) {
 		launch(); 
 	}
@@ -99,14 +104,14 @@ public class SniperGame extends Application
 				BackgroundSize.DEFAULT);
 		root.setBackground(new Background(myBI));
 
-		Button startGameButton = new Button();
+		startGameButton = new Button();
 		startGameButton.setText("Start");
 		startGameButton.setFont(new Font("Monospaced Bold",30));
 		startGameButton.setStyle("-fx-background-color: transparent;");
 		startGameButton.setOnAction(new startGameHandler());
 
 
-		Button howToPlay = new Button();
+		howToPlay = new Button();
 		howToPlay.setText("Instructions");
 		howToPlay.setFont(new Font("Monospaced Bold",30));
 		howToPlay.setStyle("-fx-background-color: transparent;");
@@ -129,20 +134,17 @@ public class SniperGame extends Application
 	private void loadLevels()
 	{
 		levels = new ArrayList<Level>();
-		levels.add(new LevelOne(1));
-		levels.add(new LevelTwo(2));
-		levels.add(new LevelThree(3));
-		levels.add(new LevelFour(4));
-		levels.add(new LevelFive(5));
-		levels.add(new LevelSix(6));
-		levels.add(new LevelSeven(7));
 
-		//		levels.add(new LevelEight(8));
-
-		//levels.add(new LevelEight(8));
-
-		//		levels.add(new LevelNine(9));
-		//		levels.add(new LevelTen(10));
+		//	levels.add(new LevelOne(1));
+		//	levels.add(new LevelTwo(2));
+		//	levels.add(new LevelThree(3));
+		//	levels.add(new LevelFour(4));
+		//	levels.add(new LevelFive(5));
+		//	levels.add(new LevelSix(6));
+		//	levels.add(new LevelSeven(7));
+		//  levels.add(new LevelEight(8));
+		//	levels.add(new LevelNine(9));
+		levels.add(new LevelTen(10));
 	}
 
 	public static void displayLevelMessage(int lvlNum)
@@ -276,15 +278,15 @@ public class SniperGame extends Application
 				break;
 				case "LevelThree" : currLevel = new LevelThree(levelNum);
 				break;
-				case "LevelFour" : currLevel = new LevelFour(levelNum);
+				case "LevelFour" : currLevel = new LevelEight(levelNum);
 				break;
-				case "LevelFive" : currLevel = new LevelFive(levelNum);
+				case "LevelFive" : currLevel = new LevelFour(levelNum);
 				break;
 				case "LevelSix" : currLevel = new LevelSix(levelNum);
 				break;
 				case "LevelSeven" : currLevel = new LevelSeven(levelNum);
 				break;
-				case "LevelEight" : currLevel = new LevelEight(levelNum);
+				case "LevelEight" : currLevel = new LevelFive(levelNum);
 				break;
 				case "LevelNine" : currLevel = new LevelNine(levelNum);
 				break;
@@ -333,12 +335,47 @@ public class SniperGame extends Application
 		map.activateDefaultBackground();
 	}
 
-	private class startGameHandler implements EventHandler<ActionEvent> {
-
+	private class startGameHandler implements EventHandler<ActionEvent> 
+	{	
 		@Override
 		public void handle(ActionEvent event)
 		{
-			openMap();
+			if(event.getSource().equals(startGameButton))
+				openMap();
+			else
+			{
+				Stage wv = new Stage();
+				wv.setTitle("How to Play");             
+
+				WebView  browser = new WebView();
+				WebEngine engine = browser.getEngine();
+				String url = getClass().getResource("HowToPlay.html").toExternalForm();
+				engine.load(url);
+				BorderPane sp = new BorderPane();
+
+				Scene root = new Scene(sp);
+
+				Button b1 = new Button("Close");
+				b1.setOnMouseClicked(new EventHandler<MouseEvent>()
+				{
+
+
+					@Override
+					public void handle(MouseEvent event) 
+					{
+						wv.hide();
+					}
+
+				}
+						);
+				sp.setStyle("-fx-background-color: white");
+				sp.setMargin(b1,new Insets(0,0,20,0));
+				sp.setCenter(browser);
+				sp.setBottom(b1);
+				sp.setAlignment(b1, Pos.CENTER);
+				wv.setScene(root);
+				wv.show();
+			}
 		}
 
 	}

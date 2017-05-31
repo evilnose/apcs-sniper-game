@@ -15,13 +15,12 @@ public class LevelTen extends Level
 
 		Sitter sitter = new Sitter(true, 0.4);
 		this.addHittable(sitter);
-		sitter.setPos(175, 220);
-		
-		
+		sitter.setPos(175, 220);	
 	}
 	
 	@Override
-	protected String getDescription() {
+	protected String getDescription() 
+	{
 		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
 				" before it gets away.";
 	}

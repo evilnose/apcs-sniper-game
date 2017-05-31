@@ -1,20 +1,3 @@
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-
-/*
- *  
-Beach with one target running and a few civilians walking/runner/sitting around
-To make the user git gud at shooting faster moving targets
-Two targets with one sleeper and one sitter next to a highway
-To introduce the idea of precedence of shooting
-A two-story mall with two targets, one sitter and one walker, each at a different story.
-To create a challenge by forcing the player to switch quickly between active targets
-
- */
 
 public class LevelFive extends Level 
 {
@@ -22,43 +5,55 @@ public class LevelFive extends Level
 	public LevelFive(int numLevel) 
 	{
 		super(numLevel);
-		levelMessage = "THREE ALIEN SUSPECTS ARE LAST SEEN RUNNING TOWARDS A BEACH PARTY. GET TO THE WEST BEACH QUICKLY; THEN LOCATE AND ELIMINATE"
-				+ " THE SUSPECTS BEFORE THEY ESCAPES THE SCENE.";	
-		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/level_5.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		this.setBackground(new Background(myBI));
+		levelMessage = "SOME ALIENS HAVE BEEN SPOTTED ON NATURE TREK. ELIMINATE THEM AND SAVE THE TREKKERS!";	
+		
 	}
 	
 	@Override
 	protected void addAllHittables()
 	{
 
-		Sitter talkerOne = new Sitter(true, 0.3);
-		this.addHittable(talkerOne);
-		talkerOne.setPos(150, 240);
+		Sitter sitter1 = new Sitter(true, 0.3);
+		this.addHittable(sitter1);
+		sitter1.setPos(5, 10);
+
 		
-		Sitter talkerTwo = new Sitter(false, 0.3);
-		talkerTwo.faceLeft();
-		this.addHittable(talkerTwo);
-		talkerTwo.setPos(175, 240);
+		Runner r1 = new Runner(false, 0.4);
+		this.addHittable(r1);
+		r1.setPos(200, 200);
+       
+		Runner r2 = new Runner(false, 0.4);
+		this.addHittable(r2);
+		r2.setPos(200, 250);
 		
-		SimpleRunner target = new SimpleRunner(true, 0.3, false);
-		this.addHittable(target);
-		target.setPos(1000, 240);
+		Runner r3 = new Runner(false, 0.4);
+		this.addHittable(r3);
+		r3.setPos(700, 100);
 		
-		Walker walker = new Walker(true, 0.3, false);
-		this.addHittable(walker);
-		walker.setPos(555, 240);
+		Sitter sitter3 = new Sitter(true, 0.5);
+		this.addHittable(sitter3);
+		sitter3.setPos(5, 300);
+		
+		Sitter sitter4 = new Sitter(true, 0.4);
+		this.addHittable(sitter4);
+		sitter4.setPos(700, 50);		
+		
+		
+		
+		
 		
 	}
 	
+	
 	@Override
 	protected String getDescription() {
-		return "This is level five.";
+		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
+				" before it gets away.";
 	}
 
 	@Override
 	protected String getName() {
-		return "Level 5";
+		return "Tutorial";
 	}
+
 }
