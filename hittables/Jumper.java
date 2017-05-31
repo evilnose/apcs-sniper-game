@@ -18,8 +18,6 @@ public class Jumper extends Hittable {
 		dx = 0;
 		dy = 2;
 		this.setHitboxCircle(255, 120, 19);
-		if(!isTarget)
-			hitbox.setStroke(Color.BLACK);
 	}
 	
 	public Jumper(boolean isTarget, double scale,int baseY)
@@ -30,13 +28,10 @@ public class Jumper extends Hittable {
 		if (isTarget)
 			setGraphics(SniperGame.sleeperTgtR);
 		else
-			setGraphics(SniperGame.sleeperTgtL);
 		dx = 0;
 		dy = 2;
 		this.setHitboxCircle(255, 120, 19);
 		this.setScale(scale);
-		if(!isTarget)
-			hitbox.setStroke(Color.BLACK);
 	}
 	@Override
 	public void act(long now)
@@ -54,6 +49,9 @@ public class Jumper extends Hittable {
 			w.setPos(x, y);
 			l.addHittable(w);
 			w.setBounds(100, 325);
+			w.moveHitbox(-5, -20);
 		}
 	}
+	
+	
 }

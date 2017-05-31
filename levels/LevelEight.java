@@ -35,7 +35,7 @@ public class LevelEight extends Level
 		this.addHittable(r1);
 		this.addHittable(sl1);
 		
-		ImageView img = new ImageView(new Image("file:sprites/backgrounds/level_4_framework.png"));	
+		ImageView img = new ImageView(new Image("file:sprites/backgrounds/level_8_framework.png"));	
 		this.getChildren().add(img);
 	}
 	

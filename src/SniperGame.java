@@ -80,6 +80,7 @@ public class SniperGame extends Application
 	public final static Image walkerCivL = new Image("file:sprites/hittables/civilians/walker_left.gif");
 	public final static Image walkerTgtR = new Image("file:sprites/hittables/targets/walker_right.gif");
 	public final static Image walkerTgtL = new Image("file:sprites/hittables/targets/walker_left.gif");
+	public final static Image[] recoilSequence = decodeGifToImages("file:sprites/scopes/recoil.gif");
 
 	private Button startGameButton, howToPlay;
 
@@ -134,18 +135,17 @@ public class SniperGame extends Application
 	private void loadLevels()
 	{
 		levels = new ArrayList<Level>();
-
-		//	levels.add(new LevelOne(1));
-		//	levels.add(new LevelTwo(2));
-		//	levels.add(new LevelThree(3));
-		//	levels.add(new LevelFour(4));
-		//	levels.add(new LevelFive(5));
-		//	levels.add(new LevelSix(6));
-		//	levels.add(new LevelSeven(7));
-		//  levels.add(new LevelEight(8));
-		//	levels.add(new LevelNine(9));
-		levels.add(new LevelTen(10));
-	}
+		levels.add(new LevelOne(1));
+		levels.add(new LevelTwo(2));
+		levels.add(new LevelThree(3));
+		levels.add(new LevelFour(4));
+		levels.add(new LevelFive(5));
+		levels.add(new LevelSix(6));
+		levels.add(new LevelSeven(7));
+		levels.add(new LevelEight(8));
+//		levels.add(new LevelNine(9));
+//		levels.add(new LevelTen(10));
+		}
 
 	public static void displayLevelMessage(int lvlNum)
 	{
@@ -380,7 +380,7 @@ public class SniperGame extends Application
 
 	}
 
-	public static void setClosingState() 
+	public static void setState() 
 	{
 		FileWriter fw;
 		try 
@@ -419,4 +419,3 @@ public class SniperGame extends Application
 	}
 
 }
-

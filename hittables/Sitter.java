@@ -18,7 +18,7 @@ public class Sitter extends Hittable {
 		dy = 0;
 		this.setHitboxCircle(250, 112, 20);
 		if(!isTarget)
-			hitbox.setStroke(null);
+			((Circle)hitbox.getChildren().get(0)).setStroke(null);
 		scale = 1;
 	}
 
@@ -26,7 +26,7 @@ public class Sitter extends Hittable {
 	{
 		super(isTarget);
 		if (isTarget)
-			setGraphics(SniperGame.sitterTgtL);
+			setGraphics(SniperGame.sitterTgtR);
 		else
 			setGraphics(SniperGame.sitterCivR);
 		dx = 0;
@@ -35,7 +35,7 @@ public class Sitter extends Hittable {
 		setScale(scale);
 		this.scale = scale;
 		if(!isTarget)
-			hitbox.setStroke(null);
+			((Circle)hitbox.getChildren().get(0)).setStroke(null);
 	}
 
 	@Override

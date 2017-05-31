@@ -1,29 +1,37 @@
-import javafx.scene.image.Image;
-
 public class LevelSix extends Level 
 {
 	
 	public LevelSix(int numLevel) 
 	{
 		super(numLevel);
-		levelMessage = "THIS IS SOME ALIEN JARGON I AM TYPING FOR TRYING OUT THIS FEATURE";	
+		levelMessage = "OUR ALIEN FRIENDS ARE HAVING A PICNIC ON THE HILLS. WELL APPARENTLY A LIVE HUMAN IS ON THE PICNIC MENU. "
+				+ "TAKE THEM OUT BEFORE THEY DO ANY HARM.";	
 	}
 	
 	@Override
 	protected void addAllHittables()
 	{
 
-		Sitter sitter = new Sitter(true, 0.4);
+		Sitter sitter = new Sitter(true, 0.1);
 		this.addHittable(sitter);
-		sitter.setPos(175, 220);
+		sitter.setPos(275, 320);
 		
+		Walker walker = new Walker(true, 0.1, false);
+		this.addHittable(walker);
+		walker.setPos(285, 320);
 		
+		Walker walkerTwo = new Walker(true, 0.1, true);
+		this.addHittable(walkerTwo);
+		walkerTwo.setPos(250, 320);
+		
+		Sleeper sleeper = new Sleeper(true, 0.05);
+		this.addHittable(sleeper);
+		sleeper.setPos(243, 260);
 	}
 	
 	@Override
 	protected String getDescription() {
-		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
-				" before it gets away.";
+		return "THIS IS LEVEL SIX";
 	}
 
 	@Override

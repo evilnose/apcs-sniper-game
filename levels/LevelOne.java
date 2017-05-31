@@ -1,4 +1,4 @@
-import javafx.scene.paint.Color;
+import javafx.scene.Group;
 import javafx.scene.shape.Circle;
 
 public class LevelOne extends Level 
@@ -16,7 +16,7 @@ public class LevelOne extends Level
 	{
 		Sitter sitter = new Sitter(true, 0.5);
 		this.addHittable(sitter);
-		sitter.setPos(175, 220);
+		sitter.setPos(175, 220);	
 	}
 	
 	

@@ -25,17 +25,15 @@ public class Runner extends Hittable
 		}
 		setGraphics(img);
 		setScale(scale);
-		dx = 2;
+		dx = 1.5;
 		dy = 0;
-		if(!isTarget)
-			hitbox.setStroke(Color.BLACK);
 	}
 
 	@Override
 	public void act(long now) 
 	{ 
 
-		Circle c = (Circle)hitbox;
+		Circle c = (Circle)hitbox.getChildren().get(0);
 
 		if(graphics.getX()+185<=boundX1)
 		{
@@ -97,6 +95,6 @@ public class Runner extends Hittable
 	@Override
 	protected void initialStartle() {
 		isStartled = true;
-		dx = 2*dx;
+		dx = 1.5*dx;
 	}
 }

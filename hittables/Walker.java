@@ -46,14 +46,14 @@ public class Walker extends Hittable {
 					setGraphics(SniperGame.runnerTgtR);
 				else
 					setGraphics(SniperGame.runnerCivR);
-				this.moveHitbox(scale*3.8, scale*4.8);
+				this.moveHitbox(3.8 * scale, 4.8 * scale);
 				dx = 5;
 			} else {
 				if (isTarget)
 					setGraphics(SniperGame.runnerTgtL);
 				else
 					setGraphics(SniperGame.runnerCivL);
-				this.moveHitbox(scale*-6.0, scale*14.8);
+				this.moveHitbox(-6.0 * scale, 14.8 * scale);
 				dx = -5;
 			}
 		}
@@ -67,7 +67,7 @@ public class Walker extends Hittable {
 		else
 			move (dx * scale, dy);
 		
-		Circle c = (Circle)hitbox;
+		Circle c = (Circle)hitbox.getChildren().get(0);
 
 		if(graphics.getX()+185<=boundX1)
 		{

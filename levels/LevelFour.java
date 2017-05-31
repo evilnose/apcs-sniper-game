@@ -4,18 +4,6 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-
-/*
- *  
-Beach with one target running and a few civilians walking/runner/sitting around
-To make the user git gud at shooting faster moving targets
-Two targets with one sleeper and one sitter next to a highway
-To introduce the idea of precedence of shooting
-A two-story mall with two targets, one sitter and one walker, each at a different story.
-To create a challenge by forcing the player to switch quickly between active targets
-
- */
-
 public class LevelFour extends Level 
 {
 	
@@ -24,9 +12,6 @@ public class LevelFour extends Level
 		super(numLevel);
 		levelMessage = "THREE ALIEN SUSPECTS ARE LAST SEEN RUNNING TOWARDS A BEACH PARTY. GET TO THE WEST BEACH QUICKLY; THEN LOCATE AND ELIMINATE"
 				+ " THE SUSPECTS BEFORE THEY ESCAPES THE SCENE.";	
-		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/level_5.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		this.setBackground(new Background(myBI));
 	}
 	
 	@Override
