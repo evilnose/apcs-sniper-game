@@ -49,7 +49,6 @@ public class Jumper extends Hittable {
 			w.setPos(x, y);
 			l.addHittable(w);
 			w.setBounds(100, 325);
-			w.moveHitbox(-5, -20);
 		}
 	}
 	

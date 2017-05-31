@@ -6,7 +6,7 @@ public class LevelFive extends Level
 	{
 		super(numLevel);
 		levelMessage = "SOME ALIENS HAVE BEEN SPOTTED ON NATURE TREK. ELIMINATE THEM AND SAVE THE TREKKERS!";	
-		
+		this.setBackground(SniperGame.levelFiveBack);
 	}
 	
 	@Override

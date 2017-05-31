@@ -12,6 +12,7 @@ public class LevelFour extends Level
 		super(numLevel);
 		levelMessage = "THREE ALIEN SUSPECTS ARE LAST SEEN RUNNING TOWARDS A BEACH PARTY. GET TO THE WEST BEACH QUICKLY; THEN LOCATE AND ELIMINATE"
 				+ " THE SUSPECTS BEFORE THEY ESCAPES THE SCENE.";	
+		this.setBackground(SniperGame.levelFourBack);
 	}
 	
 	@Override
@@ -44,6 +45,6 @@ public class LevelFour extends Level
 
 	@Override
 	protected String getName() {
-		return "Level 5";
+		return "Level 4";
 	}
 }

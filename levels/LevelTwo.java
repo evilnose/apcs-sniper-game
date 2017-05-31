@@ -7,6 +7,7 @@ public class LevelTwo extends Level
 	{
 		super(numLevel);
 		levelMessage = "AN ALIEN IS TRYING TO RECRUIT THIS INNOCENT CITIZEN TO HIS ORGANIZATION IN THIS DARK ALLEY. KILL HIM BEFORE THE CIVILIAN MAKES A DECISION.";	
+		this.setBackground(SniperGame.levelTwoBack);
 	}
 	
 	@Override

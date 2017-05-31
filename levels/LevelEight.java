@@ -7,7 +7,8 @@ public class LevelEight extends Level
 	public LevelEight(int numLevel) 
 	{
 		super(numLevel);
-		levelMessage = "A GROUP OF ALIENS HAVE SET UP CAMP IN THIS HOTEL AND ARE DISCUSSING THEIR PLANS OF DISRUPTION. KILL THEM BEFORE THEY RUN AWAY!";	
+		levelMessage = "A GROUP OF ALIENS HAVE SET UP CAMP IN THIS HOTEL AND ARE DISCUSSING THEIR PLANS OF DISRUPTION. KILL THEM BEFORE THEY RUN AWAY!";
+		this.setBackground(SniperGame.levelEightBack);
 	}
 	
 	@Override
@@ -23,7 +24,7 @@ public class LevelEight extends Level
 		Sitter s2 = new Sitter(true,0.8);
 		s2.setPos(400, 20);
 		
-		Runner r1 = new Runner(false,1);
+		Runner r1 = new Runner(true,1);
 		r1.setPos(400, 320);
 		
 		Sleeper sl1 = new Sleeper(true,1);

@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -62,13 +64,14 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	protected ImageView locImage;
 	private boolean isStarted;
 	private boolean isPaused = false;
-	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
 	private final Label reloadLabel = new Label();
 	private FadeTransition ft;
 	private Label bulletLabel,cartridgeLabel;
+	private VBox entireLabel;
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
-	private int numAvailableBullets;	
+	private int numAvailableBullets;
+	private String lostMessage;
 
 	protected String levelMessage="";
 
@@ -92,10 +95,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		targets = new ArrayList<Hittable>();
 		civilians = new ArrayList<Hittable>();
 		locImage = new ImageView(new Image("file:sprites/level_" + levelNumber+ "_loc.png"));
-		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/level_"+levelNumber+".png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-			this.setBackground(new Background(myBI));
-
 		addAllHittables();
 		scope = new Scope();
 		addScope(scope);
@@ -183,9 +182,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	public void stop() {
 		timer.stop();
-		//		removeEventHandler(MouseEvent.MOUSE_PRESSED, evHan);
-		//		removeEventHandler(MouseEvent.MOUSE_MOVED, evHan);
-		//		removeEventHandler(KeyEvent.KEY_PRESSED, zoomer);
 	}
 
 	private boolean isWon() 
@@ -196,18 +192,19 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			return false;
 	}
 
-	private boolean isLost() {
+	private boolean isLost() 
+	{
 		for(Hittable h : targets)
 			if(h.isWithinBounds()==false) {
-				System.out.println("a target got away");
+				lostMessage = "A TARGET GOT AWAY";
 				return true;
 			}
 		if(civilians.size()<numCivilians) {
-			System.out.println("you killed a civilian");
+			lostMessage = "YOU KILLED A CIVILIAN";
 			return true;
 		}
 		else if (numRemainingBullets == 0 && targets.size() > 0) {
-			System.out.println("you ran out of bullets");
+			lostMessage = "YOU RAN OUT OF BULLETS";
 			return true;
 		}
 		else
@@ -219,72 +216,146 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	{
 		loseScreen = new Stage();
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 800, 541);
+		Scene scene = new Scene(root, 1000, 600);
 		loseScreen.setTitle("You Lose!");
 		loseScreen.setResizable(false);
 
-		Text t = new Text("MISSION\n       "+ getLevelNumber() + " \nFAILED");
-		t.setFill(Color.WHITE);
-		t.setFont(Font.font(LEVEL_FAILED_FONT, FontWeight.BOLD, 15));
+		root.setBackground(new Background(new BackgroundImage(new Image("file:sprites/backgrounds/lose_screen.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT)));
+		
+		Text t1 = new Text("MISSION FAILED");
+		t1.setFont(new Font("American Typewriter", 35));
+		
+		Text t = new Text();
+		t.setFont(new Font("American Typewriter", 25));
 
-		ImageView img = new ImageView(new Image("file:sprites/indicators/lose.gif"));
+		DoubleProperty maxX = new SimpleDoubleProperty(900);
+		t.wrappingWidthProperty().bind(maxX);
+		t.setLineSpacing(10);
 
-		VBox vb = new VBox();
-		exit = new Button("Exit");
+		exit = new Button("EXIT");	
+		exit.setFont(new Font("American Typewriter", 20));
+		exit.setStyle("-fx-background-color: transparent;");
+		exit.setTextFill(Color.BLACK);
 		exit.setOnMouseClicked(btnHandler);
-		restart = new Button("Retry Level");
+		
+		restart = new Button("RESTART");	
+		restart.setFont(new Font("American Typewriter", 20));
+		restart.setStyle("-fx-background-color: transparent;");
+		restart.setTextFill(Color.BLACK);
 		restart.setOnMouseClicked(btnHandler);
-		VBox.setMargin(t,new Insets(0,10,10,10));
-		VBox.setMargin(exit,new Insets(10,10,10,10));
-		VBox.setMargin(restart,new Insets(10,10,10,10));
-		vb.getChildren().addAll(t,exit, restart);
 
-		root.setLeft(img);
-		root.setRight(vb);
+		HBox hb = new HBox();
+		HBox.setMargin(exit,new Insets(10,10,10,10));
+		HBox.setMargin(restart,new Insets(10,10,10,10));
+		hb.getChildren().addAll(exit, restart);
+		
+		AnimationTimer timer = new AnimationTimer() 
+		{
+			int i = 0;
+			@Override
+			public void handle(long now) 
+			{
+				long start = 0;
+				if(now-start>Math.pow(10, 9))
+				{
+					if(i<lostMessage.length())
+					{
+						t.setText(t.getText()+lostMessage.charAt(i));
+						i++;
+					}
+					else
+					{
+						if(i==lostMessage.length())
+							root.setBottom(hb);
+						this.stop();
+					}
+					start = now;
+				}
+			}
+		};
 
-		root.setStyle("-fx-background-color: #24ff21;");
-
+		root.setTop(t1);
+		root.setCenter(t);
+		root.setMargin(t1, new Insets(100,350,100,350));
+		root.setMargin(t, new Insets(50,350,100,370));
+		root.setMargin(hb, new Insets(50,350,100,370));
+		
 		loseScreen.setScene(scene);
-		HBox.setMargin(exit, new Insets(0,0,exit.getScene().getHeight() / 5,(exit.getScene().getWidth() - exit.getPrefWidth()) / 2));
-		HBox.setMargin(restart, new Insets(0,0,restart.getScene().getHeight() / 5,(restart.getScene().getWidth() - restart.getPrefWidth()) / 2));
 		loseScreen.setAlwaysOnTop(true);
-		//		lostPlayer.stop();
-		//		lostPlayer.play();
 		loseScreen.show();
+		timer.start();
 	}
 
 	protected void displayWinMessage() 
 	{
+		
 		winScreen = new Stage();
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 650, 270);
+		Scene scene = new Scene(root,1000,600);
 		winScreen.setTitle("You Win!");
 		winScreen.setResizable(false);
+		
+		root.setBackground(new Background(new BackgroundImage(new Image("file:sprites/backgrounds/win_screen.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT)));
 
-		Text t = new Text("MISSION\n       "+ getLevelNumber() + " \nPASSED");
-		t.setFill(Color.WHITE);
-		t.setFont(Font.font("Monospaced Bold", FontWeight.BOLD, 35));
+		Text t1 = new Text("MISSION PASSED");
+		t1.setFont(new Font("American Typewriter", 35));
+		
+		Text t = new Text();
+		t.setFont(new Font("American Typewriter", 25));
 
-		ImageView img = new ImageView(new Image("file:sprites/indicators/win.gif"));
-
-		VBox vb = new VBox();
-		next = new Button("Next Level");
-		next.setPrefSize(125, 30);
+		DoubleProperty maxX = new SimpleDoubleProperty(900);
+		t.wrappingWidthProperty().bind(maxX);
+		t.setLineSpacing(10);
+		
+		next = new Button("NEXT");	
+		next.setFont(new Font("American Typewriter", 20));
+		next.setStyle("-fx-background-color: transparent;");
+		next.setTextFill(Color.BLACK);
 		next.setOnMouseClicked(btnHandler);
-		VBox.setMargin(next, new Insets(20,10,10,10));
-		vb.getChildren().addAll(t,next);
 
-		root.setLeft(img);
-		root.setRight(vb);
+		HBox hb = new HBox();
+		HBox.setMargin(next,new Insets(10,10,10,10));
+		hb.getChildren().add(next);
+		
+		String message = "YOU MANAGED TO EXTERMINATE ALL THE TARGETS!";
+		
+		AnimationTimer timer = new AnimationTimer() 
+		{
+			int i = 0;
+			@Override
+			public void handle(long now) 
+			{
+				long start = 0;
+				if(now-start>Math.pow(10, 9))
+				{
+					if(i<message.length())
+					{
+						t.setText(t.getText()+message.charAt(i));
+						i++;
+					}
+					else
+					{
+						if(i==message.length())
+							root.setBottom(hb);
+						this.stop();
+					}
+					start = now;
+				}
+			}
+		};
 
-		root.setStyle("-fx-background-color: #24ff21;");
-
+		root.setTop(t1);
+		root.setCenter(t);
+		root.setMargin(t1, new Insets(100,350,100,350));
+		root.setMargin(t, new Insets(50,50,100,150));
+		root.setMargin(hb, new Insets(50,350,100,420));
+		
 		winScreen.setScene(scene);
-		HBox.setMargin(next, new Insets(0,0,next.getScene().getHeight() / 5,(next.getScene().getWidth() - next.getPrefWidth()) / 2));
 		winScreen.setAlwaysOnTop(true);
-		//victoryPlayer.stop();
-		//victoryPlayer.play();
 		winScreen.show();
+		timer.start();
 	}
 
 	public double getWindSpeed(){
@@ -317,10 +388,10 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	private void addBulletLabel()
 	{
-		VBox v = new VBox();
+		entireLabel = new VBox();
 
 		HBox h = new HBox();
-		ImageView bullets = new ImageView(new Image("file:sprites/bullet.png"));
+		ImageView bullets = new ImageView(SniperGame.bullet);
 		bulletLabel = new Label();
 		bulletLabel.setFont(new Font(12));
 		bulletLabel.setTextFill(Color.WHITE);
@@ -329,7 +400,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		h.getChildren().addAll(bullets,bulletLabel);
 
 		HBox h1 = new HBox();
-		ImageView magazines = new ImageView(new Image("file:sprites/magazine.png"));
+		ImageView magazines = new ImageView(SniperGame.magazine);
 		cartridgeLabel = new Label();
 		cartridgeLabel.setFont(new Font(12));
 		cartridgeLabel.setTextFill(Color.WHITE);
@@ -340,8 +411,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		reloadBulletLabel();
 		updateBulletLabel();
 
-		v.getChildren().addAll(h,h1);
-		this.getChildren().addAll(v);
+		entireLabel.getChildren().addAll(h,h1);
+		this.getChildren().add(entireLabel);
 	}
 
 	public void reloadBulletLabel() {
@@ -525,9 +596,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					ZOOM_IN_SCALE.setPivotX(lastPivotX);
 					ZOOM_IN_SCALE.setPivotY(lastPivotY);
 					thisLevel.getTransforms().add(ZOOM_IN_SCALE);
-
-					scope.setScaleX(0.5);
-					scope.setScaleY(0.5);
+					setUIScale(0.5);
 					lastPivotX = scope.getX()+scope.getImage().getWidth()/2;
 					lastPivotY = scope.getY()+scope.getImage().getHeight()/2;
 
@@ -536,8 +605,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				{
 					isZoomedIn = false;
 					thisLevel.getTransforms().remove(ZOOM_IN_SCALE);
-					scope.setScaleX(1);
-					scope.setScaleY(1);
+					setUIScale(1);
 					scope.move(scope.getX()+scope.getImage().getWidth()/2 - lastPivotX, scope.getY()+scope.getImage().getHeight()/2 - lastPivotY); // calibrate the scope
 				}
 			}
@@ -547,8 +615,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				{
 					timer.stop();
 					thisLevel.getChildren().remove(scope);
-					thisLevel.getChildren().add(pause);
-					pause.relocate(500-256,300-256);
+					thisLevel.getChildren().add(SniperGame.pause);
+					SniperGame.pause.relocate(500-256,300-256);
 					thisLevel.setOnMouseMoved(null);
 					isPaused = true;
 				}
@@ -556,7 +624,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				{
 					thisLevel.setOnMouseMoved(evHan);
 					thisLevel.getChildren().add(scope);
-					thisLevel.getChildren().remove(pause);
+					thisLevel.getChildren().remove(SniperGame.pause);
 					timer.start();
 					isPaused = false;
 				}
@@ -566,6 +634,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				SniperGame.reloadPlayer.play();
 			}
 		}
+	}
+	
+	private void setUIScale(double scale) {
+		scope.setScaleX(scale);
+		scope.setScaleY(scale);
+		entireLabel.setScaleX(scale);
+		entireLabel.setScaleY(scale);
 	}
 }
 

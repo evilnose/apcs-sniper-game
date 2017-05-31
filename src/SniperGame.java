@@ -19,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -81,6 +82,26 @@ public class SniperGame extends Application
 	public final static Image walkerTgtR = new Image("file:sprites/hittables/targets/walker_right.gif");
 	public final static Image walkerTgtL = new Image("file:sprites/hittables/targets/walker_left.gif");
 	public final static Image[] recoilSequence = decodeGifToImages("file:sprites/scopes/recoil.gif");
+	public final static ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
+	public final static Image magazine = new Image("file:sprites/magazine.png");
+	public final static Image bullet = new Image("file:sprites/bullet.png");
+	
+	public final static Background levelOneBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_1.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelTwoBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_2.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelThreeBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_3.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelFourBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_4.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelFiveBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_5.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelSixBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_6.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelSevenBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_7.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelEightBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_8.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
 
 	private Button startGameButton, howToPlay;
 
@@ -143,8 +164,6 @@ public class SniperGame extends Application
 		levels.add(new LevelSix(6));
 		levels.add(new LevelSeven(7));
 		levels.add(new LevelEight(8));
-//		levels.add(new LevelNine(9));
-//		levels.add(new LevelTen(10));
 		}
 
 	public static void displayLevelMessage(int lvlNum)
@@ -268,7 +287,7 @@ public class SniperGame extends Application
 
 	public static void restart() {
 		for (Level lvl : levels) {
-			if (lvl == currLevel) {
+			if (lvl.equals(currLevel)) {
 				String className = currLevel.getClass().getName();
 				int levelNum = currLevel.getLevelNumber();
 				switch(className) {
@@ -278,19 +297,15 @@ public class SniperGame extends Application
 				break;
 				case "LevelThree" : currLevel = new LevelThree(levelNum);
 				break;
-				case "LevelFour" : currLevel = new LevelEight(levelNum);
+				case "LevelFour" : currLevel = new LevelFour(levelNum);
 				break;
-				case "LevelFive" : currLevel = new LevelFour(levelNum);
+				case "LevelFive" : currLevel = new LevelFive(levelNum);
 				break;
 				case "LevelSix" : currLevel = new LevelSix(levelNum);
 				break;
 				case "LevelSeven" : currLevel = new LevelSeven(levelNum);
 				break;
-				case "LevelEight" : currLevel = new LevelFive(levelNum);
-				break;
-				case "LevelNine" : currLevel = new LevelNine(levelNum);
-				break;
-				case "LevelTen" : currLevel = new LevelTen(levelNum);
+				case "LevelEight" : currLevel = new LevelEight(levelNum);
 				break;
 				}
 			}

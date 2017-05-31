@@ -34,8 +34,6 @@ public class Sitter extends Hittable {
 		this.setHitboxCircle(250, 112, 20);
 		setScale(scale);
 		this.scale = scale;
-		if(!isTarget)
-			((Circle)hitbox.getChildren().get(0)).setStroke(null);
 	}
 
 	@Override

@@ -1,4 +1,5 @@
 import javafx.scene.Group;
+import javafx.scene.layout.Background;
 import javafx.scene.shape.Circle;
 
 public class LevelOne extends Level 
@@ -9,6 +10,7 @@ public class LevelOne extends Level
 		super(numLevel);
 		levelMessage = "A NEWLY ARRIVED ALIEN IS WAITING AT THE BUS STOP. ELIMINATE IT BEFORE IT GETS AWAY AND INFILTRATE THE CITY."
 				+ " BEWARE: THEY RUN FAST.";	
+		this.setBackground(SniperGame.levelOneBack);
 	}
 	
 	@Override
