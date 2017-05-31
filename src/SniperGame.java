@@ -130,6 +130,7 @@ public class SniperGame extends Application
 	private void loadLevels()
 	{
 		levels = new ArrayList<Level>();
+
 		levels.add(new LevelOne(1));
 		levels.add(new LevelTwo(2));
 		levels.add(new LevelThree(3));
@@ -140,6 +141,7 @@ public class SniperGame extends Application
 //		levels.add(new LevelEight(8));
 //		levels.add(new LevelNine(9));
 //		levels.add(new LevelTen(10));
+
 	}
 
 	public static void displayLevelMessage(int lvlNum)
