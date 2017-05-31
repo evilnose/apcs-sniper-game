@@ -487,8 +487,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	}
 
-	protected abstract String getDescription();
-
 	protected abstract String getName();
 
 	@Override

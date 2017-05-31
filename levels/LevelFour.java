@@ -36,15 +36,10 @@ public class LevelFour extends Level
 		this.addHittable(walker);
 		walker.setPos(555, 240);
 		
-	}
+	} 
 	
 	@Override
-	protected String getDescription() {
-		return "This is level five.";
-	}
-
-	@Override
 	protected String getName() {
-		return "Level 4";
+		return "Four";
 	}
 }

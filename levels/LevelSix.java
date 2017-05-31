@@ -39,16 +39,10 @@ public class LevelSix extends Level
 	    sw1.setPos(350,260);
 		sw1.setBounds(600,1000);
 	}
-	
-	@Override
-	protected String getDescription() {
-		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
-				" before it gets away.";
-	}
 
 	@Override
 	protected String getName() {
-		return "Level 7";
+		return "Six";
 
 	}
 

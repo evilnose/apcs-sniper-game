@@ -24,12 +24,6 @@ public class LevelTwo extends Level
 		this.addHittable(sitter);
 	}
 	
-	@Override
-	protected String getDescription() {
-		
-		return "Hey! You got through the first level! Let's see if you can deal with this alien trying to trap the citizens of Tatooine.";
-	
-	}
 
 	@Override
 	protected String getName() {

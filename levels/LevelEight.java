@@ -41,14 +41,8 @@ public class LevelEight extends Level
 	}
 	
 	@Override
-	protected String getDescription() {
-		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
-				" before it gets away.";
-	}
-
-	@Override
 	protected String getName() {
-		return "Tutorial";
+		return "Eight";
 	}
 
 }

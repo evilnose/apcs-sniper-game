@@ -30,14 +30,10 @@ public class LevelSeven extends Level
 		sleeper.setPos(243, 260);
 	}
 	
-	@Override
-	protected String getDescription() {
-		return "THIS IS LEVEL SIX";
-	}
 
 	@Override
 	protected String getName() {
-		return "Tutorial";
+		return "Seven";
 	}
 
 }
