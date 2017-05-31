@@ -453,11 +453,18 @@ public class SniperGame extends Application
 		won.setPadding(new Insets(0, 0, 0, 245));
 		root.setTop(won);
 		
+		VBox vb = new VBox();
+		
 		Label authors = new Label("Ishani - Gary - Aditi");
 		authors.setFont(Font.font(authorsFont, FontWeight.BOLD, 36));
 		authors.setTextFill(Color.LIGHTGRAY);
-		authors.setPadding(new Insets(0, 0, 60, 260));
-		root.setBottom(authors);
+		authors.setPadding(new Insets(0, 0, 20, 260));
+		
+		Label tip = new Label("To reset the game - Go to level_info.txt and change line 1 to 0 and line 2 to 8 to 1.");
+		tip.setTextFill(Color.LIGHTGRAY);
+		tip.setPadding(new Insets(0, 0, 0, 220));
+		vb.getChildren().addAll(tip, authors);
+		root.setBottom(vb);
 
 		finalScreen.setScene(scene);
 		finalScreen.show();
