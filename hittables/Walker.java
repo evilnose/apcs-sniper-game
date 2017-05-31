@@ -1,3 +1,4 @@
+import javafx.scene.shape.Circle;
 
 public class Walker extends Hittable {
 
@@ -59,11 +60,36 @@ public class Walker extends Hittable {
 	}
 	
 	@Override
-	public void act(long now) {
+	public void act(long now) 
+	{
 		if (isFacingRight)
 			move(dx * scale, dy);
 		else
 			move (dx * scale, dy);
 		
+		Circle c = (Circle)hitbox;
+
+		if(graphics.getX()+185<=boundX1)
+		{
+			dx = Math.abs(dx);
+
+			this.setGraphics(SniperGame.runnerTgtR);
+			this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
+
+			while(graphics.getX()+185<=boundX1)
+				this.move(dx, dy);
+		}
+
+		else if(graphics.getX()+graphics.getImage().getWidth()-185 >= boundX2)
+		{
+			dx = -1*Math.abs(dx);
+
+			this.setGraphics(SniperGame.runnerTgtL);
+			this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
+
+			while(graphics.getX()+graphics.getImage().getWidth()-185>=boundX2)
+				this.move(dx, dy);
+		}
+
 	}
 }

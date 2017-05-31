@@ -15,6 +15,7 @@ public class LevelSeven extends Level
 	{
 
 
+
 		Sleeper sl1 = new Sleeper(true, 0.5);
 		this.addHittable(sl1);
 		sl1.setPos(240, 350);
@@ -32,7 +33,7 @@ public class LevelSeven extends Level
 		this.addHittable(s1);
 		s1.setPos(45, 55);
 		
-		
+
 		StreetWalker sw1 = new StreetWalker(false,0.4,0.6,1);
 		this.addHittable(sw1);
 	    sw1.setPos(350,260);

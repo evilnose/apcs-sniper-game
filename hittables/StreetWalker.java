@@ -1,41 +1,39 @@
 import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
 
-public class StreetRunner extends Hittable
+public class StreetWalker extends Hittable
 {
 	private double scale,quadrant;
 	int count = 0;
 	private double slope;
 
-	public StreetRunner(boolean isTarget, double scale,double slope,double q)
+	public StreetWalker(boolean isTarget, double scale,double slope,double q)
 	{
 		super(isTarget);
 
 		this.scale = scale;
 
-		if (isTarget)
+		if(q>0)
 		{
-			if(q>0)
-				setGraphics(SniperGame.sitterTgtR);
+			if (isTarget)
+				this.setGraphics(SniperGame.runnerTgtR);
 			else
-				setGraphics(SniperGame.sitterTgtL);
-			this.setHitboxCircle(250, 114, 20);
+				this.setGraphics(SniperGame.runnerCivR);
+			this.setHitboxCircle(260, 135, 20);
 		}
 		else
 		{
-			if(q>0)
-				setGraphics(SniperGame.sitterCivR);
-			else
-				setGraphics(SniperGame.sitterCivL);
-
-			this.setHitboxCircle(250, 114, 20);
+			if (isTarget)
+				this.setGraphics(SniperGame.runnerTgtL);
+			else 
+				this.setGraphics(SniperGame.runnerCivL);
+			this.setHitboxCircle(240, 135, 20);
 		}
 		setScale(scale);
 
-		dx = 0;
-		dy = 0;
-		quadrant = q;
-		this.slope = slope;
+		dx = 0.5;
+		dy = slope*dx;
+		dx = q*dx;
 		if(!isTarget)
 			hitbox.setStroke(null);
 	}
@@ -43,8 +41,6 @@ public class StreetRunner extends Hittable
 	@Override
 	public void act(long now)
 	{ 
-		if(isStartled==true)
-		{
 			this.move(dx,dy);
 
 
@@ -71,8 +67,6 @@ public class StreetRunner extends Hittable
 				while(graphics.getX()+graphics.getImage().getWidth()-185>=boundX2)
 					this.move(dx, dy);
 			}
-		}
-		
 		if(this.isWithinBounds()==false)
 		{
 			dx = 0;
@@ -87,24 +81,9 @@ public class StreetRunner extends Hittable
 	{
 		if (!isStartled && isAlive)
 		{
-			Circle c = (Circle)hitbox;
-
-			double deltaX = (1-scale)*10;
-			if(quadrant>0)
-			{
-				this.setGraphics(SniperGame.runnerTgtR);
-				this.moveHitbox(scale*10-10,scale*19-20);
-			}
-			else
-			{
-				this.setGraphics(SniperGame.runnerTgtL);
-				this.moveHitbox(scale*10-5,scale*19-20);
-			}
 			isStartled = true;
-			dx = 2;
-			dy = dx*slope;
-			dx = dx*quadrant;
-			this.moveHitbox(10, 20);
+			dx*=2;
+			dy*=2;
 		}
 	}
 }
