@@ -378,4 +378,3 @@ public class SniperGame extends Application
 	}
 
 }
-
