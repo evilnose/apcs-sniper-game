@@ -18,6 +18,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -78,6 +79,9 @@ public class SniperGame extends Application
 	public final static Image walkerTgtR = new Image("file:sprites/hittables/targets/walker_right.gif");
 	public final static Image walkerTgtL = new Image("file:sprites/hittables/targets/walker_left.gif");
 	public final static Image[] recoilSequence = decodeGifToImages("file:sprites/scopes/recoil.gif");
+	public final static ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
+	public final static Image magazine = new Image("file:sprites/magazine.png");
+	public final static Image bullet = new Image("file:sprites/bullet.png");
 
 	public static void main(String args[]) {
 		launch(); 
@@ -131,13 +135,13 @@ public class SniperGame extends Application
 	{
 		levels = new ArrayList<Level>();
 
-		levels.add(new LevelOne(1));
-		levels.add(new LevelTwo(2));
-		levels.add(new LevelThree(3));
-		levels.add(new LevelFour(4));
-		levels.add(new LevelFive(5));
+//		levels.add(new LevelOne(1));
+//		levels.add(new LevelTwo(2));
+//		levels.add(new LevelThree(3));
+//		levels.add(new LevelFour(4));
+//		levels.add(new LevelFive(5));
 		levels.add(new LevelSix(6));
-		levels.add(new LevelSeven(7));
+//		levels.add(new LevelSeven(7));
 //		levels.add(new LevelEight(8));
 //		levels.add(new LevelNine(9));
 //		levels.add(new LevelTen(10));

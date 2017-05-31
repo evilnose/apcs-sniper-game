@@ -62,10 +62,10 @@ public abstract class Level extends Pane implements Comparable<Level> {
 	protected ImageView locImage;
 	private boolean isStarted;
 	private boolean isPaused = false;
-	private ImageView pause = new ImageView(new Image("file:sprites/pause.png"));
 	private final Label reloadLabel = new Label();
 	private FadeTransition ft;
 	private Label bulletLabel,cartridgeLabel;
+	private VBox entireLabel;
 	private int cartridgeSize; // number of bullets per cartridge
 	private int numRemainingCartridges;
 	private int numAvailableBullets;	
@@ -183,9 +183,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	public void stop() {
 		timer.stop();
-		//		removeEventHandler(MouseEvent.MOUSE_PRESSED, evHan);
-		//		removeEventHandler(MouseEvent.MOUSE_MOVED, evHan);
-		//		removeEventHandler(KeyEvent.KEY_PRESSED, zoomer);
 	}
 
 	private boolean isWon() 
@@ -317,10 +314,10 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	private void addBulletLabel()
 	{
-		VBox v = new VBox();
+		entireLabel = new VBox();
 
 		HBox h = new HBox();
-		ImageView bullets = new ImageView(new Image("file:sprites/bullet.png"));
+		ImageView bullets = new ImageView(SniperGame.bullet);
 		bulletLabel = new Label();
 		bulletLabel.setFont(new Font(12));
 		bulletLabel.setTextFill(Color.WHITE);
@@ -329,7 +326,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		h.getChildren().addAll(bullets,bulletLabel);
 
 		HBox h1 = new HBox();
-		ImageView magazines = new ImageView(new Image("file:sprites/magazine.png"));
+		ImageView magazines = new ImageView(SniperGame.magazine);
 		cartridgeLabel = new Label();
 		cartridgeLabel.setFont(new Font(12));
 		cartridgeLabel.setTextFill(Color.WHITE);
@@ -340,8 +337,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 		reloadBulletLabel();
 		updateBulletLabel();
 
-		v.getChildren().addAll(h,h1);
-		this.getChildren().addAll(v);
+		entireLabel.getChildren().addAll(h,h1);
+		this.getChildren().add(entireLabel);
 	}
 
 	public void reloadBulletLabel() {
@@ -524,9 +521,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 					ZOOM_IN_SCALE.setPivotX(lastPivotX);
 					ZOOM_IN_SCALE.setPivotY(lastPivotY);
 					thisLevel.getTransforms().add(ZOOM_IN_SCALE);
-
-					scope.setScaleX(0.5);
-					scope.setScaleY(0.5);
+					setUIScale(0.5);
 					lastPivotX = scope.getX()+scope.getImage().getWidth()/2;
 					lastPivotY = scope.getY()+scope.getImage().getHeight()/2;
 
@@ -535,8 +530,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				{
 					isZoomedIn = false;
 					thisLevel.getTransforms().remove(ZOOM_IN_SCALE);
-					scope.setScaleX(1);
-					scope.setScaleY(1);
+					setUIScale(1);
 					scope.move(scope.getX()+scope.getImage().getWidth()/2 - lastPivotX, scope.getY()+scope.getImage().getHeight()/2 - lastPivotY); // calibrate the scope
 				}
 			}
@@ -546,8 +540,8 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				{
 					timer.stop();
 					thisLevel.getChildren().remove(scope);
-					thisLevel.getChildren().add(pause);
-					pause.relocate(500-256,300-256);
+					thisLevel.getChildren().add(SniperGame.pause);
+					SniperGame.pause.relocate(500-256,300-256);
 					thisLevel.setOnMouseMoved(null);
 					isPaused = true;
 				}
@@ -555,7 +549,7 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				{
 					thisLevel.setOnMouseMoved(evHan);
 					thisLevel.getChildren().add(scope);
-					thisLevel.getChildren().remove(pause);
+					thisLevel.getChildren().remove(SniperGame.pause);
 					timer.start();
 					isPaused = false;
 				}
@@ -565,6 +559,13 @@ public abstract class Level extends Pane implements Comparable<Level> {
 				SniperGame.reloadPlayer.play();
 			}
 		}
+	}
+	
+	private void setUIScale(double scale) {
+		scope.setScaleX(scale);
+		scope.setScaleY(scale);
+		entireLabel.setScaleX(scale);
+		entireLabel.setScaleY(scale);
 	}
 }
 

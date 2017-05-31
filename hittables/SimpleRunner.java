@@ -28,7 +28,6 @@ public class SimpleRunner extends Hittable
 		}
 		setScale(scale);
 		dy = 0;
-			((Circle)hitbox.getChildren().get(0)).setStroke(Color.GREEN);
 	}
 	
 	@Override

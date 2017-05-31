@@ -18,7 +18,7 @@ public class LevelSix extends Level
 		
 		Walker walker = new Walker(true, 0.1, false);
 		this.addHittable(walker);
-		walker.setPos(285, 320);
+		walker.setPos(0, 320);
 		
 		Walker walkerTwo = new Walker(true, 0.1, true);
 		this.addHittable(walkerTwo);

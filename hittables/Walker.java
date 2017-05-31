@@ -53,7 +53,7 @@ public class Walker extends Hittable {
 					setGraphics(SniperGame.runnerTgtL);
 				else
 					setGraphics(SniperGame.runnerCivL);
-				this.moveHitbox(-6.0 * scale, 14.8 * scale);
+				this.moveHitbox(-10.0 * scale, 17.8 * scale);
 				dx = -5;
 			}
 		}
@@ -73,8 +73,18 @@ public class Walker extends Hittable {
 		{
 			dx = Math.abs(dx);
 
-			this.setGraphics(SniperGame.runnerTgtR);
-			this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
+			if (isTarget) {
+				if (isStartled)
+					this.setGraphics(SniperGame.runnerTgtR);
+				else
+					this.setGraphics(SniperGame.walkerTgtR);
+			} else {
+				if (isStartled)
+					this.setGraphics(SniperGame.runnerCivR);
+				else
+					this.setGraphics(SniperGame.walkerCivR);
+			}
+			this.flipHitboxPos();
 
 			while(graphics.getX()+185<=boundX1)
 				this.move(dx, dy);
@@ -84,8 +94,18 @@ public class Walker extends Hittable {
 		{
 			dx = -1*Math.abs(dx);
 
-			this.setGraphics(SniperGame.runnerTgtL);
-			this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
+			if (isTarget) {
+				if (isStartled)
+					this.setGraphics(SniperGame.runnerTgtL);
+				else
+					this.setGraphics(SniperGame.walkerTgtL);
+			} else {
+				if (isStartled)
+					this.setGraphics(SniperGame.runnerCivL);
+				else
+					this.setGraphics(SniperGame.walkerCivL);
+			}
+			this.flipHitboxPos();
 
 			while(graphics.getX()+graphics.getImage().getWidth()-185>=boundX2)
 				this.move(dx, dy);
