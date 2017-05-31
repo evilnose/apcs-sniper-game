@@ -38,8 +38,10 @@ public class Runner extends Hittable
 		if(graphics.getX()+185<=boundX1)
 		{
 			dx = Math.abs(dx);
-
-			this.setGraphics(SniperGame.runnerTgtR);
+			if (isTarget)
+				this.setGraphics(SniperGame.runnerTgtR);
+			else
+				this.setGraphics(SniperGame.runnerCivR);
 			this.moveHitbox(graphics.getX()+255-c.getCenterX(),0);
 
 			while(graphics.getX()+185<=boundX1)
@@ -49,8 +51,10 @@ public class Runner extends Hittable
 		else if(graphics.getX()+graphics.getImage().getWidth()-185 >= boundX2)
 		{
 			dx = -1*Math.abs(dx);
-
-			this.setGraphics(SniperGame.runnerTgtL);
+			if (isTarget)
+				this.setGraphics(SniperGame.runnerTgtL);
+			else
+				this.setGraphics(SniperGame.runnerCivL);
 			this.moveHitbox(graphics.getX()+245-c.getCenterX(),0);
 
 			while(graphics.getX()+graphics.getImage().getWidth()-185>=boundX2)

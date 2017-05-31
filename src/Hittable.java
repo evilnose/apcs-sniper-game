@@ -34,12 +34,12 @@ public abstract class Hittable extends Group
 	public Hittable(boolean isTgt)
 	{
 		super();
-		
+
 		graphics = new ImageView();
 		hitbox = new Group(new Circle());
-		
+
 		this.getChildren().add(graphics);
-		
+
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
@@ -56,12 +56,12 @@ public abstract class Hittable extends Group
 		hitbox = new Group(new Circle());
 
 		this.getChildren().add(graphics);
-		
+
 		isTarget = isTgt;
 		isAlive = true;
 		isStartled = false;
 		isFacingRight = true;
-		
+
 		boundX1 = 0;
 		boundX2 = SniperGame.LEVEL_WIDTH;
 	}
@@ -108,7 +108,10 @@ public abstract class Hittable extends Group
 	{
 		Circle c = new Circle(x , y, radius);
 		c.setFill(Color.TRANSPARENT);
-		c.setStroke(Color.RED); // TODO change to transparent
+		if(isTarget)
+			c.setStroke(Color.RED);
+		else
+			c.setStroke(Color.BLACK);
 		hitbox.getChildren().remove(0);
 		hitbox.getChildren().add(c);
 		this.getChildren().add(hitbox);

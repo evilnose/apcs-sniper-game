@@ -7,7 +7,8 @@ public class LevelThree extends Level
 	public LevelThree(int numLevel) 
 	{
 		super(numLevel);
-		levelMessage = "TWO ALIENS FROM THE RIVAL PLANET HAVE COME TO THIS PARK TO DISCUSS PLANS FOR STEALING THIS PLANET'S CLASSIFIED DOCUMENTS. TAKE THEM OUT BEFORE THEY LEAVE!";	
+		levelMessage = "TWO ALIENS FROM THE RIVAL PLANET HAVE COME TO THIS PARK TO DISCUSS PLANS FOR STEALING THIS PLANET'S CLASSIFIED DOCUMENTS. TAKE THEM OUT BEFORE THEY LEAVE!";
+		this.setBackground(SniperGame.levelThreeBack);
 	}
 	
 	@Override
@@ -37,14 +38,8 @@ public class LevelThree extends Level
 	}
 	
 	@Override
-	protected String getDescription() {
-		return "Hey rookie, let's make your first mission easy. You see that alien sitting alone at the bus stop? Eliminate it"+
-				" before it gets away.";
-	}
-
-	@Override
 	protected String getName() {
-		return "Tutorial";
+		return "Three";
 	}
 
 }

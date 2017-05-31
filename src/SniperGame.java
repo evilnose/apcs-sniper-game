@@ -15,6 +15,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,6 +37,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 /*
@@ -90,6 +93,26 @@ public class SniperGame extends Application
 	private final static BackgroundImage passedBackground = new BackgroundImage(new Image("file:sprites/backgrounds/passed_screen.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 			BackgroundSize.DEFAULT);;
 
+	
+	public final static Background levelOneBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_1.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelTwoBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_2.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelThreeBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_3.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelFourBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_4.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelFiveBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_5.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelSixBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_6.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelSevenBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_7.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+	public final static Background levelEightBack = new Background(new BackgroundImage(new Image("file:sprites/backgrounds/level_8.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+			BackgroundSize.DEFAULT));
+
+	private Button startGameButton, howToPlay;
+
 	public static void main(String args[]) {
 		launch(); 
 	}
@@ -111,14 +134,14 @@ public class SniperGame extends Application
 				BackgroundSize.DEFAULT);
 		root.setBackground(new Background(myBI));
 
-		Button startGameButton = new Button();
+		startGameButton = new Button();
 		startGameButton.setText("Start");
 		startGameButton.setFont(new Font("Monospaced Bold",30));
 		startGameButton.setStyle("-fx-background-color: transparent;");
 		startGameButton.setOnAction(new startGameHandler());
 
 
-		Button howToPlay = new Button();
+		howToPlay = new Button();
 		howToPlay.setText("Instructions");
 		howToPlay.setFont(new Font("Monospaced Bold",30));
 		howToPlay.setStyle("-fx-background-color: transparent;");
@@ -142,18 +165,15 @@ public class SniperGame extends Application
 	{
 		levels = new ArrayList<Level>();
 
-//		levels.add(new LevelOne(1));
-//		levels.add(new LevelTwo(2));
-//		levels.add(new LevelThree(3));
-//		levels.add(new LevelFour(4));
-//		levels.add(new LevelFive(5));
-//		levels.add(new LevelSix(6));
-//		levels.add(new LevelSeven(7));
+		levels.add(new LevelOne(1));
+		levels.add(new LevelTwo(2));
+		levels.add(new LevelThree(3));
+		levels.add(new LevelFour(4));
+		levels.add(new LevelFive(5));
+		levels.add(new LevelSix(6));
+		levels.add(new LevelSeven(7));
 		levels.add(new LevelEight(8));
-//		levels.add(new LevelNine(9));
-//		levels.add(new LevelTen(10));
-
-	}
+		}
 
 	public static void displayLevelMessage(int lvlNum)
 	{
@@ -276,7 +296,7 @@ public class SniperGame extends Application
 
 	public static void restart() {
 		for (Level lvl : levels) {
-			if (lvl == currLevel) {
+			if (lvl.equals(currLevel)) {
 				String className = currLevel.getClass().getName();
 				int levelNum = currLevel.getLevelNumber();
 				switch(className) {
@@ -295,10 +315,6 @@ public class SniperGame extends Application
 				case "LevelSeven" : currLevel = new LevelSeven(levelNum);
 				break;
 				case "LevelEight" : currLevel = new LevelEight(levelNum);
-				break;
-				case "LevelNine" : currLevel = new LevelNine(levelNum);
-				break;
-				case "LevelTen" : currLevel = new LevelTen(levelNum);
 				break;
 				}
 			}
@@ -343,17 +359,52 @@ public class SniperGame extends Application
 		map.activateDefaultBackground();
 	}
 
-	private class startGameHandler implements EventHandler<ActionEvent> {
-
+	private class startGameHandler implements EventHandler<ActionEvent> 
+	{	
 		@Override
 		public void handle(ActionEvent event)
 		{
-			openMap();
+			if(event.getSource().equals(startGameButton))
+				openMap();
+			else
+			{
+				Stage wv = new Stage();
+				wv.setTitle("How to Play");             
+
+				WebView  browser = new WebView();
+				WebEngine engine = browser.getEngine();
+				String url = getClass().getResource("HowToPlay.html").toExternalForm();
+				engine.load(url);
+				BorderPane sp = new BorderPane();
+
+				Scene root = new Scene(sp);
+
+				Button b1 = new Button("Close");
+				b1.setOnMouseClicked(new EventHandler<MouseEvent>()
+				{
+
+
+					@Override
+					public void handle(MouseEvent event) 
+					{
+						wv.hide();
+					}
+
+				}
+						);
+				sp.setStyle("-fx-background-color: white");
+				sp.setMargin(b1,new Insets(0,0,20,0));
+				sp.setCenter(browser);
+				sp.setBottom(b1);
+				sp.setAlignment(b1, Pos.CENTER);
+				wv.setScene(root);
+				wv.show();
+			}
 		}
 
 	}
 
-	public static void setClosingState() 
+	public static void setState() 
 	{
 		FileWriter fw;
 		try 
@@ -402,41 +453,15 @@ public class SniperGame extends Application
 		won.setPadding(new Insets(0, 0, 0, 245));
 		root.setTop(won);
 		
-		VBox bot = new VBox();
-		Button reset = new Button("Restart Game");
-		bot.getChildren().add(reset);
-		VBox.setMargin(reset, new Insets(0, 0, 25, 370));
-		reset.setOnAction(e -> restartGame());
-		
 		Label authors = new Label("Ishani - Gary - Aditi");
 		authors.setFont(Font.font(authorsFont, FontWeight.BOLD, 36));
 		authors.setTextFill(Color.LIGHTGRAY);
 		authors.setPadding(new Insets(0, 0, 60, 260));
-		bot.getChildren().add(authors);
-		root.setBottom(bot);
+		root.setBottom(authors);
 
 		finalScreen.setScene(scene);
 		finalScreen.show();
 		System.out.println(javafx.scene.text.Font.getFamilies());
-	}
-	
-	private static void restartGame() {
-		finalScreen.close();
-		FileWriter fw;
-		try 
-		{
-			fw = new FileWriter("level_info.txt");
-			fw.write(0);
-			for(int i = 1; i < levelsPassed.size(); i++)
-				fw.write(1);
-
-			fw.close();
-		} 
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		mainScreen.show();
 	}
 
 }
