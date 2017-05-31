@@ -44,7 +44,7 @@ public class LevelSeven extends Level
 
 	@Override
 	protected String getName() {
-		return "Tutorial";
+		return "Mission 7";
 	}
 
 }

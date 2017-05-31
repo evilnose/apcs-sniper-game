@@ -34,8 +34,6 @@ public class StreetWalker extends Hittable
 		dx = 0.5;
 		dy = slope*dx;
 		dx = q*dx;
-		if(!isTarget)
-			hitbox.setStroke(null);
 	}
 
 	@Override
@@ -44,7 +42,7 @@ public class StreetWalker extends Hittable
 			this.move(dx,dy);
 
 
-			Circle c = (Circle)hitbox;
+			Circle c = (Circle)hitbox.getChildren().get(0);
 
 			if(graphics.getX()+185<=boundX1)
 			{

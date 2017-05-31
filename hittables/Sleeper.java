@@ -14,8 +14,6 @@ public class Sleeper extends Hittable {
 		dx = 0;
 		dy = 0;
 		this.setHitboxCircle(255, 120, 19);
-		if(!isTarget)
-			hitbox.setStroke(Color.BLACK);
 	}
 	
 	public Sleeper(boolean isTarget, double scale) {
@@ -28,8 +26,6 @@ public class Sleeper extends Hittable {
 		dy = 0;
 		this.setHitboxCircle(255, 120, 19);
 		this.setScale(scale);
-		if(!isTarget)
-			hitbox.setStroke(Color.BLACK);
 	}
 	@Override
 	public void act(long now) {

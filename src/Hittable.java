@@ -9,7 +9,7 @@ import javafx.scene.shape.Shape;
 
 public abstract class Hittable extends Group
 {
-	protected Shape hitbox;
+	protected Group hitbox;
 	protected ImageView graphics;
 
 	protected boolean isTarget;
@@ -35,9 +35,8 @@ public abstract class Hittable extends Group
 	{
 		super();
 		
-
 		graphics = new ImageView();
-		hitbox = new Circle();
+		hitbox = new Group(new Circle());
 		
 		this.getChildren().add(graphics);
 		
@@ -54,7 +53,7 @@ public abstract class Hittable extends Group
 		super();
 
 		graphics = new ImageView(img);
-		hitbox = new Circle();
+		hitbox = new Group(new Circle());
 
 		this.getChildren().add(graphics);
 		
@@ -82,15 +81,17 @@ public abstract class Hittable extends Group
 
 	protected void setScale(double scale)
 	{
-		Circle circle = Circle.class.cast(this.getHitbox());
+		Circle circle = (Circle)this.getHitbox().getChildren().get(0);
+		this.getHitbox().getChildren().remove(0);
 		double dx = circle.getCenterX() - getPivotX();
 		double dy = circle.getCenterY() - getPivotY();
 
 		graphics.setScaleX(scale);
 		graphics.setScaleY(scale);
 
-		hitbox.setScaleX(scale);
-		hitbox.setScaleY(scale);
+		circle.setScaleX(scale);
+		circle.setScaleY(scale);
+		this.getHitbox().getChildren().add(circle);
 
 		this.setHitboxPos(getPivotX() + dx * scale, getPivotY() + dy * scale);
 	}
@@ -103,51 +104,31 @@ public abstract class Hittable extends Group
 		return graphics.getY() + graphics.getImage().getHeight()/2;
 	}
 
-	protected void setHitboxRect(double x, double y, double width, double height) {
-		hitbox = new Rectangle(x, y, width, height);
-		hitbox.setFill(Color.TRANSPARENT);
-		hitbox.setStroke(Color.RED);	
-		this.getChildren().add(hitbox);	
-	}
-
 	protected void setHitboxCircle(double x, double y, double radius) 
 	{
-		hitbox = new Circle(x , y, radius);
-		hitbox.setFill(Color.TRANSPARENT);
-		hitbox.setStroke(Color.RED);
+		Circle c = new Circle(x , y, radius);
+		c.setFill(Color.TRANSPARENT);
+		c.setStroke(Color.RED);
+		hitbox.getChildren().remove(0);
+		hitbox.getChildren().add(c);
 		this.getChildren().add(hitbox);
 	}
 
 	private void setHitboxPos(double x, double y) 
 	{
-		if (Circle.class.isInstance(hitbox)) {
-			Circle circle = Circle.class.cast(hitbox);
-			circle.setCenterX(x);
-			circle.setCenterY(y);
-		}
-		else if (Rectangle.class.isInstance(hitbox)) {
-			Rectangle rect = Rectangle.class.cast(hitbox);
-			rect.setX(x);
-			rect.setY(y);
-		}
-
+		Circle circle = Circle.class.cast(hitbox.getChildren().get(0));
+		circle.setCenterX(x);
+		circle.setCenterY(y);
 	}
 
 	protected void moveHitbox(double dx, double dy) 
 	{
-		if (Circle.class.isInstance(hitbox)) {
-			Circle circle = Circle.class.cast(hitbox);
-			circle.setCenterX(circle.getCenterX() + dx);
-			circle.setCenterY(circle.getCenterY() + dy);
-		} 
-		else if (Rectangle.class.isInstance(hitbox)) {
-			Rectangle rect = Rectangle.class.cast(hitbox);
-			rect.setX(rect.getX() + dx);
-			rect.setY(rect.getY() + dy);
-		}
+		Circle circle = Circle.class.cast(hitbox.getChildren().get(0));
+		circle.setCenterX(circle.getCenterX() + dx);
+		circle.setCenterY(circle.getCenterY() + dy);
 	}
 
-	public Shape getHitbox() {
+	public Group getHitbox() {
 		return hitbox;
 	}
 
@@ -181,15 +162,9 @@ public abstract class Hittable extends Group
 		graphics.setX(graphics.getX() + dx);
 		graphics.setY(graphics.getY() + dy);
 
-		if (Circle.class.isInstance(hitbox)) {
-			Circle circle = Circle.class.cast(hitbox);
-			circle.setCenterX(circle.getCenterX() + dx);
-			circle.setCenterY(circle.getCenterY() + dy);
-		} else if (Rectangle.class.isInstance(hitbox)) {
-			Rectangle rect = Rectangle.class.cast(hitbox);
-			rect.setX(rect.getX() + dx);
-			rect.setY(rect.getY() + dy);
-		}
+		Circle circle = Circle.class.cast(hitbox.getChildren().get(0));
+		circle.setCenterX(circle.getCenterX() + dx);
+		circle.setCenterY(circle.getCenterY() + dy);
 
 	}
 
@@ -202,28 +177,9 @@ public abstract class Hittable extends Group
 
 	protected boolean isWithinBounds()
 	{
-		double x, y;
-		if (Circle.class.isInstance(hitbox)) 
-		{
-			Circle circle = Circle.class.cast(hitbox);
-			x = circle.getCenterX();
-			y = circle.getCenterY();
-			double r = circle.getRadius();
-			if (graphics.getX()+graphics.getImage().getWidth() < 0 || graphics.getX() > SniperGame.LEVEL_WIDTH|| graphics.getY()+graphics.getImage().getHeight() < 0 || graphics.getY()> SniperGame.LEVEL_HEIGHT) 
-				return false;
-			return true;
-		} else if (Rectangle.class.isInstance(hitbox)) 
-		{
-			Rectangle rect = Rectangle.class.cast(hitbox);
-			x = graphics.getX();
-			y = graphics.getY();
-			double w = rect.getWidth();
-			double h = rect.getHeight();
-			if (x + w < boundX1 || x > boundX2 || y + h < 0 || y > SniperGame.LEVEL_HEIGHT)
-				return false;
-			return true;
-		}
-		return false;
+		if (graphics.getX()+graphics.getImage().getWidth() < 0 || graphics.getX() > SniperGame.LEVEL_WIDTH|| graphics.getY()+graphics.getImage().getHeight() < 0 || graphics.getY()> SniperGame.LEVEL_HEIGHT) 
+			return false;
+		return true;
 	}
 
 	protected void initialStartle() {
@@ -231,7 +187,7 @@ public abstract class Hittable extends Group
 	}
 
 	protected void flipHitboxPos() {
-		double toCenter = graphics.getX() + graphics.getImage().getWidth()/2 - ((Circle)hitbox).getCenterX();
+		double toCenter = graphics.getX() + graphics.getImage().getWidth()/2 - ((Circle)hitbox.getChildren().get(0)).getCenterX();
 		this.moveHitbox(toCenter * 2, 0);
 	}
 
@@ -266,6 +222,7 @@ public abstract class Hittable extends Group
 				if (currFrame >= TOTAL_FRAMES) {
 					isStartled = true;
 					hittable.changeToStartledAnimation();
+					isStartled = true;
 					this.stop();
 				}
 			}

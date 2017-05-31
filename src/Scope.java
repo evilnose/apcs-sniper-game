@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
@@ -10,11 +11,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Circle;
 
 public class Scope extends ImageView {
-	// Use Circle method getCenterX() and getCenterY() to get coordinates of crosshair.
 	private final Scope thisScope;
 	private static final Image SCOPE = new Image("file:sprites/scopes/redscope_framed.png");
-	private final String recoilUrl = "file:sprites/scopes/recoil.gif";
-	private Image[] recoilSequence;
 	public static final double SCOPE_WIDTH = SCOPE.getWidth();
 	public static final double SCOPE_HEIGHT = SCOPE.getHeight();
 	private boolean isInCooldown;
@@ -38,28 +36,24 @@ public class Scope extends ImageView {
 		isInCooldown = false;
 		shakeSpeed = MAX_SHAKE_SPEED;
 		movingUp = true;
-		recoilSequence = SniperGame.decodeGifToImages(recoilUrl);
 
 	}
 	
-	public void shoot() {
-		if (!isInCooldown) {
+	public void shoot() { {
+		if (!isInCooldown)
+			isInCooldown = true;
 			this.getLevel().reduceNumBullets();
+			displayRecoil();
 			gunShotPlayer.stop();
 			gunShotPlayer.play();
-			displayRecoil();
-
 			
 			Hittable victim = getOneShotHittable(this.getX() + thisScope.getImage().getWidth() / 2, this.getY() + thisScope.getImage().getHeight() / 2);
 			if (victim != null)
 				victim.shot();
 			
-					
 			List<Hittable> list = this.getLevel().getObjects(Hittable.class);
 			for (Hittable h : list)
 				h.startle();
-		} else {
-			// TODO show that you can't shoot
 		}
 	}
 	
@@ -138,10 +132,7 @@ public class Scope extends ImageView {
 	}
 	
 	public void displayRecoil(){
-		isInCooldown = true;
-		displayScopeAnimation(recoilSequence, 100);
-	
-		
+		displayScopeAnimation(SniperGame.recoilSequence, 100);		
 	}
 	public void displayReload(){
 		isInCooldown = true;
@@ -170,70 +161,5 @@ public class Scope extends ImageView {
 		timer.start();
 		
 	}
-	
-	
-//	public class AnimatedGif extends Animation {
-//
-//        public AnimatedGif(String filename, double durationMs) {
-//
-//            GifDecoder d = new GifDecoder();
-//            d.read(filename);
-//
-//            Image[] sequence = new Image[d.getFrameCount()];
-//            for( int i=0; i < d.getFrameCount(); i++) {
-//
-//                WritableImage wimg = null;
-//                BufferedImage bimg = d.getFrame(i);
-//                sequence[i] = SwingFXUtils.toFXImage(bimg, wimg);
-//
-//            }
-//
-//            super.init(sequence, durationMs);
-//        }
-//
-//    }
-//
-//    public class Animation extends Transition {
-//
-//        private ImageView imageView;
-//        private int count;
-//
-//        private int lastIndex;
-//
-//        private Image[] sequence;
-//
-//        private Animation() {
-//        }
-//
-//        public Animation(Image[] sequence, double durationMs) {
-//            init( sequence, durationMs);
-//        }
-//
-//        private void init(Image[] sequence, double durationMs) {
-//            this.imageView = new ImageView(sequence[0]);
-//            this.sequence = sequence;
-//            this.count = sequence.length;
-//
-//            setCycleCount(1);
-//            setCycleDuration(Duration.millis(durationMs));
-//            setInterpolator(Interpolator.LINEAR);
-//
-//        }
-//
-//        protected void interpolate(double k) {
-//
-//            final int index = Math.min((int) Math.floor(k * count), count - 1);
-//            if (index != lastIndex) {
-//                imageView.setImage(sequence[index]);
-//                lastIndex = index;
-//            }
-//
-//        }
-//
-//        public ImageView getView() {
-//            return imageView;
-//        }
-//
-//    }
 	
 }

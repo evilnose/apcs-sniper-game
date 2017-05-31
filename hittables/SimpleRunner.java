@@ -1,4 +1,5 @@
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class SimpleRunner extends Hittable
 {
@@ -27,8 +28,7 @@ public class SimpleRunner extends Hittable
 		}
 		setScale(scale);
 		dy = 0;
-		if(!isTarget)
-			hitbox.setStroke(Color.GREEN);
+			((Circle)hitbox.getChildren().get(0)).setStroke(Color.GREEN);
 	}
 	
 	@Override

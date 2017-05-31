@@ -198,12 +198,18 @@ public abstract class Level extends Pane implements Comparable<Level> {
 
 	private boolean isLost() {
 		for(Hittable h : targets)
-			if(h.isWithinBounds()==false)
+			if(h.isWithinBounds()==false) {
+				System.out.println("a target got away");
 				return true;
-		if(civilians.size()<numCivilians)
+			}
+		if(civilians.size()<numCivilians) {
+			System.out.println("you killed a civilian");
 			return true;
-		else if (numRemainingBullets == 0 && targets.size() > 0)
+		}
+		else if (numRemainingBullets == 0 && targets.size() > 0) {
+			System.out.println("you ran out of bullets");
 			return true;
+		}
 		else
 			return false;
 
@@ -445,7 +451,6 @@ public abstract class Level extends Pane implements Comparable<Level> {
 			{
 				if (event.getButton() == MouseButton.PRIMARY) 
 				{
-					System.out.println(event.getX()+" "+event.getY());
 					if (numRemainingBullets > 0) {
 						if (numAvailableBullets > 0) {
 							scope.shoot();
