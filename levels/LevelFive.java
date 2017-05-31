@@ -24,9 +24,6 @@ public class LevelFive extends Level
 		super(numLevel);
 		levelMessage = "THREE ALIEN SUSPECTS ARE LAST SEEN RUNNING TOWARDS A BEACH PARTY. GET TO THE WEST BEACH QUICKLY; THEN LOCATE AND ELIMINATE"
 				+ " THE SUSPECTS BEFORE THEY ESCAPES THE SCENE.";	
-		BackgroundImage myBI = new BackgroundImage(new Image("file:sprites/backgrounds/level_5.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		this.setBackground(new Background(myBI));
 	}
 	
 	@Override
